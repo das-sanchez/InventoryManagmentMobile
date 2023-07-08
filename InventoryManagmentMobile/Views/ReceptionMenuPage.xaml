@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InventoryManagmentMobile.Views.ReceptionMenuPage"
+             xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
+             xmlns:model="clr-namespace:InventoryManagmentMobile.Models"
+             x:DataType="viewmodel:HomeViewModel"
+             Title="Recibir Mercancia">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Start">
+
+            <Image
+                Source="group9.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+            <Image
+                Source="logoole.svg" Margin="0,-190,0,0"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="135" WidthRequest="176"
+                HorizontalOptions="Center" />
+            <StackLayout Padding="15">
+                <CollectionView
+                    x:Name="listGroups"
+
+                    Margin="5,20,0,5"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding list}"
+
+                    SelectionMode="None" >
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:MenuOption">
+                            <StackLayout>
+
+                                <Frame CornerRadius="10" HasShadow="True" BorderColor="White" HeightRequest="80" BackgroundColor="White" Margin="3">
+                                    <StackLayout Padding="0">
+                                        <Grid ColumnDefinitions="3*,7*" RowDefinitions="auto">
+                                            <Image Aspect="Fill"  HeightRequest="40" WidthRequest="40" Grid.Column="0" Source="{Binding Icon}"/>
+                                            <Label Text="{Binding Titulo}" FontSize="15"  Grid.Column="1"
+                                                   HorizontalOptions="Start" FontAttributes="Bold"
+                                                   HorizontalTextAlignment="Start"
+                                                   TextColor="Black"
+                                                   VerticalOptions="Center">
+
+                                            </Label>
+                                        </Grid>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                NumberOfTapsRequired="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionMenuViewModel}}, Path=ItemTapped}"
+                                                CommandParameter="{Binding .}">
+                                            </TapGestureRecognizer>
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+
+                                </Frame>
+
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

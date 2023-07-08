@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="InventoryManagmentMobile.Views.ReceptionCDPage"
+             xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
+             xmlns:model="clr-namespace:InventoryManagmentMobile.Models"
+             Title="Recepcion Centro Distribucion">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="Start">
+            <Grid RowDefinitions="90">
+
+
+
+                <StackLayout Padding="10,10,15,10" Grid.Row="1" Grid.Column="0">
+                    <StackLayout.Background>
+                        <!-- StartPoint defaults to (0,0)
+                        Endpoint defaults to (1,1) -->
+                        <LinearGradientBrush EndPoint="1,1">
+                            <GradientStop Color="#ecebf1"
+                                          Offset="0.19" />
+                            <GradientStop Color="#b7b7ba"
+                                          Offset="0.35" />
+                            <GradientStop Color="#dfe0e3"
+                                          Offset="0.54" />
+                            <GradientStop Color="#e4f0f4"
+                                          Offset="0.86" />
+                            <GradientStop Color="#d1d6d6"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </StackLayout.Background>
+                    <Grid ColumnDefinitions="3.33*,3.33*,3.33*">
+                        <StackLayout Grid.Column="0" Grid.Row="0" >
+                            <Label Text="General" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"  FontSize="12" FontAttributes="Bold"></Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=GeneralCommand }">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Grid.Row="0">
+                            <Label Text="Pedidos" VerticalOptions="Center" HorizontalOptions="Center"  FontSize="12" FontAttributes="Bold"></Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=ProductosCommand }">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Column="2" Grid.Row="0">
+                            <Label Text="Detalle" VerticalOptions="Center" HorizontalOptions="Center"  FontSize="12" FontAttributes="Bold"></Label>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    NumberOfTapsRequired="1"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=DetalleCommand }">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+
+
+                    </Grid>
+                    <Grid ColumnDefinitions="3.33*,3.33*,3.34*" Padding="5" RowDefinitions="3" x:DataType="viewmodel:BaseViewModel">
+                        <StackLayout Grid.Column="0" Grid.Row="0"  BackgroundColor="{Binding General.BarColor }" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                            <Label Text="" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"  FontSize="12" FontAttributes="Bold" TextColor="Black">
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Grid.Column="1" Grid.Row="0" BackgroundColor="{Binding Productos.BarColor }" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                            <Label Text="" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"  FontSize="12" FontAttributes="Bold">
+                            </Label>
+                        </StackLayout>
+                        <StackLayout Grid.Column="2" Grid.Row="0" BackgroundColor="{Binding Detalle.BarColor }" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand">
+                            <Label Text="" VerticalOptions="Start" HorizontalOptions="CenterAndExpand"  FontSize="12" FontAttributes="Bold">
+                            </Label>
+                        </StackLayout>
+
+                    </Grid>
+
+
+                </StackLayout>
+
+            </Grid>
+            <StackLayout Padding="20,-50,20,20" x:DataType="viewmodel:BaseViewModel" IsVisible="{Binding General.PanelVisible}">
+                <StackLayout  Orientation="Horizontal" Padding="2" Margin="10,25,5,0" >
+                    <Label
+                        Text="Numero de Documento"
+                        SemanticProperties.HeadingLevel="Level1" TextColor="#202022" FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="StartAndExpand" />
+                </StackLayout>
+                <StackLayout  Orientation="Horizontal" Padding="225" Margin="5,0,5,20"  >
+
+                    <Frame   BackgroundColor="#FCFCFA" HeightRequest="45" HasShadow="True" CornerRadius="10" HorizontalOptions="StartAndExpand" Padding="10,0,10,0">
+
+
+                        <Grid ColumnDefinitions="9.2*,0.8*" >
+                            <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
+                            <Entry Grid.Column="0" x:Name="document" Placeholder="Documento" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                        </Grid>
+
+                    </Frame>
+
+                </StackLayout>
+                <Frame HasShadow="True" CornerRadius="10">
+                    <StackLayout>
+                        <Frame   BackgroundColor="Transparent" HasShadow="True" CornerRadius="50" HorizontalOptions="CenterAndExpand" Padding="0">
+
+                            <Image  Source="checked2x.svg" HeightRequest="60" WidthRequest="60" VerticalOptions="Center" HorizontalOptions="CenterAndExpand"></Image >
+
+                        </Frame>
+                        <Label Padding="10"
+                               Text="Datos del Shipping List"
+                               TextColor="Black" FontAttributes="Bold"
+                               FontSize="18"
+                               HorizontalOptions="CenterAndExpand" />
+
+                        <Grid RowDefinitions="50,50,50,45" ColumnDefinitions="1.5*,8.5*" Padding="2">
+                            <Image Grid.Column="0" Grid.Row="0" Source="calendar1x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                            <Label Grid.Column="1" Grid.Row="0"
+                                   Text="Fecha: 12 de Mayo 2023"
+                                   TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                   FontSize="12"
+                                   HorizontalOptions="StartAndExpand" />
+                            <Image Grid.Column="0" Grid.Row="1" Source="shop2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                            <Label Grid.Column="1" Grid.Row="1"
+                                   Text="Recinto No: 4145457445"
+                                   TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                   FontSize="12"
+                                   HorizontalOptions="StartAndExpand" />
+                            <Image Grid.Column="0" Grid.Row="2" Source="deliveryman2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                            <Label Grid.Column="1" Grid.Row="2"
+                                   Text="Camion: CM12455"
+                                   TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                   FontSize="12"
+                                   HorizontalOptions="StartAndExpand" />
+                            <Button  Text="Recibir" Grid.ColumnSpan="2" Grid.Column="0"  Grid.Row="3" CornerRadius="20" BackgroundColor="Red"></Button>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
+            <StackLayout Padding="20,-30,10,10" x:DataType="viewmodel:BaseViewModel" IsVisible="{Binding Productos.PanelVisible}">
+
+                <StackLayout  Orientation="Horizontal" Padding="225" Margin="5,0,5,10"  >
+
+                    <Frame   BackgroundColor="#FCFCFA" HeightRequest="45" HasShadow="True" CornerRadius="10" HorizontalOptions="StartAndExpand" Padding="10,0,10,0">
+
+
+                        <Grid ColumnDefinitions="9.2*,0.8*" >
+                            <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
+                            <Entry Grid.Column="0"  Placeholder="No Pedido" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                        </Grid>
+
+                    </Frame>
+
+                </StackLayout>
+                <StackLayout >
+
+                    <Frame HasShadow="True" CornerRadius="10" Padding="5">
+                        <StackLayout>
+
+                            <Grid RowDefinitions="50,50,50,45,50,45" ColumnDefinitions="1.5*,8.5*" Padding="2">
+                                <Image Grid.Column="0" Grid.Row="0" Source="caja2.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="0"
+                                       Text="Datos del Pedido"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="14"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Image Grid.Column="0" Grid.Row="1" Source="description2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="1"
+                                       Text="Descripcion: Latas de Atun en Aceite Vegetal 220gr"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="12"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Image Grid.Column="0" Grid.Row="2" Source="cubes2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="2"
+                                       Text="Cantidad: 150"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="12"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Image Grid.Column="0" Grid.Row="3" Source="receivemoney2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="3"
+                                       Text="Recibido: 140"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="12"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Image Grid.Column="0" Grid.Row="4" Source="box2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="4"
+                                       Text="Pendiente: 10"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="12"
+                                       HorizontalOptions="StartAndExpand" />
+                                <Image Grid.Column="0" Grid.Row="5" Source="inventory2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                                <Label Grid.Column="1" Grid.Row="5"
+                                       Text="Unidades en Inventario: 10"
+                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
+                                       FontSize="12"
+                                       HorizontalOptions="StartAndExpand" />
+
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Padding="20,-25,20,20" x:DataType="viewmodel:BaseViewModel" IsVisible="{Binding Detalle.PanelVisible}" Background="White">
+                <StackLayout  Orientation="Horizontal" Padding="225" Margin="5,0,5,20"  >
+
+                    <Frame   BackgroundColor="#FCFCFA" HeightRequest="45" HasShadow="True" CornerRadius="10" HorizontalOptions="StartAndExpand" Padding="10,0,10,0">
+
+
+                        <Grid ColumnDefinitions="9.2*,0.8*" >
+                            <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
+                            <Entry Grid.Column="0"  Placeholder="Buscar producto" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                        </Grid>
+
+                    </Frame>
+
+                </StackLayout>
+                <StackLayout Padding="10" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" x:DataType="viewmodel:ReceptionCDViewModel">
+
+
+                    <!-- Product list-->
+                    <CollectionView   HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
+                                    VerticalScrollBarVisibility="Never"
+
+                                    ItemsSource="{Binding TrDetails}">
+                        <CollectionView.Header >
+                            <StackLayout>
+
+
+                                <Grid RowDefinitions="Auto" ColumnDefinitions="3.33*,3.33*,3.33*"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                    <Label Text="No Pedido" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="StartAndExpand" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+
+                                    <Label Text="Fecha" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+
+                                    <Label Text="Bultos" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+
+
+                                </Grid>
+
+                            </StackLayout>
+
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:TransDetail">
+
+                                <Frame CornerRadius="10" HeightRequest="50" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,0,5">
+                                    <Grid RowDefinitions="*" ColumnDefinitions="3.33*,3.33*,3.33*" >
+                                        <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
+                                            <Label Text="{Binding ProductName }" VerticalOptions="Center" HorizontalOptions="Fill" TextColor="#000" FontAttributes="Bold" FontSize="10"></Label>
+                                        </StackLayout>
+
+                                        <Label Text="{Binding Quantity,StringFormat='{0:N0}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                        <Label Text="{Binding Factor,StringFormat='{0:N0}'}" Grid.Column="2"  Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+
+
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+
+                </StackLayout>
+            </StackLayout>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

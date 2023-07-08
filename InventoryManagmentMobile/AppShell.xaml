@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="InventoryManagmentMobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:InventoryManagmentMobile.Views">
+
+
+
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="NavigationPrimary">#469835</Color>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <Shell.FlyoutHeader>
+        <Border BackgroundColor="#ddd"
+                StrokeThickness="0">
+            <Grid ColumnDefinitions="Auto, *"
+                    Padding="25"
+                  ColumnSpacing="20">
+                <Image Grid.Column="0"
+                Source="logoole.svg"
+                   Aspect="AspectFill"
+                   HeightRequest="50"
+                   WidthRequest="50"/>
+
+                <Label Grid.Column="1"
+                   Text="Abhay Prince"
+                   VerticalTextAlignment="Center"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#333333"/>
+            </Grid>
+        </Border>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Inicio" Icon="warehouse2x.svg">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:HomePage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Recibir" Icon="recibo2x.svg">
+        <ShellContent Route="ReceptionMenuPage" ContentTemplate="{DataTemplate local:ReceptionMenuPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Enviar" Icon="caja2.svg">
+        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:TransferPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Devolver" Icon="devolver2x.svg">
+        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ReturnsPage}" />
+    </FlyoutItem>
+
+
+
+</Shell>
