@@ -8,12 +8,13 @@ namespace InventoryManagmentMobile.Models
 {
     public class DetailDto
     {
-        public int ProductId { get; set; }
+        public string ProductId { get; set; }
+        public string ProductBarCode { get; set; }
         public string ProductName { get; set; } = string.Empty;
-
-        public int Quantity { get; set; }
-        public int QtyRecibida { get; set; }
-        public int QtyPending { get; set; }
+        public string Um { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal QtyRecibida { get; set; }
+        public decimal QtyPending { get; set; }
         public int Stock { get; set; }
 
     }

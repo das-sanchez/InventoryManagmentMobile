@@ -30,7 +30,7 @@ namespace InventoryManagmentMobile.Models
         public string ProductName { get; set; }
 
         [JsonPropertyName("qty")]
-        public double Qty { get; set; }
+        public decimal Qty { get; set; }
 
         [JsonPropertyName("um")]
         public string Um { get; set; }

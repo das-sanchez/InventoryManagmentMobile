@@ -91,10 +91,6 @@ namespace InventoryManagmentMobile.ViewModels
             Items = new List<OrderItem>();
 
             Details = new ObservableCollection<DetailDto>();
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Atun en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Tilapia en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Baguet en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Trucha en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
 
 
             GeneralCommand = new Command(() => GeneralOpcion());
@@ -138,12 +134,58 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
-        private void AddItem()
+        private async void AddItem()
         {
+            if (Product == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
+                return;
+            }
+            if (MeasurementSelected == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado una unidad de medida", "Aceptar");
+                return;
+            }
+            if (TotalQty == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad de devolver", "Aceptar");
+                return;
+            }
+
+            int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
             if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
             {
-                ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Factor = Factor, LineNo = OrderItem.LineNo, LotNo = NoLote, Qty = Quantity, Um = OrderItem.Um, Bono = IsBonus, LotExpirationDate = ExpirationDate });
+                ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Factor = Factor, LineNo = OrderItem.LineNo, LotNo = NoLote, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus, LotExpirationDate = ExpirationDate });
+                Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 15 });
             }
+            else
+            {
+                var recItem = ReceptionItems.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
+                var detItem = Details.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "El producto ya Existe desea Sumar (Sumar  = Yes - Sustituir = No)?", "Si", "No");
+                if (answer)
+                {
+
+                    if (recItem != null)
+                    {
+                        recItem.Qty += TotalQty;
+                        detItem.QtyRecibida += TotalQty;
+                    }
+                }
+                else
+                {
+
+                    if (recItem != null)
+                    {
+                        recItem.Qty = TotalQty;
+                        detItem.QtyRecibida = TotalQty;
+                    }
+                }
+            }
+            ProductNo = "";
+            Quantity = 0;
+            TotalQty = 0;
+            QtyUnit = 0;
         }
 
         private async void ProductByNo()
