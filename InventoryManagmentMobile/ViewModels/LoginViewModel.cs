@@ -34,7 +34,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Store StoreSelected
         {
             get { return _storeSelecte; }
-            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); }
+            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != 5520 ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
         }
         private StoreResult _store;
         public StoreResult StoreResult

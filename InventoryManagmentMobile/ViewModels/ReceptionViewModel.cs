@@ -37,7 +37,8 @@ namespace InventoryManagmentMobile.ViewModels
 
         string _unidad = string.Empty;
         public string Unidad { get { return _unidad; } set { SetProperty(ref _unidad, value); } }
-
+        string _storeName = string.Empty;
+        public string StoreName { get { return _storeName; } set { SetProperty(ref _storeName, value); } }
         private OrderResult _order;
         public OrderResult Order { get => _order; set { SetProperty(ref _order, value); } }
 
@@ -59,7 +60,10 @@ namespace InventoryManagmentMobile.ViewModels
         public decimal Quantity
         {
             get { return _quantity; }
-            set { SetProperty(ref _quantity, value); }
+            set
+            {
+                SetProperty(ref _quantity, value); if (value > 0) { TotalQty = Quantity; }
+            }
         }
         decimal _totalQty = 0;
         public decimal TotalQty
@@ -71,7 +75,7 @@ namespace InventoryManagmentMobile.ViewModels
         public decimal QtyUnit
         {
             get { return _qtyUni; }
-            set { SetProperty(ref _qtyUni, value); }
+            set { SetProperty(ref _qtyUni, value); if (value > 0) { TotalQty = Quantity + (value / Factor); } }
         }
         public int Factor { get; set; } = 0;
         public ProductResult Product { get; set; }
@@ -80,9 +84,14 @@ namespace InventoryManagmentMobile.ViewModels
         public DateTime ExpirationDate { get; set; }
         public ObservableCollection<MeasurementUnit> MeasurementUnits { get; set; }
         public MeasurementUnit MeasurementSelected { get; set; }
+
+        public ReceptionHead Reception { get; set; }
+
+        public bool IsLotRequired { get; set; }
         public ReceptionViewModel(OleRepository _repo)
         {
             repo = _repo;
+            Reception = new ReceptionHead();
             General = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
             Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
             Detalle = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
@@ -112,11 +121,32 @@ namespace InventoryManagmentMobile.ViewModels
             ItemSelected = new ReceptionItem();
             ItemSummrySelected = new ItemSummary();
             MeasurementUnits = new ObservableCollection<MeasurementUnit>();
+            StoreName = Preferences.Get("storeName", "Default Value");
+
+            ExpirationDate = DateTime.Now;
         }
 
-        private void SaveReception()
+        private async void SaveReception()
         {
-            throw new NotImplementedException();
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
+            if (answer)
+            {
+                if (ReceptionItems == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                    return;
+                }
+                Reception.Items = ReceptionItems.ToArray();
+                Reception.Comment = "";
+                Reception.OrderNo = OrderNo;
+
+                var Result = await repo.SaveReception(OrderNo, Reception);
+
+            }
+            else
+            {
+                return;
+            }
         }
 
         private void RemoveItemSummary()
@@ -129,23 +159,30 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
-        private void RemoveItem()
+        private async void RemoveItem()
         {
-            throw new NotImplementedException();
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+            if (answer)
+            {
+                var det = Details.FirstOrDefault(x => x.ProductBarCode == ItemSelected.ProductBarCode);
+                ReceptionItems.Remove(ItemSelected);
+                Details.Remove(det);
+            }
         }
 
         private async void AddItem()
         {
+            if (TotalQty > OrderItem.Qty)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+                return;
+            }
             if (Product == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
                 return;
             }
-            if (MeasurementSelected == null)
-            {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado una unidad de medida", "Aceptar");
-                return;
-            }
+
             if (TotalQty == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad de devolver", "Aceptar");
@@ -156,7 +193,7 @@ namespace InventoryManagmentMobile.ViewModels
             if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
             {
                 ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Factor = Factor, LineNo = OrderItem.LineNo, LotNo = NoLote, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus, LotExpirationDate = ExpirationDate });
-                Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 15 });
+                Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
             }
             else
             {
@@ -186,6 +223,8 @@ namespace InventoryManagmentMobile.ViewModels
             Quantity = 0;
             TotalQty = 0;
             QtyUnit = 0;
+            Factor = 0;
+            Unidad = "";
         }
 
         private async void ProductByNo()
@@ -195,6 +234,11 @@ namespace InventoryManagmentMobile.ViewModels
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+                if (OrderItem == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Compra", "Aceptar");
+                    return;
+                }
                 ////var qOrderItem = new OrderItem();
                 //Items.ForEach((p) =>
                 //{
@@ -204,6 +248,7 @@ namespace InventoryManagmentMobile.ViewModels
                 //        ;
                 //    }
                 //});
+
                 Product = new ProductResult();
                 Product = await repo.ProductByBarCode(ProductNo);
 
@@ -211,6 +256,7 @@ namespace InventoryManagmentMobile.ViewModels
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
                 Factor = un.Factor;
                 Unidad = $"{OrderItem.Um} ({un.Factor.ToString()})";
+                IsLotRequired = OrderItem.IsLotNoRequired;
             }
             catch (Exception ex)
             {
@@ -221,9 +267,19 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async Task OrderByIdAction()
         {
-            Order = new OrderResult();
-            Order = await repo.OrderByOrderNo(OrderNo);
-            Items = Order.Data.Items.ToList();
+            try
+            {
+
+                Order = new OrderResult();
+                Order = await repo.OrderByOrderNo(OrderNo);
+                Items = Order.Data.Items.ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public Command OrderByIdCommand { get; }

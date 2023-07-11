@@ -19,7 +19,7 @@ namespace InventoryManagmentMobile.Repositories.Contracts
         Task<StoreResult> StoreByNo(string StoreNo);
 
         Task<TransResult> SaveDispatch(string OrderNo, OrderAdd order);
-        Task<TransResult> SaveReception(string OrderNo, OrderAdd order);
+        Task<TransResult> SaveReception(string OrderNo, ReceptionHead order);
         Task<TransResult> SaveTransportationOrder(string OrderNo, OrderAdd order);
         Task<TransResult> SaveReturn(ReturnHead order);
     }

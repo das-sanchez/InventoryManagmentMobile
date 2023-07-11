@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,8 @@ namespace InventoryManagmentMobile.Models
         public string Um { get; set; }
 
         [JsonPropertyName("productGroup")]
-
         public int ProductGroup { get; set; }
+        [JsonProperty("isLotNoRequired")]
+        public bool IsLotNoRequired { get; set; }
     }
 }

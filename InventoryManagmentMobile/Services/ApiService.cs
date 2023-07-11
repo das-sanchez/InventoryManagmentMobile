@@ -177,7 +177,7 @@ namespace InventoryManagmentMobile.Services
                 return LS;
             }
         }
-        public async Task<T> PostData(string UrlBase, string Url, T Ltrans)
+        public async Task<T> PostData(string UrlBase, string Url, object Ltrans)
         {
             T LS = new T();
 

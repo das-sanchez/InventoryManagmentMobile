@@ -10,13 +10,15 @@ public partial class ReceptionPage : ContentPage
         InitializeComponent();
         _vm = viewModel;
         this.BindingContext = viewModel;
+        this.document.InputTransparent = true;
+        this.qty.InputTransparent = true;
+        this.qtyUnit.InputTransparent = true;
     }
 
     private void NoOrder_Completed(object sender, EventArgs e)
     {
-        _vm.ProductosCommand.Execute(this);
-        productNo.Focus();
 
+        this.NoOrder.Unfocus();
     }
 
     private void productNo_Completed(object sender, EventArgs e)
@@ -31,6 +33,12 @@ public partial class ReceptionPage : ContentPage
 
     private void qtyUnit_Completed(object sender, EventArgs e)
     {
+        btnAdd.Focus();
+    }
 
+    private void btnRecibir_Clicked(object sender, EventArgs e)
+    {
+        _vm.ProductosCommand.Execute(this);
+        productNo.Focus();
     }
 }

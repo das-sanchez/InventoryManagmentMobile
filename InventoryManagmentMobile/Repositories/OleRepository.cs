@@ -2,6 +2,7 @@
 using InventoryManagmentMobile.Repositories.Contracts;
 using InventoryManagmentMobile.Services;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace InventoryManagmentMobile.Repositories
         private readonly ApiService<ProductResult> apiProduct;
         private readonly ApiService<StoreResult> apiStore;
         private readonly ApiService<VendorResult> apiVendor;
-        private readonly ApiService<object> apiPost;
-        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<object>(); }
+        private readonly ApiService<TransResult> apiPost;
+        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); }
 
         public async Task<OrderResult> OrderByOrderNo(string OrderNo)
         {
@@ -44,26 +45,28 @@ namespace InventoryManagmentMobile.Repositories
         public async Task<TransResult> SaveDispatch(string OrderNo, OrderAdd order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Dispatch", order);
-            return result as TransResult;
+            return (TransResult)result;
         }
 
-        public async Task<TransResult> SaveReception(string OrderNo, OrderAdd order)
+        public async Task<TransResult> SaveReception(string OrderNo, ReceptionHead order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Reception", order);
-            return result as TransResult;
-        }
 
+            return result;
+        }
         public async Task<TransResult> SaveReturn(ReturnHead order)
         {
             var data = JsonConvert.SerializeObject(order);
             var result = await apiPost.PostData(Constants.UrlBase, $"order/return", order);
-            return result as TransResult;
+
+            return (TransResult)result;
         }
 
         public async Task<TransResult> SaveTransportationOrder(string OrderNo, OrderAdd order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"transportationOrder/{OrderNo}/reception", order);
-            return result as TransResult;
+
+            return (TransResult)result;
         }
 
         public async Task<StoreResult> StoreByNo(string StoreNo)

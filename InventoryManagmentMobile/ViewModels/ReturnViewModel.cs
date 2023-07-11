@@ -73,10 +73,6 @@ namespace InventoryManagmentMobile.ViewModels
             TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Trucha en Aceite Vegetal de 220gr", Quantity = 6, Factor = 12, QtyTotal = 60 });
 
             Details = new ObservableCollection<DetailDto>();
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Atun en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Tilapia en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Baguet en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
-            Details.Add(new DetailDto() { ProductId = 1, ProductName = "Latas de Trucha en Aceite Vegetal de 220gr", QtyPending = 10, Quantity = 150, QtyRecibida = 150, Stock = 15 });
 
 
             GeneralCommand = new Command(() => GeneralOpcion());

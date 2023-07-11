@@ -154,7 +154,7 @@
                                    HorizontalOptions="StartAndExpand" />
                             <Image Grid.Column="0" Grid.Row="1" Source="shop2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                             <Label Grid.Column="1" Grid.Row="1"
-                                   Text="{Binding Order.Data.CreatedBy}"
+                                   Text="{Binding StoreName}"
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="12"
                                    HorizontalOptions="StartAndExpand" />
@@ -164,7 +164,7 @@
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="11"
                                    HorizontalOptions="StartAndExpand" />
-                            <Button  Text="Recibir" Grid.ColumnSpan="2" Grid.Column="0"  Grid.Row="3" CornerRadius="20" BackgroundColor="Red"></Button>
+                            <Button  Text="Recibir" Grid.ColumnSpan="2" Grid.Column="0"  Grid.Row="3" CornerRadius="20" BackgroundColor="Red" x:Name="btnRecibir" Clicked="btnRecibir_Clicked"></Button>
                         </Grid>
                     </StackLayout>
                 </Frame>
@@ -228,11 +228,11 @@
                         <Button
                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=AddItemCommand }"
                             Text="+" CornerRadius="30" Margin="2" FontSize="15"
-                            FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2"
+                            FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2" x:Name="btnAdd"
                             VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Button>
                     </StackLayout>
                 </Grid>
-                <Grid ColumnDefinitions="6*,4*" Margin="0" IsVisible="false">
+                <Grid ColumnDefinitions="6*,4*" Margin="0" IsVisible="{Binding IsLotRequired}" x:DataType="viewmodel:ReceptionViewModel" >
                     <StackLayout Grid.Column="0">
                         <StackLayout  Orientation="Horizontal" Padding="2" Margin="10,5,5,0" >
                             <Label
@@ -337,20 +337,20 @@
 
                                     <Label Text="Factor" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="12" FontAttributes="Bold"></Label>
 
-                                    <Label Text="Total" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="12" FontAttributes="Bold"></Label>
+                                    <Label Text="Unidad" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="12" FontAttributes="Bold"></Label>
                                 </Grid>
 
                             </StackLayout>
 
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="model:OrderItemAdd">
+                            <DataTemplate x:DataType="model:ReceptionItem">
                                 <SwipeView>
                                     <SwipeView.LeftItems>
                                         <SwipeItems>
-                                            <SwipeItem   Text="Enviar Recibo"
+                                            <SwipeItem   Text="Borrar"
                                                        IconImageSource="ic_cf_bisync.png"
-                                                       BackgroundColor="LightGray"
+                                                       BackgroundColor="Red"
                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=RemoveItemCommand}"
                                                        CommandParameter="{Binding .}"/>
                                         </SwipeItems>
@@ -359,7 +359,7 @@
                                     <Frame CornerRadius="10" HeightRequest="55" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,0,5">
                                         <Grid RowDefinitions="*" ColumnDefinitions="4*,1*,1.5*,1.5*" >
                                             <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
-                                                <Label Text="{Binding ProductNo }" VerticalOptions="Center" HorizontalOptions="Fill" TextColor="#000" FontAttributes="Bold" FontSize="12"></Label>
+                                                <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Fill" TextColor="#000" FontAttributes="Bold" FontSize="12"></Label>
                                             </StackLayout>
 
                                             <Label Text="{Binding Qty,StringFormat='{0:N0}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="12"></Label>
@@ -397,36 +397,37 @@
                     <CollectionView   HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                     VerticalScrollBarVisibility="Never"
 
-                                    ItemsSource="{Binding  Order.Data.Items}">
+                                    ItemsSource="{Binding  Details}">
                         <CollectionView.Header >
                             <StackLayout>
 
 
-                                <Grid RowDefinitions="Auto" ColumnDefinitions="3*,1.5*,1*,2.5*"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                <Grid RowDefinitions="Auto" ColumnDefinitions="3*,2.5*,2.5*,2*"  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                     <Label Text="Articulo" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="StartAndExpand" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
 
                                     <Label Text="Cantidad" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
 
-                                    <Label Text="Um" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+                                    <Label Text="Recivida" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
 
-                                    <Label Text="BarCode" Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+                                    <Label Text="Pend." Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
                                 </Grid>
 
                             </StackLayout>
 
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="model:OrderItem">
+                            <DataTemplate x:DataType="model:DetailDto">
 
                                 <Frame CornerRadius="10" HeightRequest="60" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
-                                    <Grid RowDefinitions="*" ColumnDefinitions="3*,1.5*,1*,2.5*" >
+                                    <Grid RowDefinitions="*" ColumnDefinitions="3*,2.5*,2.5*,2*">
                                         <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
                                             <Label Text="{Binding ProductName }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontAttributes="Bold" FontSize="10"></Label>
                                         </StackLayout>
 
-                                        <Label Text="{Binding Qty,StringFormat='{0:N3}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
-                                        <Label Text="{Binding Um }" Grid.Column="2"  Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
-                                        <Label Text="{Binding ProductBarCode}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                        <Label Text="{Binding Quantity,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                        <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}'}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                        <Label Text="{Binding QtyPending,StringFormat='{0:N2}'}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+
 
                                     </Grid>
                                 </Frame>
@@ -436,9 +437,9 @@
 
                     <StackLayout>
                         <Grid RowDefinitions="Auto" ColumnDefinitions="4*,0.5*,4*" Padding="5">
-                            <Button  Text="Guardar"  CornerRadius="20" 
-                                      Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand}"
-                                     BackgroundColor="Red" Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>
+                            <Button  Text="Guardar"  CornerRadius="20"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand}"
+                                    BackgroundColor="Red" Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>
                             <Button  Text="Finalizar" CornerRadius="20" BackgroundColor="#469835" Grid.Column="2"></Button>
                         </Grid>
 

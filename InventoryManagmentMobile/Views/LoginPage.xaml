@@ -15,7 +15,7 @@
             <Image
                 Source="group9.png"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
+                HeightRequest="190"
                 HorizontalOptions="Center" />
             <Image
                 Source="logoole.svg" Margin="0,-220,0,0"
@@ -24,7 +24,7 @@
                 HorizontalOptions="Center" />
 
             <Image
-                Source="login2x.svg" Margin="0,15,0,0"
+                Source="login2x.svg" Margin="0,10,0,0"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
                 HeightRequest="38" WidthRequest="38"
                 HorizontalOptions="Center" />
@@ -35,7 +35,7 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
-            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,15,20,0" >
+            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,10,20,0" >
 
                 <Frame   BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
 
@@ -49,7 +49,7 @@
 
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,15,20,0">
+            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,10,20,0">
                 <Frame    BackgroundColor="#FCFCFA" HeightRequest="50" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0" HasShadow="True" >
                     <Grid ColumnDefinitions="0.8*,9.2*">
                         <Image Grid.Column="0" Source="padlock2x.svg" HeightRequest="12" WidthRequest="12" VerticalOptions="Center" HorizontalOptions="Start"></Image >
@@ -60,7 +60,7 @@
 
             </StackLayout>
 
-            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,15,20,0">
+            <StackLayout Orientation="Horizontal" Padding="20" Margin="20,10,20,0">
                 <Frame    BackgroundColor="#FCFCFA" HeightRequest="50" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0" HasShadow="True" >
                     <Grid ColumnDefinitions="0.8*,9.2*">
                         <Image Grid.Column="0" Source="warehouse2x.svg" HeightRequest="12" WidthRequest="12" VerticalOptions="Center" HorizontalOptions="Start"></Image >
