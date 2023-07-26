@@ -40,10 +40,6 @@ namespace InventoryManagmentMobile.Models
         [JsonProperty("bono")]
         public bool Bono { get; set; }
 
-        [JsonProperty("lotNo")]
-        public string LotNo { get; set; }
-
-        [JsonProperty("lotExpirationDate")]
-        public DateTime LotExpirationDate { get; set; }
+       
     }
 }

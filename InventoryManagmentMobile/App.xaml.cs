@@ -12,5 +12,9 @@ public partial class App : Application
         InitializeComponent();
         Repo = _repo;
         MainPage = new LoginPage(new ViewModels.LoginViewModel(Repo));
+        //  KeyboardHelper.HideKeyboard();
+
     }
+
+
 }

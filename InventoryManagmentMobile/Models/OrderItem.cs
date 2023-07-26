@@ -21,8 +21,8 @@ namespace InventoryManagmentMobile.Models
 
         public string StorageId { get; set; }
 
-        [JsonPropertyName("productNo")]
-        public string ProductNo { get; set; }
+        [JsonPropertyName("productId")]
+        public string ProductId { get; set; }
 
         [JsonPropertyName("productBarCode")]
         public string ProductBarCode { get; set; }

@@ -130,7 +130,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             }
             int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
-            OrderItem = new ReturnItem() { ProductId = Product.Product.Id, ProductBarCode = Product.Product.BarCode, Factor = MeasurementSelected.Factor, Bono = false, LineNo = line, Qty = Quantity, Um = MeasurementSelected.BaseUm, LotNo = "", StoreId = StoreNo, StorageId = "5000", LotExpirationDate = DateTime.Now };
+            OrderItem = new ReturnItem() { ProductId = Product.Product.Id, ProductBarCode = Product.Product.BarCode, Factor = MeasurementSelected.Factor, Bono = false, LineNo = line, Qty = Quantity, Um = MeasurementSelected.BaseUm, StoreId = StoreNo, StorageId = "5000" };
             ReturnDetails.Add(OrderItem);
 
             ProductNo = "";

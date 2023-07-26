@@ -17,7 +17,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             list = new ObservableCollection<MenuOption>();
             list.Add(new MenuOption { Id = "RE", Titulo = "Recibir", Icon = "recibo2x.svg" });
-            list.Add(new MenuOption { Id = "EN", Titulo = "Enviar", Icon = "caja2.svg" });
+            list.Add(new MenuOption { Id = "ET", Titulo = "Enviar", Icon = "caja2.svg" });
             list.Add(new MenuOption { Id = "DE", Titulo = "Devolver", Icon = "devolver2x.svg" });
 
             ItemTapped = new Command<MenuOption>(OnItemSelected);
@@ -27,6 +27,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             if (obj == null)
                 return;
+            var navigationParameter = new Dictionary<string, object> { { "Type", obj.Id } };
             switch (obj.Id)
             {
                 case "RE":
@@ -35,9 +36,8 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                     break;
-                case "EN":
-
-                    await Shell.Current.GoToAsync(nameof(TransferPage));
+                case "ET":
+                    await Shell.Current.GoToAsync(nameof(ReceptionPage), navigationParameter);
 
                     break;
                 case "DE":

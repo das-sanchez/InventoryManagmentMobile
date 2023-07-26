@@ -11,8 +11,22 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.ViewModels
 {
+    [QueryProperty(nameof(Type), nameof(Type))]
     public class ReceptionViewModel : BaseViewModel
     {
+        string _type = string.Empty;
+        public string Type
+        {
+            get { return _type; }
+            set
+            {
+                SetProperty(ref _type, value);
+                if (value == "OC")
+                {
+                    IsInvoiceRequired = true;
+                }
+            }
+        }
         public Command GeneralCommand { get; }
         public Command ProductosCommand { get; }
         public Command DetalleCommand { get; }
@@ -39,6 +53,15 @@ namespace InventoryManagmentMobile.ViewModels
         public string Unidad { get { return _unidad; } set { SetProperty(ref _unidad, value); } }
         string _storeName = string.Empty;
         public string StoreName { get { return _storeName; } set { SetProperty(ref _storeName, value); } }
+
+        string _invoice = string.Empty;
+        public string InvoiceNumber { get { return _invoice; } set { SetProperty(ref _invoice, value); } }
+
+        string _message = string.Empty;
+        public string Message { get { return _message; } set { SetProperty(ref _message, value); } }
+        string _image = string.Empty;
+        public string Image { get { return _image; } set { SetProperty(ref _image, value); } }
+
         private OrderResult _order;
         public OrderResult Order { get => _order; set { SetProperty(ref _order, value); } }
 
@@ -56,7 +79,7 @@ namespace InventoryManagmentMobile.ViewModels
         public ItemSummary ItemSummrySelected { get => _itemSummarySelected; set { SetProperty(ref _itemSummarySelected, value); } }
 
 
-        decimal _quantity = 0;
+        decimal _quantity;
         public decimal Quantity
         {
             get { return _quantity; }
@@ -65,17 +88,17 @@ namespace InventoryManagmentMobile.ViewModels
                 SetProperty(ref _quantity, value); if (value > 0) { TotalQty = Quantity; }
             }
         }
-        decimal _totalQty = 0;
+        decimal _totalQty;
         public decimal TotalQty
         {
             get { return _totalQty; }
             set { SetProperty(ref _totalQty, value); }
         }
-        decimal _qtyUni = 0;
-        public decimal QtyUnit
+        int _qtyUni;
+        public int QtyUnit
         {
             get { return _qtyUni; }
-            set { SetProperty(ref _qtyUni, value); if (value > 0) { TotalQty = Quantity + (value / Factor); } }
+            set { SetProperty(ref _qtyUni, value); }
         }
         public int Factor { get; set; } = 0;
         public ProductResult Product { get; set; }
@@ -88,6 +111,16 @@ namespace InventoryManagmentMobile.ViewModels
         public ReceptionHead Reception { get; set; }
 
         public bool IsLotRequired { get; set; }
+
+        private bool _isInvoiceRequired;
+        public bool IsInvoiceRequired { get { return _isInvoiceRequired; } set { SetProperty(ref _isInvoiceRequired, value); } }
+
+        private bool _showDialog;
+        public bool ShowDialog { get { return _showDialog; } set { SetProperty(ref _showDialog, value); } }
+
+        private bool _showContent;
+        public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
+        public Command OkCommand { get; }
         public ReceptionViewModel(OleRepository _repo)
         {
             repo = _repo;
@@ -113,7 +146,7 @@ namespace InventoryManagmentMobile.ViewModels
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
-
+            OkCommand = new Command(() => OkReceptionAsync());
             OrderItem = new OrderItem();
             ItemsSummary = new ObservableCollection<ItemSummary>();
             ReceptionItems = new ObservableCollection<ReceptionItem>();
@@ -124,6 +157,14 @@ namespace InventoryManagmentMobile.ViewModels
             StoreName = Preferences.Get("storeName", "Default Value");
 
             ExpirationDate = DateTime.Now;
+            ShowContent = true;
+        }
+
+        private async Task OkReceptionAsync()
+        {
+            ShowContent = true;
+            ShowDialog = false;
+            await Shell.Current.Navigation.PopToRootAsync();
         }
 
         private async void SaveReception()
@@ -137,16 +178,42 @@ namespace InventoryManagmentMobile.ViewModels
                     return;
                 }
                 Reception.Items = ReceptionItems.ToArray();
-                Reception.Comment = "";
+                Reception.BillNo = InvoiceNumber;
+                Reception.OrderType = Type;
                 Reception.OrderNo = OrderNo;
 
                 var Result = await repo.SaveReception(OrderNo, Reception);
+                if (Result != null && Result.IsSuccess)
+                {
+
+                    ShowSucces("Transaccion Procesada Correctamente");
+                }
+                else
+                {
+
+                    ShowError(Result.MessagesFromErp[0].Message);
+                }
 
             }
             else
             {
                 return;
             }
+        }
+        private void ShowError(string message)
+        {
+            ShowContent = false;
+            ShowDialog = true;
+            Message = message;
+            Image = "cross2x.svg";
+        }
+
+        private void ShowSucces(string message)
+        {
+            ShowContent = false;
+            ShowDialog = true;
+            Message = message;
+            Image = "checked2x.svg";
         }
 
         private void RemoveItemSummary()
@@ -192,7 +259,7 @@ namespace InventoryManagmentMobile.ViewModels
             int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
             if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
             {
-                ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Factor = Factor, LineNo = OrderItem.LineNo, LotNo = NoLote, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus, LotExpirationDate = ExpirationDate });
+                ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, LineNo = OrderItem.LineNo, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus });
                 Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
             }
             else
@@ -239,15 +306,6 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Compra", "Aceptar");
                     return;
                 }
-                ////var qOrderItem = new OrderItem();
-                //Items.ForEach((p) =>
-                //{
-                //    if (p.ProductBarCode.Trim() == ProductNo || p.ProductNo.Trim() == ProductNo)
-                //    {
-                //        OrderItem = p;
-                //        ;
-                //    }
-                //});
 
                 Product = new ProductResult();
                 Product = await repo.ProductByBarCode(ProductNo);
@@ -255,7 +313,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
                 Factor = un.Factor;
-                Unidad = $"{OrderItem.Um} ({un.Factor.ToString()})";
+                Unidad = $"Cantidad ({OrderItem.Um})";
                 IsLotRequired = OrderItem.IsLotNoRequired;
             }
             catch (Exception ex)
@@ -274,7 +332,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Order = await repo.OrderByOrderNo(OrderNo);
                 Items = Order.Data.Items.ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

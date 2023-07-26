@@ -11,9 +11,11 @@ namespace InventoryManagmentMobile.Models
     {
         [JsonProperty("orderNo")]
         public string OrderNo { get; set; }
+        [JsonProperty("billNo")]
+        public string BillNo { get; set; }
+        [JsonProperty("orderType")]
+        public string OrderType { get; set; }
 
-        [JsonProperty("comment")]
-        public string Comment { get; set; }
 
         [JsonProperty("items")]
         public ReceptionItem[] Items { get; set; }

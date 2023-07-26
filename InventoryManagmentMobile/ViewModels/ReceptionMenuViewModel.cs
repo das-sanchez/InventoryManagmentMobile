@@ -17,7 +17,7 @@ namespace InventoryManagmentMobile.ViewModels
         public ReceptionMenuViewModel()
         {
             list = new ObservableCollection<MenuOption>();
-            list.Add(new MenuOption { Id = "RE", Titulo = "Orden de Compra Proveedor", Icon = "checklist2x.svg" });
+            list.Add(new MenuOption { Id = "OC", Titulo = "Orden de Compra Proveedor", Icon = "checklist2x.svg" });
             list.Add(new MenuOption { Id = "RS", Titulo = "Transferencia desde otra Tienda", Icon = "transfer2x.svg" });
             list.Add(new MenuOption { Id = "CD", Titulo = "Transferencia desde el Centro de Distribucion", Icon = "warehouse2x.svg" });
             ItemTapped = new Command<MenuOption>(OnItemSelected);
@@ -25,19 +25,22 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void OnItemSelected(MenuOption option)
         {
+            var navigationParameter = new Dictionary<string, object> { { "Type", option.Id } };
             if (option == null)
                 return;
             switch (option.Id)
             {
-                case "RE":
+                case "OC":
 
-                    await Shell.Current.GoToAsync(nameof(ReceptionPage));
+                    await Shell.Current.GoToAsync(nameof(ReceptionPage), navigationParameter);
 
 
                     break;
-                case "CD":
+                case "RT":
 
-                    await Shell.Current.GoToAsync(nameof(ReceptionCDPage));
+
+                    await Shell.Current.GoToAsync(nameof(ReceptionPage), navigationParameter);
+
 
                     break;
                 case "RS":

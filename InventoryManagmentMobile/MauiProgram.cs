@@ -1,6 +1,7 @@
 ﻿using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.ViewModels;
 using InventoryManagmentMobile.Views;
+using Microsoft.Maui.Controls.Compatibility.Hosting;
 
 namespace InventoryManagmentMobile;
 
@@ -11,12 +12,15 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");
                 fonts.AddFont("Nunito-Italic.ttf", "NunitoItalic");
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+
             });
         //Views
         builder.Services.AddSingleton<LoginPage>();
@@ -40,6 +44,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<OrderRepository>();
         builder.Services.AddSingleton<OleRepository>();
+        
 
 
         return builder.Build();

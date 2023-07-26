@@ -228,7 +228,7 @@
                     <CollectionView   HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"
                                     VerticalScrollBarVisibility="Never"
 
-                                    ItemsSource="{Binding TrDetails}">
+                                    ItemsSource="{Binding Details}">
                         <CollectionView.Header >
                             <StackLayout>
 

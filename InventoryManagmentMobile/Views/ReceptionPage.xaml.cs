@@ -19,6 +19,8 @@ public partial class ReceptionPage : ContentPage
     {
 
         this.NoOrder.Unfocus();
+        this.document.Focus();
+
     }
 
     private void productNo_Completed(object sender, EventArgs e)
@@ -31,8 +33,16 @@ public partial class ReceptionPage : ContentPage
         qtyUnit.Focus();
     }
 
-    private void qtyUnit_Completed(object sender, EventArgs e)
+    private async void qtyUnit_Completed(object sender, EventArgs e)
     {
+        if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
+        {
+
+            await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
+            _vm.QtyUnit = 0;
+            qtyUnit.Focus();
+            return;
+        }
         btnAdd.Focus();
     }
 
@@ -40,5 +50,19 @@ public partial class ReceptionPage : ContentPage
     {
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        _vm.ShowContent = false;
+        _vm.ShowDialog = true;
+        _vm.Message = "Error";
+        _vm.Image = "cross2x.svg";
+    }
+
+    private void document_Completed(object sender, EventArgs e)
+    {
+        this.document.Unfocus();
+        this.btnRecibir.Focus();
     }
 }
