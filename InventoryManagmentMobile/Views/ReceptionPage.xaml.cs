@@ -1,3 +1,5 @@
+
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
 
 namespace InventoryManagmentMobile.Views;
@@ -52,17 +54,20 @@ public partial class ReceptionPage : ContentPage
         productNo.Focus();
     }
 
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        _vm.ShowContent = false;
-        _vm.ShowDialog = true;
-        _vm.Message = "Error";
-        _vm.Image = "cross2x.svg";
-    }
+
 
     private void document_Completed(object sender, EventArgs e)
     {
         this.document.Unfocus();
         this.btnRecibir.Focus();
+    }
+
+    private async void btnFinalizar_Clicked(object sender, EventArgs e)
+    {
+        var dialogParam = new Dialog() { Icon = "cross2x", Description = "Error al Procesar la Recepcion", Title = "Recepcion Mercancia", Label = "Volver" };
+
+
+
+        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
     }
 }

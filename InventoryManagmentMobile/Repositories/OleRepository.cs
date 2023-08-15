@@ -19,7 +19,9 @@ namespace InventoryManagmentMobile.Repositories
         private readonly ApiService<StoreResult> apiStore;
         private readonly ApiService<VendorResult> apiVendor;
         private readonly ApiService<TransResult> apiPost;
-        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); }
+        private readonly ApiService<StorageResult> apiStorage;
+        private readonly ApiService<TranspOrderResult> apiTraspe;
+        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); apiStorage = new ApiService<StorageResult>(); apiTraspe = new ApiService<TranspOrderResult>(); }
 
         public async Task<OrderResult> OrderByOrderNo(string OrderNo)
         {
@@ -69,6 +71,13 @@ namespace InventoryManagmentMobile.Repositories
             return (TransResult)result;
         }
 
+        public async Task<StorageResult> StorageByNo(string StoreNo)
+        {
+            var product = new StorageResult();
+            product = await apiStorage.GetData(Constants.UrlBase, $"store/{StoreNo}/storages");
+            return product;
+        }
+
         public async Task<StoreResult> StoreByNo(string StoreNo)
         {
             var product = new StoreResult();
@@ -104,8 +113,18 @@ namespace InventoryManagmentMobile.Repositories
             storeList = await apiVendor.GetListData(Constants.UrlBase, $"vendor/FilterText/{filter}");
             return storeList;
         }
+        public async Task<TranspOrderResult> TranspOrderByOrderNo(string OrderNo)
+        {
+            var order = new TranspOrderResult();
+            order = await apiTraspe.GetData(Constants.UrlBase, $"TransportationOrder/{OrderNo}/SummarizedByProduct");
+            return order;
+        }
+        public async Task<TransResult> SaveTransporationOrder(string OrderNo, TransportationOrder order)
+        {
+            var result = await apiPost.PostData(Constants.UrlBase, $"transportationOrder/{OrderNo}/Reception", order);
 
-
+            return result;
+        }
 
     }
 }

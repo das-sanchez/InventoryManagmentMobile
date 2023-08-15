@@ -19,12 +19,12 @@ namespace InventoryManagmentMobile.Models
         public string City { get; set; }
 
         [JsonProperty("postalCode")]
-        
-        public long PostalCode { get; set; }
+
+        public string PostalCode { get; set; }
 
         [JsonProperty("companyId")]
-        
-        public long CompanyId { get; set; }
+
+        public string CompanyId { get; set; }
 
         [JsonProperty("companyName")]
         public string CompanyName { get; set; }

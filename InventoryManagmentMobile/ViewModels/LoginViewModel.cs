@@ -34,7 +34,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Store StoreSelected
         {
             get { return _storeSelecte; }
-            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != 5520 ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
+            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != "5520" ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
         }
         private StoreResult _store;
         public StoreResult StoreResult
@@ -58,7 +58,7 @@ namespace InventoryManagmentMobile.ViewModels
             Stores.Clear();
             StoreResult.Stores.ToList().ForEach((s) =>
             {
-                if (s.CompanyId == 5520)
+                if (s.CompanyId == "5520")
                 {
                     s.Name = "Mercadal - " + s.Name;
                 }

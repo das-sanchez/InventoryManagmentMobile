@@ -40,6 +40,18 @@ build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.R
 build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
 build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
 
+[C:/Users/dsanchez/source/repos/InventoryManagmentMobile/InventoryManagmentMobile/Views/ConfirnDialog.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ConfirnDialog.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ConfirnDialog.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ConfirnDialog.xaml
+
+[C:/Users/dsanchez/source/repos/InventoryManagmentMobile/InventoryManagmentMobile/Views/DialogAlert.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.DialogAlert.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\DialogAlert.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\DialogAlert.xaml
+
 [C:/Users/dsanchez/source/repos/InventoryManagmentMobile/InventoryManagmentMobile/Views/HomePage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.HomePage.xaml

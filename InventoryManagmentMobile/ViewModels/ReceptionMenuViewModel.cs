@@ -43,9 +43,9 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                     break;
-                case "RS":
+                case "CD":
 
-                    await Shell.Current.GoToAsync(nameof(RecepcionStorePage));
+                    await Shell.Current.GoToAsync(nameof(ReceptionCDPage));
                     break;
 
                 default:

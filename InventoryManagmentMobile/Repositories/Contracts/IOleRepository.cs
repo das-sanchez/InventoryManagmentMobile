@@ -22,5 +22,6 @@ namespace InventoryManagmentMobile.Repositories.Contracts
         Task<TransResult> SaveReception(string OrderNo, ReceptionHead order);
         Task<TransResult> SaveTransportationOrder(string OrderNo, OrderAdd order);
         Task<TransResult> SaveReturn(ReturnHead order);
+        Task<StorageResult> StorageByNo(string StoreNo);
     }
 }

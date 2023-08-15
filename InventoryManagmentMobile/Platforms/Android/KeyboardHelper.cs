@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.Platforms.Android
 {
-    public static partial class KeyboardHelper
+    public partial class KeyboardHelper
     {
-        public static void HideKeyboard()
+        public void HideKeyboard()
         {
             var context = Platform.AppContext;
             var inputMethodManager = context.GetSystemService(Context.InputMethodService) as InputMethodManager;

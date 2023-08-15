@@ -2,6 +2,7 @@
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Models.Dtos;
 using InventoryManagmentMobile.Repositories;
+using InventoryManagmentMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -187,11 +188,23 @@ namespace InventoryManagmentMobile.ViewModels
                 {
 
                     ShowSucces("Transaccion Procesada Correctamente");
+                    var dialogParam = new Dialog() { Icon = "checked2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+                    await Shell.Current.Navigation.PopToRootAsync();
                 }
                 else
                 {
 
                     ShowError(Result.MessagesFromErp[0].Message);
+                    var dialogParam = new Dialog() { Icon = "cross2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+
                 }
 
             }

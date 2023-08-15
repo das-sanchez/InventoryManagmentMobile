@@ -25,8 +25,7 @@ public partial class ReturnsPage : ContentPage
 
     private void vendor_Completed(object sender, EventArgs e)
     {
-        _vm.ProductosCommand.Execute(this);
-        productNo.Focus();
+        this.storageNo.Focus();
         //_vm.VendorNo = sender.ToString();
         //_vm.GetProductCommand.Execute(default);
     }
@@ -40,6 +39,12 @@ public partial class ReturnsPage : ContentPage
 
     private void qty_Completed(object sender, EventArgs e)
     {
+        productNo.Focus();
+    }
+
+    private void storageNo_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        _vm.ProductosCommand.Execute(this);
         productNo.Focus();
     }
 }

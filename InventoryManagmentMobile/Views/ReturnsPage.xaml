@@ -130,6 +130,17 @@
                     </Frame>
 
                 </StackLayout>
+                <StackLayout Orientation="Horizontal" Padding="5" Margin="5,10,5,15" x:DataType="viewmodel:ReturnViewModel">
+                    <Frame    BackgroundColor="#FCFCFA" HeightRequest="50" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0" HasShadow="True" >
+                        <Grid ColumnDefinitions="0.8*,9.2*">
+                            <Image Grid.Column="0" Source="warehouse2x.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Center"></Image >
+                            <Picker Title="Seleccione la Almacen" x:Name="storageNo" SelectedIndexChanged="storageNo_SelectedIndexChanged" ItemsSource="{Binding Storages}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="StartAndExpand"
+                                    ItemDisplayBinding="{Binding Name}"   SelectedItem="{Binding StorageSelected}" />
+                        </Grid>
+
+                    </Frame>
+
+                </StackLayout>
                 <Frame HasShadow="True" CornerRadius="10">
                     <StackLayout>
                         <Frame   BackgroundColor="Transparent" HasShadow="True" CornerRadius="50" HorizontalOptions="CenterAndExpand" Padding="0">
@@ -171,18 +182,15 @@
             <StackLayout Padding="10,-45,10,15" x:DataType="viewmodel:BaseViewModel" IsVisible="{Binding Productos.PanelVisible}">
 
                 <StackLayout x:DataType="viewmodel:ReturnViewModel">
-                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="6*,2*,2*" Padding="5">
+                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="7*,3*" Padding="5">
 
                         <Label Grid.Column="0" Grid.Row="0"
                                Text="Producto"
                                TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                FontSize="14"
                                HorizontalOptions="StartAndExpand" />
-                        <Label Grid.Column="1" Grid.Row="0"
-                               Text="Unidad"
-                               TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
-                               FontSize="14"
-                               HorizontalOptions="StartAndExpand" />
+
+
                         <Label Grid.Column="2" Grid.Row="0"
                                Text="Cantidad"
                                TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
@@ -204,12 +212,8 @@
 
 
                         </Frame>
-                        <Frame  Grid.Column="1" Grid.Row="1"  BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="5" Margin="0,0,10,0" VerticalOptions="Center" >
-                            <Picker Title="Seleccione la Unidad" ItemsSource="{Binding MeasurementUnits}"
-                                    ItemDisplayBinding="{Binding BaseUm}"   SelectedItem="{Binding MeasurementSelected}" />
 
-                        </Frame>
-                        <Frame  Grid.Column="2" Grid.Row="1"  BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="5" Margin="0,0,10,0" VerticalOptions="Center" >
+                        <Frame  Grid.Column="1" Grid.Row="1"  BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="5" Margin="0,0,10,0" VerticalOptions="Center" >
 
 
 
@@ -238,7 +242,7 @@
                                        HorizontalOptions="StartAndExpand" />
                                 <Image Grid.Column="0" Grid.Row="1" Source="description2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                                 <Label Grid.Column="1" Grid.Row="1"
-                                       Text="Descripcion: Latas de Atun en Aceite Vegetal 220gr"
+                                       Text="{Binding Product.Product.Name}"
                                        TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                        FontSize="12"
                                        HorizontalOptions="StartAndExpand" />

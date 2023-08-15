@@ -52,14 +52,40 @@ namespace InventoryManagmentMobile.ViewModels
         string _storeNo = string.Empty;
         public string StoreNo { get { return _storeNo; } set { SetProperty(ref _storeNo, value); } }
 
+        string _storageNo = string.Empty;
+        public string StorageNo { get { return _storageNo; } set { SetProperty(ref _storageNo, value); } }
+
         private readonly OleRepository Repo;
+        public ObservableCollection<Storage> Storages { get; set; }
+        private Storage _storageSelected;
+        public Storage StorageSelected
+        {
+            get { return _storageSelected; }
+            set
+            {
+                SetProperty(ref _storageSelected, value);
+                if (value.Id != null)
+                {
+                    StorageNo = value.Id;
+                }
+            }
+        }
+        private StorageResult _storageresult;
+        public StorageResult ObjStorageResult
+        {
+            get { return _storageresult; }
+            set { SetProperty(ref _storageresult, value); }
+        }
+        public ReturnItem ObjItem { get; set; }
         public ReturnViewModel(OleRepository _repo)
 
         {
+            ObjItem = new ReturnItem();
             StoreNo = Preferences.Get("storeNo", "Default Value");
-
+            ObjStorageResult = new StorageResult();
+            // StorageSelected = new Storage();
             Repo = _repo;
-            OrderItem = new ReturnItem();
+            //OrderItem = new ReturnItem();
             Order = new ReturnHead();
             General = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
             Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
@@ -73,7 +99,7 @@ namespace InventoryManagmentMobile.ViewModels
             TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Trucha en Aceite Vegetal de 220gr", Quantity = 6, Factor = 12, QtyTotal = 60 });
 
             Details = new ObservableCollection<DetailDto>();
-
+            ReturnDetails = new ObservableCollection<ReturnItem>();
 
             GeneralCommand = new Command(() => GeneralOpcion());
             ProductosCommand = new Command(() => ProductosOpcion());
@@ -86,10 +112,24 @@ namespace InventoryManagmentMobile.ViewModels
             SaveReturnCommand = new Command(() => SaveReturn());
 
             MeasurementUnits = new ObservableCollection<MeasurementUnit>();
-            ReturnDetails = new ObservableCollection<ReturnItem>();
+
+            Storages = new ObservableCollection<Storage>();
+            LoadStorages();
+        }
+        private async void LoadStorages()
+        {
+            ObjStorageResult = new StorageResult();
+            ObjStorageResult = await Repo.StorageByNo(StoreNo);
+            if (ObjStorageResult.Data != null)
+            {
+                ObjStorageResult.Data.ToList().ForEach(kv =>
+                {
+                    Storages.Add(kv);
+                });
+
+            }
 
         }
-
         private async void SaveReturn()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
@@ -119,9 +159,9 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
                 return;
             }
-            if (MeasurementSelected == null)
+            if (StorageSelected == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado una unidad de medida", "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado un storage", "Aceptar");
                 return;
             }
             if (Quantity == 0)
@@ -130,8 +170,11 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             }
             int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
-            OrderItem = new ReturnItem() { ProductId = Product.Product.Id, ProductBarCode = Product.Product.BarCode, Factor = MeasurementSelected.Factor, Bono = false, LineNo = line, Qty = Quantity, Um = MeasurementSelected.BaseUm, StoreId = StoreNo, StorageId = "5000" };
-            ReturnDetails.Add(OrderItem);
+
+
+            ObjItem.ProductId = Product.Product.Id; ObjItem.ProductBarCode = Product.Product.BarCode; ObjItem.LineNo = line; ObjItem.Qty = Quantity; ObjItem.Um = Product.Product.BaseUm;
+            ObjItem.StorageId = StorageSelected.Id;
+            ReturnDetails.Add(ObjItem);
 
             ProductNo = "";
             Quantity = 0;
