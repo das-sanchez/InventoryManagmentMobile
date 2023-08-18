@@ -93,12 +93,7 @@ namespace InventoryManagmentMobile.ViewModels
             Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
             Detalle = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
             Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-
-            TrDetails = new ObservableCollection<TransDetail>();
-            TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Atun en Aceite Vegetal de 220gr", Quantity = 10, Factor = 12, QtyTotal = 120 });
-            TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Tilapia en Aceite Vegetal de 220gr", Quantity = 10, Factor = 12, QtyTotal = 120 });
-            TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Baguet en Aceite Vegetal de 220gr", Quantity = 15, Factor = 10, QtyTotal = 150 });
-            TrDetails.Add(new TransDetail() { ProductId = 1, ProductName = "Latas de Trucha en Aceite Vegetal de 220gr", Quantity = 6, Factor = 12, QtyTotal = 60 });
+                      ;
 
             Details = new ObservableCollection<DetailDto>();
             ReturnDetails = new ObservableCollection<ReturnItem>();
