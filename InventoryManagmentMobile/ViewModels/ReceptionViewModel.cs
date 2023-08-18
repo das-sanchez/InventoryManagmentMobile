@@ -354,6 +354,7 @@ namespace InventoryManagmentMobile.ViewModels
                         TypeDescription = "el Envio de Mercancia";
 
                     await Application.Current.MainPage.DisplayAlert("Recepcion", $"Producto no esta en {TypeDescription}", "Aceptar");
+                    ProductNo = "";
                     return;
                 }
 
