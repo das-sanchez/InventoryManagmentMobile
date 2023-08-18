@@ -55,6 +55,7 @@ namespace InventoryManagmentMobile.ViewModels
         string _storageNo = string.Empty;
         public string StorageNo { get { return _storageNo; } set { SetProperty(ref _storageNo, value); } }
 
+        public DateTime CurrentDate { get; set; }
         private readonly OleRepository Repo;
         public ObservableCollection<Storage> Storages { get; set; }
         private Storage _storageSelected;
@@ -115,6 +116,7 @@ namespace InventoryManagmentMobile.ViewModels
 
             Storages = new ObservableCollection<Storage>();
             LoadStorages();
+            CurrentDate = DateTime.Now;
         }
         private async void LoadStorages()
         {
@@ -184,7 +186,11 @@ namespace InventoryManagmentMobile.ViewModels
         {
             Product = new ProductResult();
             Product = await Repo.ProductByBarCode(ProductNo);
-
+            if (Product.Product == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Producto", "Producto no Existe", "Aceptar");
+                return;
+            }
             Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
 
         }
@@ -192,6 +198,11 @@ namespace InventoryManagmentMobile.ViewModels
         private async void VendorByNo()
         {
             Vendor = new VendorResult();
+            if (Vendor.Data == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
+                return;
+            }
             Vendor = await Repo.VendorById(VendorNo);
 
         }
@@ -209,6 +220,11 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
+            if (Vendor.Data == null)
+            {
+                return;
+            }
+
             ShowPanel("P");
         }
 

@@ -141,7 +141,7 @@
                     </Frame>
 
                 </StackLayout>
-                <Frame HasShadow="True" CornerRadius="10">
+                <Frame HasShadow="True" CornerRadius="10" x:DataType="viewmodel:ReturnViewModel">
                     <StackLayout>
                         <Frame   BackgroundColor="Transparent" HasShadow="True" CornerRadius="50" HorizontalOptions="CenterAndExpand" Padding="0">
 
@@ -157,23 +157,23 @@
                         <Grid RowDefinitions="50,50,50,45" ColumnDefinitions="1.5*,8.5*" Padding="2">
                             <Image Grid.Column="0" Grid.Row="0" Source="calendar1x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                             <Label Grid.Column="1" Grid.Row="0"
-                                   Text="Fecha: 12 de Mayo 2023"
+                                   Text="{Binding CurrentDate, StringFormat='Fecha: {0:dd/MM/yyyy}'}"
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="12"
                                    HorizontalOptions="StartAndExpand" />
                             <Image Grid.Column="0" Grid.Row="1" Source="shop2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                             <Label Grid.Column="1" Grid.Row="1"
-                                   Text="Tienda de origen: Supermercado Santo Domingo"
+                                   Text="{Binding StorageSelected.Name}"
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="12"
                                    HorizontalOptions="StartAndExpand" />
                             <Image Grid.Column="0" Grid.Row="2" Source="deliveryman2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                             <Label Grid.Column="1" Grid.Row="2"
-                                   Text="Proveedor: Centro de Distribución de ejemplo"
+                                   Text="{Binding Vendor.Data.Name}"
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="12"
                                    HorizontalOptions="StartAndExpand" />
-                            <Button  Text="Recibir" Grid.ColumnSpan="2" Grid.Column="0"  Grid.Row="3" CornerRadius="20" BackgroundColor="Red"></Button>
+                            <Button  Text="Seleccionar Productos" x:Name="btnProduct" Clicked="btnProduct_Clicked" Grid.ColumnSpan="2" Grid.Column="0"  Grid.Row="3" CornerRadius="20" BackgroundColor="Red"></Button>
                         </Grid>
                     </StackLayout>
                 </Frame>
@@ -248,13 +248,13 @@
                                        HorizontalOptions="StartAndExpand" />
                                 <Image Grid.Column="0" Grid.Row="2" Source="cubes2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                                 <Label Grid.Column="1" Grid.Row="2"
-                                       Text="Cantidad: 150"
+                                       Text="{Binding Product.Product.BarCode}"
                                        TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                        FontSize="12"
                                        HorizontalOptions="StartAndExpand" />
                                 <Image Grid.Column="0" Grid.Row="3" Source="receivemoney2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                                 <Label Grid.Column="1" Grid.Row="3"
-                                       Text="Recibido: 140"
+                                       Text="{Binding Product.Product.BaseUm}"
                                        TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                        FontSize="12"
                                        HorizontalOptions="StartAndExpand" />
