@@ -19,7 +19,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Command ResumenCommand { get; }
 
         public Command AddItemCommand { get; }
-        public Command RemoveItemCommand { get; }
+        public Command<TransportationOrderItem> RemoveItemCommand { get; }
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
@@ -132,7 +132,7 @@ namespace InventoryManagmentMobile.ViewModels
             OrderByIdCommand = new Command(async () => await OrderByIdAction());
             ProductByNoCommand = new Command(() => ProductByNo());
             AddItemCommand = new Command(() => AddItem());
-            RemoveItemCommand = new Command(() => RemoveItem());
+            RemoveItemCommand = new Command<TransportationOrderItem>(RemoveItem);
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
@@ -149,6 +149,18 @@ namespace InventoryManagmentMobile.ViewModels
             ExpirationDate = DateTime.Now;
             ShowContent = true;
         }
+
+        private async void RemoveItem(TransportationOrderItem item)
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+            if (answer)
+            {
+                var det = Details.FirstOrDefault(x => x.ProductBarCode == item.ProductBarCode);
+                ReceptionItems.Remove(ItemSelected);
+                Details.Remove(det);
+            }
+        }
+
         private async Task OkReceptionAsync()
         {
             ShowContent = true;
@@ -225,16 +237,7 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
-        private async void RemoveItem()
-        {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
-            if (answer)
-            {
-                var det = Details.FirstOrDefault(x => x.ProductBarCode == ItemSelected.ProductBarCode);
-                ReceptionItems.Remove(ItemSelected);
-                Details.Remove(det);
-            }
-        }
+
 
         private async void AddItem()
         {

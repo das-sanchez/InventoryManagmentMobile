@@ -258,18 +258,7 @@
                                        TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                        FontSize="12"
                                        HorizontalOptions="StartAndExpand" />
-                                <Image Grid.Column="0" Grid.Row="4" Source="box2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
-                                <Label Grid.Column="1" Grid.Row="4"
-                                       Text="Pendiente: 10"
-                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
-                                       FontSize="12"
-                                       HorizontalOptions="StartAndExpand" />
-                                <Image Grid.Column="0" Grid.Row="5" Source="inventory2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
-                                <Label Grid.Column="1" Grid.Row="5"
-                                       Text="Unidades en Inventario: 10"
-                                       TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
-                                       FontSize="12"
-                                       HorizontalOptions="StartAndExpand" />
+
 
                             </Grid>
                         </StackLayout>
@@ -315,18 +304,29 @@
                         </CollectionView.Header>
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="model:OrderItemAdd">
+                                <SwipeView>
+                                    <SwipeView.LeftItems>
+                                        <SwipeItems>
+                                            <SwipeItem   Text="Borrar"
+                                                       IconImageSource="ic_cf_bisync.png"
+                                                       BackgroundColor="Red"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReturnViewModel}}, Path=RemoveItemCommand}"
+                                                       CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
 
-                                <Frame CornerRadius="10" HeightRequest="50" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,0,5">
-                                    <Grid RowDefinitions="*" ColumnDefinitions="7*,3*" >
-                                        <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
-                                            <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Fill" TextColor="#000" FontAttributes="Bold" FontSize="14"></Label>
-                                        </StackLayout>
+                                    </SwipeView.LeftItems>
+                                    <Frame CornerRadius="10" HeightRequest="50" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,0,5">
+                                        <Grid RowDefinitions="*" ColumnDefinitions="7*,3*" >
+                                            <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
+                                                <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Fill" TextColor="#000" FontAttributes="Bold" FontSize="14"></Label>
+                                            </StackLayout>
 
-                                        <Label Text="{Binding Qty,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="14"></Label>
+                                            <Label Text="{Binding Qty,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="14"></Label>
 
 
-                                    </Grid>
-                                </Frame>
+                                        </Grid>
+                                    </Frame>
+                                </SwipeView>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>

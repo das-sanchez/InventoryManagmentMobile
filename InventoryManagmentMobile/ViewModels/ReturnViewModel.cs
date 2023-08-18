@@ -23,6 +23,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Command AddProductCommand { get; }
 
         public Command SaveReturnCommand { get; }
+        public Command<ReturnItem> RemoveItemCommand { get; }
         public ObservableCollection<DetailDto> Details { get; set; }
         public ObservableCollection<TransDetail> TrDetails { get; set; }
 
@@ -112,12 +113,30 @@ namespace InventoryManagmentMobile.ViewModels
             AddProductCommand = new Command(() => AddProduct());
             SaveReturnCommand = new Command(() => SaveReturn());
 
+            RemoveItemCommand = new Command<ReturnItem>(RemoveReturnItem);
+
             MeasurementUnits = new ObservableCollection<MeasurementUnit>();
 
             Storages = new ObservableCollection<Storage>();
             LoadStorages();
             CurrentDate = DateTime.Now;
         }
+
+        private async void RemoveReturnItem(ReturnItem item)
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
+            if (answer)
+            {
+
+                var returnitem = ReturnDetails.FirstOrDefault(xc => xc.ProductBarCode == item.ProductBarCode);
+                if (returnitem != null)
+                {
+                    ReturnDetails.Remove(returnitem);
+
+                }
+            }
+        }
+
         private async void LoadStorages()
         {
             ObjStorageResult = new StorageResult();
