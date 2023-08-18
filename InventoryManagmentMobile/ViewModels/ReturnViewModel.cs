@@ -124,7 +124,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void RemoveReturnItem(ReturnItem item)
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
+            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea Remover este producto de la Devolucion?", "Yes", "No");
             if (answer)
             {
 
