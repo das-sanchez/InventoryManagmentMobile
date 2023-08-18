@@ -1,5 +1,6 @@
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
+using System.Reflection.Metadata;
 
 namespace InventoryManagmentMobile.Views;
 
@@ -26,6 +27,9 @@ public partial class ReceptionCDPage : ContentPage
 
     private void productNo_Completed(object sender, EventArgs e)
     {
+        if (_vm.OrderItem == null)
+            productNo.Focus();
+
         qty.Focus();
     }
 
@@ -49,6 +53,11 @@ public partial class ReceptionCDPage : ContentPage
 
     private void btnRecibir_Clicked(object sender, EventArgs e)
     {
+        if (_vm.Order.Data == null)
+        {
+            NoOrder.Focus();
+            return;
+        }
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
     }

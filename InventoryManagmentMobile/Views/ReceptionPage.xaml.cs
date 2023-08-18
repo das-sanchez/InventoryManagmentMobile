@@ -50,6 +50,11 @@ public partial class ReceptionPage : ContentPage
 
     private void btnRecibir_Clicked(object sender, EventArgs e)
     {
+        if (_vm.Order.Data == null)
+        {
+            NoOrder.Focus();
+            return;
+        }
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
     }
