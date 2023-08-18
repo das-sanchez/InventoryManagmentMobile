@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.Models
@@ -17,6 +18,9 @@ namespace InventoryManagmentMobile.Models
 
         [JsonProperty("productBarCode")]
         public string ProductBarCode { get; set; }
+
+
+        public string Description { get; set; }
 
         [JsonProperty("qty")]
         public decimal Qty { get; set; }

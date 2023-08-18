@@ -13,8 +13,6 @@ public partial class ReceptionPage : ContentPage
         _vm = viewModel;
         this.BindingContext = viewModel;
         this.document.InputTransparent = true;
-        this.qty.InputTransparent = true;
-        this.qtyUnit.InputTransparent = true;
     }
 
     private void NoOrder_Completed(object sender, EventArgs e)
@@ -27,6 +25,8 @@ public partial class ReceptionPage : ContentPage
 
     private void productNo_Completed(object sender, EventArgs e)
     {
+        if (_vm.OrderItem == null)
+            this.productNo.Focus();
         qty.Focus();
     }
 

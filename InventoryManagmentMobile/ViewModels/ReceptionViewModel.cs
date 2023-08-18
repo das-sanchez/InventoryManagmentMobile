@@ -6,6 +6,7 @@ using InventoryManagmentMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,22 @@ namespace InventoryManagmentMobile.ViewModels
                 if (value == "OC")
                 {
                     IsInvoiceRequired = true;
+                    OrderLabel = "Orden de Compra";
+                    Title = "Recepcion Orden Compra";
+                }
+                else if (value == "RT")
+                {
+                    OrderLabel = "No Transferencia";
+                    OrderPlaceHolderLabel = "No Transferencia";
+                    IsInvoiceRequired = false;
+                    Title = "Recepcion Transferencia";
+                }
+                else
+                {
+                    OrderLabel = "No Envio";
+                    OrderPlaceHolderLabel = "No Envio";
+                    IsInvoiceRequired = false;
+                    Title = "Envio de Mercancia0";
                 }
             }
         }
@@ -34,7 +51,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Command ResumenCommand { get; }
 
         public Command AddItemCommand { get; }
-        public Command RemoveItemCommand { get; }
+        public Command<ReceptionItem> RemoveItemCommand { get; }
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
@@ -44,6 +61,10 @@ namespace InventoryManagmentMobile.ViewModels
         public ObservableCollection<ReceptionItem> ReceptionItems { get; set; }
         public ObservableCollection<ItemSummary> ItemsSummary { get; set; }
         private readonly OleRepository repo;
+
+
+
+
         string _productNo = string.Empty;
         public string ProductNo { get { return _productNo; } set { SetProperty(ref _productNo, value); } }
 
@@ -60,6 +81,9 @@ namespace InventoryManagmentMobile.ViewModels
 
         string _message = string.Empty;
         public string Message { get { return _message; } set { SetProperty(ref _message, value); } }
+        string _typeDescription = string.Empty;
+        public string TypeDescription { get { return _typeDescription; } set { SetProperty(ref _typeDescription, value); } }
+
         string _image = string.Empty;
         public string Image { get { return _image; } set { SetProperty(ref _image, value); } }
 
@@ -80,13 +104,13 @@ namespace InventoryManagmentMobile.ViewModels
         public ItemSummary ItemSummrySelected { get => _itemSummarySelected; set { SetProperty(ref _itemSummarySelected, value); } }
 
 
-        decimal _quantity;
-        public decimal Quantity
+        string _quantity;
+        public string Quantity
         {
             get { return _quantity; }
             set
             {
-                SetProperty(ref _quantity, value); if (value > 0) { TotalQty = Quantity; }
+                SetProperty(ref _quantity, value); if (!string.IsNullOrEmpty(value)) { TotalQty = Convert.ToDecimal(Quantity); }
             }
         }
         decimal _totalQty;
@@ -101,7 +125,7 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _qtyUni; }
             set { SetProperty(ref _qtyUni, value); }
         }
-        public int Factor { get; set; } = 0;
+        public int Factor { get; set; }
         public ProductResult Product { get; set; }
         public bool IsBonus { get; set; } = false;
 
@@ -122,6 +146,8 @@ namespace InventoryManagmentMobile.ViewModels
         private bool _showContent;
         public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
         public Command OkCommand { get; }
+
+        public bool IsVendeorOrder { get; set; } = false;
         public ReceptionViewModel(OleRepository _repo)
         {
             repo = _repo;
@@ -143,7 +169,7 @@ namespace InventoryManagmentMobile.ViewModels
             OrderByIdCommand = new Command(async () => await OrderByIdAction());
             ProductByNoCommand = new Command(() => ProductByNo());
             AddItemCommand = new Command(() => AddItem());
-            RemoveItemCommand = new Command(() => RemoveItem());
+            RemoveItemCommand = new Command<ReceptionItem>(RemoveItem);
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
@@ -159,6 +185,19 @@ namespace InventoryManagmentMobile.ViewModels
 
             ExpirationDate = DateTime.Now;
             ShowContent = true;
+
+
+        }
+
+        private async void RemoveItem(ReceptionItem item)
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+            if (answer)
+            {
+                var det = Details.FirstOrDefault(x => x.ProductBarCode == item.ProductBarCode);
+                ReceptionItems.Remove(item);
+                Details.Remove(det);
+            }
         }
 
         private async Task OkReceptionAsync()
@@ -239,16 +278,7 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
-        private async void RemoveItem()
-        {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
-            if (answer)
-            {
-                var det = Details.FirstOrDefault(x => x.ProductBarCode == ItemSelected.ProductBarCode);
-                ReceptionItems.Remove(ItemSelected);
-                Details.Remove(det);
-            }
-        }
+
 
         private async void AddItem()
         {
@@ -300,7 +330,7 @@ namespace InventoryManagmentMobile.ViewModels
                 }
             }
             ProductNo = "";
-            Quantity = 0;
+            Quantity = "";
             TotalQty = 0;
             QtyUnit = 0;
             Factor = 0;
@@ -316,7 +346,14 @@ namespace InventoryManagmentMobile.ViewModels
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
                 if (OrderItem == null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Compra", "Aceptar");
+                    if (Type == "OC")
+                        TypeDescription = "la Orden de Compra";
+                    if (Type == "RT")
+                        TypeDescription = "la Orden de Transferencia";
+                    if (Type == "ET")
+                        TypeDescription = "el Envio de Mercancia";
+
+                    await Application.Current.MainPage.DisplayAlert("Recepcion", $"Producto no esta en {TypeDescription}", "Aceptar");
                     return;
                 }
 
@@ -343,6 +380,11 @@ namespace InventoryManagmentMobile.ViewModels
 
                 Order = new OrderResult();
                 Order = await repo.OrderByOrderNo(OrderNo);
+                if (Order.Data == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
+                    return;
+                }
                 Items = Order.Data.Items.ToList();
             }
             catch (Exception ex)
@@ -369,6 +411,8 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
+            if (Order.Data == null)
+                return;
             ShowPanel("P");
         }
 

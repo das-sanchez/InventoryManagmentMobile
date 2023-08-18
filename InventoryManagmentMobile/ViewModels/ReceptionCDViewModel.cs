@@ -86,7 +86,7 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _qtyUni; }
             set { SetProperty(ref _qtyUni, value); }
         }
-        public int Factor { get; set; } = 0;
+        public int Factor { get; set; }
         public ProductResult Product { get; set; }
         public bool IsBonus { get; set; } = false;
 
@@ -298,7 +298,7 @@ namespace InventoryManagmentMobile.ViewModels
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
                 if (OrderItem == null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Compra", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Transporte", "Aceptar");
                     return;
                 }
 
@@ -325,6 +325,11 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                 Order = await repo.TranspOrderByOrderNo(OrderNo);
+                if (Order.Data == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
+                    return;
+                }
                 Items = Order.Data.Items.ToList();
             }
             catch (Exception ex)
@@ -349,6 +354,8 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
+            if (Order.Data == null)
+                return;
             ShowPanel("P");
         }
 

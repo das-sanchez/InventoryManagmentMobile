@@ -26,7 +26,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<LoginPage>();
         builder.Services.AddSingleton<HomePage>();
         builder.Services.AddSingleton<ReceptionMenuPage>();
-        builder.Services.AddSingleton<ReceptionPage>();
+        builder.Services.AddTransient<ReceptionPage>();
         builder.Services.AddTransient<ReturnsPage>();
         builder.Services.AddSingleton<TransferPage>();
         builder.Services.AddSingleton<RecepcionStorePage>();

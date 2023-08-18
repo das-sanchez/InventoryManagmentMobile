@@ -48,7 +48,7 @@
                                         <TapGestureRecognizer
                                             NumberOfTapsRequired="1"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:HomeViewModel}}, Path=ItemTapped}"
-                                            CommandParameter="{Binding .}">
+                                            CommandParameter="{Binding .}" >
                                         </TapGestureRecognizer>
                                     </StackLayout.GestureRecognizers>
                                 </StackLayout>

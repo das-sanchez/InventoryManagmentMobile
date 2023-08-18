@@ -18,7 +18,7 @@ namespace InventoryManagmentMobile.Models
         [JsonPropertyName("message")]
         public string Message { get; set; }
 
-        [JsonPropertyName("erpErrorMessage")]
+        [JsonPropertyName("messagesFromErp")]
         public MessagesFromErp[] messagesFromErp { get; set; }
     }
 }

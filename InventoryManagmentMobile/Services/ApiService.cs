@@ -130,7 +130,9 @@ namespace InventoryManagmentMobile.Services
                     }
                     else
                     {
-                        return new T();
+                        var content = await result.Content.ReadAsStringAsync();
+                        var Items = JsonConvert.DeserializeObject<T>(content);
+                        return Items;
                     }
                     throw new Exception(result.ReasonPhrase);
 

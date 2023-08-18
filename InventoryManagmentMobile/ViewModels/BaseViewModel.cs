@@ -42,7 +42,10 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _providerNumber; }
             set { SetProperty(ref _providerNumber, value); }
         }
-
+        string _orderlabel = string.Empty;
+        public string OrderLabel { get { return _orderlabel; } set { SetProperty(ref _orderlabel, value); } }
+        string _orderPlaceHolderlabel = string.Empty;
+        public string OrderPlaceHolderLabel { get { return _orderPlaceHolderlabel; } set { SetProperty(ref _orderPlaceHolderlabel, value); } }
 
         PanelOption _panelGeneral;
         public PanelOption General

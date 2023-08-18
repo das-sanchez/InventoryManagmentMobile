@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 
@@ -17,9 +18,9 @@ namespace InventoryManagmentMobile.Models
         public bool IsSuccess { get; set; }
 
         [JsonProperty("message")]
-        public object Message { get; set; }
+        public string Message { get; set; }
 
-        [JsonProperty("messagesFromErp")]
-        public object MessagesFromErp { get; set; }
+        [JsonPropertyName("messagesFromErp")]
+        public MessagesFromErp[] messagesFromErp { get; set; }
     }
 }

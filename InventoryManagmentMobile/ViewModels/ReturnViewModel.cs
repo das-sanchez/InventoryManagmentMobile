@@ -40,7 +40,7 @@ namespace InventoryManagmentMobile.ViewModels
         private string _vendorNo;
         public string VendorNo { get => _vendorNo; set { SetProperty(ref _vendorNo, value); } }
 
-        decimal _quantity = 0;
+        decimal _quantity;
         public decimal Quantity
         {
             get { return _quantity; }

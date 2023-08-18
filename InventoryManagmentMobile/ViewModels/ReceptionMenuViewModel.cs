@@ -18,7 +18,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             list = new ObservableCollection<MenuOption>();
             list.Add(new MenuOption { Id = "OC", Titulo = "Orden de Compra Proveedor", Icon = "checklist2x.svg" });
-            list.Add(new MenuOption { Id = "RS", Titulo = "Transferencia desde otra Tienda", Icon = "transfer2x.svg" });
+            list.Add(new MenuOption { Id = "RT", Titulo = "Transferencia desde otra Tienda", Icon = "transfer2x.svg" });
             list.Add(new MenuOption { Id = "CD", Titulo = "Transferencia desde el Centro de Distribucion", Icon = "warehouse2x.svg" });
             ItemTapped = new Command<MenuOption>(OnItemSelected);
         }

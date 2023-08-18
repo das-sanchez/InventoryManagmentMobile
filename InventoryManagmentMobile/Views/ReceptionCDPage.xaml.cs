@@ -13,9 +13,8 @@ public partial class ReceptionCDPage : ContentPage
         _vm = viewModel;
         this.BindingContext = viewModel;
 
-        this.qty.InputTransparent = true;
-        this.qtyUnit.InputTransparent = true;
-        
+
+
     }
     private void NoOrder_Completed(object sender, EventArgs e)
     {
