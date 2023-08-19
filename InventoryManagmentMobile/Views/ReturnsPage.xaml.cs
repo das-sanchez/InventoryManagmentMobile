@@ -44,7 +44,12 @@ public partial class ReturnsPage : ContentPage
 
     private void storageNo_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if(_vm.Vendor.Data == null)
+        btnProduct.Focus();
+    }
+
+    private void btnProduct_Clicked(object sender, EventArgs e)
+    {
+        if (_vm.Vendor.Data == null)
         {
             this.vendor.Focus();
             return;

@@ -28,6 +28,7 @@ namespace InventoryManagmentMobile.ViewModels
                     IsInvoiceRequired = true;
                     OrderLabel = "Orden de Compra";
                     Title = "Recepcion Orden Compra";
+                    TypeDescription = "la Orden de Compra";
                 }
                 else if (value == "RT")
                 {
@@ -35,14 +36,18 @@ namespace InventoryManagmentMobile.ViewModels
                     OrderPlaceHolderLabel = "No Transferencia";
                     IsInvoiceRequired = false;
                     Title = "Recepcion Transferencia";
+                    TypeDescription = "la Orden de Transferencia";
                 }
                 else
                 {
                     OrderLabel = "No Envio";
                     OrderPlaceHolderLabel = "No Envio";
                     IsInvoiceRequired = false;
-                    Title = "Envio de Mercancia0";
+                    Title = "Envio de Mercancia";
+                    TypeDescription = "el Envio de Mercancia";
                 }
+
+
             }
         }
         public Command GeneralCommand { get; }
@@ -209,7 +214,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void SaveReception()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Desea guardar la Recepcion de {TypeDescription}?", "Yes", "No");
             if (answer)
             {
                 if (ReceptionItems == null)
@@ -223,22 +228,24 @@ namespace InventoryManagmentMobile.ViewModels
                 Reception.OrderNo = OrderNo;
 
                 var Result = await repo.SaveReception(OrderNo, Reception);
-                if (Result != null && Result.IsSuccess)
+                if (Result.Data != null && Result.IsSuccess)
                 {
 
-                    ShowSucces("Transaccion Procesada Correctamente");
-                    var dialogParam = new Dialog() { Icon = "checked2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
-
+                    //ShowSucces("Transaccion Procesada Correctamente");
+                    var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
                     await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+
+                    Thread.Sleep(5000);
                     await Shell.Current.Navigation.PopToRootAsync();
+
                 }
                 else
                 {
 
-                    ShowError(Result.MessagesFromErp[0].Message);
-                    var dialogParam = new Dialog() { Icon = "cross2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+                    //ShowError(Result.Message);
+                    var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
 
@@ -282,11 +289,11 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
-            if (TotalQty > OrderItem.Qty)
-            {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
-                return;
-            }
+            //if (TotalQty > OrderItem.Qty)
+            //{
+            //    await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+            //    return;
+            //}
             if (Product == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
@@ -315,8 +322,8 @@ namespace InventoryManagmentMobile.ViewModels
 
                     if (recItem != null)
                     {
-                        recItem.Qty += TotalQty;
-                        detItem.QtyRecibida += TotalQty;
+                        ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.Qty += TotalQty; } });
+                        Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
                     }
                 }
                 else
@@ -412,7 +419,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
-            if (Order.Data == null)
+            if (Order == null)
                 return;
             ShowPanel("P");
         }

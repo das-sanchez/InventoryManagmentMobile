@@ -11,6 +11,7 @@ public class MainApplication : MauiApplication
         : base(handle, ownership)
     {
         //KeyboardHelper.HideKeyboard();
+
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

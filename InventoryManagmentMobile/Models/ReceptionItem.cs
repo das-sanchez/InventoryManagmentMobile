@@ -20,8 +20,6 @@ namespace InventoryManagmentMobile.Models
         public string ProductBarCode { get; set; }
 
 
-        public string Description { get; set; }
-
         [JsonProperty("qty")]
         public decimal Qty { get; set; }
 

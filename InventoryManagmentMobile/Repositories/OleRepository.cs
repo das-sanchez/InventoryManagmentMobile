@@ -47,7 +47,7 @@ namespace InventoryManagmentMobile.Repositories
         public async Task<TransResult> SaveDispatch(string OrderNo, OrderAdd order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Dispatch", order);
-            return (TransResult)result;
+            return result;
         }
 
         public async Task<TransResult> SaveReception(string OrderNo, ReceptionHead order)

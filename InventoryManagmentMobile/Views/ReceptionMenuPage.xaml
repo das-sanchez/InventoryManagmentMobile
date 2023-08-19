@@ -15,11 +15,11 @@
                 HeightRequest="200"
                 HorizontalOptions="Center" />
             <Image
-                Source="logoole.svg" Margin="0,-190,0,0"
+                Source="logoole.svg" Margin="0,-180,0,0"
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="135" WidthRequest="176"
+                HeightRequest="125" WidthRequest="170"
                 HorizontalOptions="Center" />
-            <StackLayout Padding="15">
+            <StackLayout Padding="10,5,10,5">
                 <CollectionView
                     x:Name="listGroups"
 
@@ -33,7 +33,7 @@
                         <DataTemplate x:DataType="model:MenuOption">
                             <StackLayout>
 
-                                <Frame CornerRadius="10" HasShadow="True" BorderColor="White" HeightRequest="80" BackgroundColor="White" Margin="3">
+                                <Frame CornerRadius="10" HasShadow="True" BorderColor="White" HeightRequest="75" BackgroundColor="White" Margin="3">
                                     <StackLayout Padding="0">
                                         <Grid ColumnDefinitions="3*,7*" RowDefinitions="auto">
                                             <Image Aspect="Fill"  HeightRequest="40" WidthRequest="40" Grid.Column="0" Source="{Binding Icon}"/>

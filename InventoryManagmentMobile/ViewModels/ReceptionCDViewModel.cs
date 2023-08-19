@@ -185,18 +185,20 @@ namespace InventoryManagmentMobile.ViewModels
                 if (Result != null && Result.IsSuccess)
                 {
 
-                    ShowSucces("Transaccion Procesada Correctamente");
+                    // ShowSucces("Transaccion Procesada Correctamente");
                     var dialogParam = new Dialog() { Icon = "checked2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
 
                     await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+                    Thread.Sleep(5000);
+
                     await Shell.Current.Navigation.PopToRootAsync();
                 }
                 else
                 {
 
-                    ShowError(Result.MessagesFromErp[0].Message);
+                    // ShowError(Result.MessagesFromErp[0].Message);
                     var dialogParam = new Dialog() { Icon = "cross2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
@@ -270,8 +272,8 @@ namespace InventoryManagmentMobile.ViewModels
 
                     if (recItem != null)
                     {
-                        recItem.QtyOrd = TotalQty;
-                        detItem.QtyRecibida += TotalQty;
+                        ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.Qty += TotalQty; } });
+                        Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
                     }
                 }
                 else

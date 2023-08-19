@@ -10,7 +10,7 @@ namespace InventoryManagmentMobile.Models
     public class TransResult
     {
         [JsonProperty("data")]
-        public bool Data { get; set; }
+        public bool? Data { get; set; }
 
         [JsonProperty("isSuccess")]
         public bool IsSuccess { get; set; }

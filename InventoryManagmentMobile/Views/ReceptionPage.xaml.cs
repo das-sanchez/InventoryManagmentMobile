@@ -12,14 +12,23 @@ public partial class ReceptionPage : ContentPage
         InitializeComponent();
         _vm = viewModel;
         this.BindingContext = viewModel;
-        this.document.InputTransparent = true;
+
     }
 
     private void NoOrder_Completed(object sender, EventArgs e)
     {
 
         this.NoOrder.Unfocus();
-        this.document.Focus();
+        if (_vm.Type == "OC")
+        {
+            this.document.Focus();
+        }
+        else
+        {
+            _vm.ProductosCommand.Execute(this);
+            productNo.Focus();
+        }
+
 
     }
 
