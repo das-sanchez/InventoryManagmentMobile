@@ -1,5 +1,6 @@
 ﻿using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
+using InventoryManagmentMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -161,6 +162,30 @@ namespace InventoryManagmentMobile.ViewModels
                 Order.VendorId = Vendor.Data.Id;
 
                 var Result = await Repo.SaveReturn(Order);
+                if (Result != null && Result.IsSuccess)
+                {
+
+                    // ShowSucces("Transaccion Procesada Correctamente");
+                    var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+                    Thread.Sleep(5000);
+
+                    await Shell.Current.Navigation.PopToRootAsync();
+                }
+                else
+                {
+
+                    // ShowError(Result.MessagesFromErp[0].Message);
+                    var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+
+                }
             }
             else
             {

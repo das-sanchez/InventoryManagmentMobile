@@ -186,7 +186,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
 
                     // ShowSucces("Transaccion Procesada Correctamente");
-                    var dialogParam = new Dialog() { Icon = "checked2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+                    var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
 
@@ -199,7 +199,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
 
                     // ShowError(Result.MessagesFromErp[0].Message);
-                    var dialogParam = new Dialog() { Icon = "cross2x", Description = "Receocion procesada correctamente", Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+                    var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
 
