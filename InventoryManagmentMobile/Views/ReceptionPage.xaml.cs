@@ -46,6 +46,10 @@ public partial class ReceptionPage : ContentPage
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
     {
+        if (_vm.Factor == 0)
+        {
+            await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es 0", "Aceptar");
+        }
         if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
         {
 
@@ -54,6 +58,7 @@ public partial class ReceptionPage : ContentPage
             qtyUnit.Focus();
             return;
         }
+
         btnAdd.Focus();
     }
 

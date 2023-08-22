@@ -862,6 +862,615 @@
     <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\Resources\Raw\AboutAssets.txt">
       <PackagePath>AboutAssets.txt</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-100.png">
+      <PackagePath>splashSplashScreen.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-125.png">
+      <PackagePath>splashSplashScreen.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-150.png">
+      <PackagePath>splashSplashScreen.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-200.png">
+      <PackagePath>splashSplashScreen.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\sp\splashSplashScreen.scale-400.png">
+      <PackagePath>splashSplashScreen.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\Nunito-Italic.ttf">
+      <PackagePath>Nunito-Italic.ttf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\Nunito.ttf">
+      <PackagePath>Nunito.ttf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Regular.ttf">
+      <PackagePath>OpenSans-Regular.ttf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\f\OpenSans-Semibold.ttf">
+      <PackagePath>OpenSans-Semibold.ttf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appicon.ico">
+      <PackagePath>appicon.ico</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-100.png">
+      <PackagePath>appiconLargeTile.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-125.png">
+      <PackagePath>appiconLargeTile.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-150.png">
+      <PackagePath>appiconLargeTile.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-200.png">
+      <PackagePath>appiconLargeTile.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLargeTile.scale-400.png">
+      <PackagePath>appiconLargeTile.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-16.png">
+      <PackagePath>appiconLogo.altform-lightunplated_targetsize-16.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-24.png">
+      <PackagePath>appiconLogo.altform-lightunplated_targetsize-24.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-256.png">
+      <PackagePath>appiconLogo.altform-lightunplated_targetsize-256.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-32.png">
+      <PackagePath>appiconLogo.altform-lightunplated_targetsize-32.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-lightunplated_targetsize-48.png">
+      <PackagePath>appiconLogo.altform-lightunplated_targetsize-48.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-16.png">
+      <PackagePath>appiconLogo.altform-unplated_targetsize-16.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-24.png">
+      <PackagePath>appiconLogo.altform-unplated_targetsize-24.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-256.png">
+      <PackagePath>appiconLogo.altform-unplated_targetsize-256.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-32.png">
+      <PackagePath>appiconLogo.altform-unplated_targetsize-32.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.altform-unplated_targetsize-48.png">
+      <PackagePath>appiconLogo.altform-unplated_targetsize-48.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-100.png">
+      <PackagePath>appiconLogo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-125.png">
+      <PackagePath>appiconLogo.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-150.png">
+      <PackagePath>appiconLogo.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-200.png">
+      <PackagePath>appiconLogo.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.scale-400.png">
+      <PackagePath>appiconLogo.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-16.png">
+      <PackagePath>appiconLogo.targetsize-16.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-24.png">
+      <PackagePath>appiconLogo.targetsize-24.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-256.png">
+      <PackagePath>appiconLogo.targetsize-256.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-32.png">
+      <PackagePath>appiconLogo.targetsize-32.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconLogo.targetsize-48.png">
+      <PackagePath>appiconLogo.targetsize-48.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-100.png">
+      <PackagePath>appiconMediumTile.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-125.png">
+      <PackagePath>appiconMediumTile.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-150.png">
+      <PackagePath>appiconMediumTile.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-200.png">
+      <PackagePath>appiconMediumTile.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconMediumTile.scale-400.png">
+      <PackagePath>appiconMediumTile.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-100.png">
+      <PackagePath>appiconSmallTile.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-125.png">
+      <PackagePath>appiconSmallTile.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-150.png">
+      <PackagePath>appiconSmallTile.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-200.png">
+      <PackagePath>appiconSmallTile.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconSmallTile.scale-400.png">
+      <PackagePath>appiconSmallTile.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-100.png">
+      <PackagePath>appiconStoreLogo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-125.png">
+      <PackagePath>appiconStoreLogo.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-150.png">
+      <PackagePath>appiconStoreLogo.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-200.png">
+      <PackagePath>appiconStoreLogo.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconStoreLogo.scale-400.png">
+      <PackagePath>appiconStoreLogo.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-100.png">
+      <PackagePath>appiconWideTile.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-125.png">
+      <PackagePath>appiconWideTile.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-150.png">
+      <PackagePath>appiconWideTile.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-200.png">
+      <PackagePath>appiconWideTile.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\appiconWideTile.scale-400.png">
+      <PackagePath>appiconWideTile.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\background.scale-100.jpg">
+      <PackagePath>background.scale-100.jpg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\box.scale-100.png">
+      <PackagePath>box.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\box.scale-125.png">
+      <PackagePath>box.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\box.scale-150.png">
+      <PackagePath>box.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\box.scale-200.png">
+      <PackagePath>box.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\box.scale-400.png">
+      <PackagePath>box.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\buscar.scale-100.png">
+      <PackagePath>buscar.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\buscar.scale-125.png">
+      <PackagePath>buscar.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\buscar.scale-150.png">
+      <PackagePath>buscar.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\buscar.scale-200.png">
+      <PackagePath>buscar.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\buscar.scale-400.png">
+      <PackagePath>buscar.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja1.scale-100.png">
+      <PackagePath>caja1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja1.scale-125.png">
+      <PackagePath>caja1.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja1.scale-150.png">
+      <PackagePath>caja1.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja1.scale-200.png">
+      <PackagePath>caja1.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja1.scale-400.png">
+      <PackagePath>caja1.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja2.scale-100.png">
+      <PackagePath>caja2.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja2.scale-125.png">
+      <PackagePath>caja2.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja2.scale-150.png">
+      <PackagePath>caja2.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja2.scale-200.png">
+      <PackagePath>caja2.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\caja2.scale-400.png">
+      <PackagePath>caja2.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\calendar1x.scale-100.png">
+      <PackagePath>calendar1x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\calendar1x.scale-125.png">
+      <PackagePath>calendar1x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\calendar1x.scale-150.png">
+      <PackagePath>calendar1x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\calendar1x.scale-200.png">
+      <PackagePath>calendar1x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\calendar1x.scale-400.png">
+      <PackagePath>calendar1x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x.scale-100.png">
+      <PackagePath>checked2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x.scale-125.png">
+      <PackagePath>checked2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x.scale-150.png">
+      <PackagePath>checked2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x.scale-200.png">
+      <PackagePath>checked2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x.scale-400.png">
+      <PackagePath>checked2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x1.scale-100.png">
+      <PackagePath>checked2x1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x1.scale-125.png">
+      <PackagePath>checked2x1.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x1.scale-150.png">
+      <PackagePath>checked2x1.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x1.scale-200.png">
+      <PackagePath>checked2x1.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checked2x1.scale-400.png">
+      <PackagePath>checked2x1.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checklist2x.scale-100.png">
+      <PackagePath>checklist2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checklist2x.scale-125.png">
+      <PackagePath>checklist2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checklist2x.scale-150.png">
+      <PackagePath>checklist2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checklist2x.scale-200.png">
+      <PackagePath>checklist2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\checklist2x.scale-400.png">
+      <PackagePath>checklist2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cross2x.scale-100.png">
+      <PackagePath>cross2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cross2x.scale-125.png">
+      <PackagePath>cross2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cross2x.scale-150.png">
+      <PackagePath>cross2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cross2x.scale-200.png">
+      <PackagePath>cross2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cross2x.scale-400.png">
+      <PackagePath>cross2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cubes2x.scale-100.png">
+      <PackagePath>cubes2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cubes2x.scale-125.png">
+      <PackagePath>cubes2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cubes2x.scale-150.png">
+      <PackagePath>cubes2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cubes2x.scale-200.png">
+      <PackagePath>cubes2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\cubes2x.scale-400.png">
+      <PackagePath>cubes2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\deliveryman2x.scale-100.png">
+      <PackagePath>deliveryman2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\deliveryman2x.scale-125.png">
+      <PackagePath>deliveryman2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\deliveryman2x.scale-150.png">
+      <PackagePath>deliveryman2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\deliveryman2x.scale-200.png">
+      <PackagePath>deliveryman2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\deliveryman2x.scale-400.png">
+      <PackagePath>deliveryman2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\description2x.scale-100.png">
+      <PackagePath>description2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\description2x.scale-125.png">
+      <PackagePath>description2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\description2x.scale-150.png">
+      <PackagePath>description2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\description2x.scale-200.png">
+      <PackagePath>description2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\description2x.scale-400.png">
+      <PackagePath>description2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\devolver2x.scale-100.png">
+      <PackagePath>devolver2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\devolver2x.scale-125.png">
+      <PackagePath>devolver2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\devolver2x.scale-150.png">
+      <PackagePath>devolver2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\devolver2x.scale-200.png">
+      <PackagePath>devolver2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\devolver2x.scale-400.png">
+      <PackagePath>devolver2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-100.png">
+      <PackagePath>dotnet_bot.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-125.png">
+      <PackagePath>dotnet_bot.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-150.png">
+      <PackagePath>dotnet_bot.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-200.png">
+      <PackagePath>dotnet_bot.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\dotnet_bot.scale-400.png">
+      <PackagePath>dotnet_bot.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\fondo.scale-100.png">
+      <PackagePath>fondo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\group10.scale-100.png">
+      <PackagePath>group10.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\group11.scale-100.png">
+      <PackagePath>group11.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\group9.scale-100.png">
+      <PackagePath>group9.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\grupo0.scale-100.png">
+      <PackagePath>grupo0.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\grupo00.scale-100.png">
+      <PackagePath>grupo00.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\inventory2x.scale-100.png">
+      <PackagePath>inventory2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\inventory2x.scale-125.png">
+      <PackagePath>inventory2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\inventory2x.scale-150.png">
+      <PackagePath>inventory2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\inventory2x.scale-200.png">
+      <PackagePath>inventory2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\inventory2x.scale-400.png">
+      <PackagePath>inventory2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\login2x.scale-100.png">
+      <PackagePath>login2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\login2x.scale-125.png">
+      <PackagePath>login2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\login2x.scale-150.png">
+      <PackagePath>login2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\login2x.scale-200.png">
+      <PackagePath>login2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\login2x.scale-400.png">
+      <PackagePath>login2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\logoole.scale-100.png">
+      <PackagePath>logoole.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\logoole.scale-125.png">
+      <PackagePath>logoole.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\logoole.scale-150.png">
+      <PackagePath>logoole.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\logoole.scale-200.png">
+      <PackagePath>logoole.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\logoole.scale-400.png">
+      <PackagePath>logoole.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\more2x.scale-100.png">
+      <PackagePath>more2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\more2x.scale-125.png">
+      <PackagePath>more2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\more2x.scale-150.png">
+      <PackagePath>more2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\more2x.scale-200.png">
+      <PackagePath>more2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\more2x.scale-400.png">
+      <PackagePath>more2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\padlock2x.scale-100.png">
+      <PackagePath>padlock2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\padlock2x.scale-125.png">
+      <PackagePath>padlock2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\padlock2x.scale-150.png">
+      <PackagePath>padlock2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\padlock2x.scale-200.png">
+      <PackagePath>padlock2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\padlock2x.scale-400.png">
+      <PackagePath>padlock2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\receivemoney2x.scale-100.png">
+      <PackagePath>receivemoney2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\receivemoney2x.scale-125.png">
+      <PackagePath>receivemoney2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\receivemoney2x.scale-150.png">
+      <PackagePath>receivemoney2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\receivemoney2x.scale-200.png">
+      <PackagePath>receivemoney2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\receivemoney2x.scale-400.png">
+      <PackagePath>receivemoney2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\recibo2x.scale-100.png">
+      <PackagePath>recibo2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\recibo2x.scale-125.png">
+      <PackagePath>recibo2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\recibo2x.scale-150.png">
+      <PackagePath>recibo2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\recibo2x.scale-200.png">
+      <PackagePath>recibo2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\recibo2x.scale-400.png">
+      <PackagePath>recibo2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\retratomujer.scale-100.jpg">
+      <PackagePath>retratomujer.scale-100.jpg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x.scale-100.png">
+      <PackagePath>rightarrow2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x.scale-125.png">
+      <PackagePath>rightarrow2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x.scale-150.png">
+      <PackagePath>rightarrow2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x.scale-200.png">
+      <PackagePath>rightarrow2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x.scale-400.png">
+      <PackagePath>rightarrow2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x1.scale-100.png">
+      <PackagePath>rightarrow2x1.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x1.scale-125.png">
+      <PackagePath>rightarrow2x1.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x1.scale-150.png">
+      <PackagePath>rightarrow2x1.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x1.scale-200.png">
+      <PackagePath>rightarrow2x1.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\rightarrow2x1.scale-400.png">
+      <PackagePath>rightarrow2x1.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\shop2x.scale-100.png">
+      <PackagePath>shop2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\shop2x.scale-125.png">
+      <PackagePath>shop2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\shop2x.scale-150.png">
+      <PackagePath>shop2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\shop2x.scale-200.png">
+      <PackagePath>shop2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\shop2x.scale-400.png">
+      <PackagePath>shop2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\transfer2x.scale-100.png">
+      <PackagePath>transfer2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\transfer2x.scale-125.png">
+      <PackagePath>transfer2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\transfer2x.scale-150.png">
+      <PackagePath>transfer2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\transfer2x.scale-200.png">
+      <PackagePath>transfer2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\transfer2x.scale-400.png">
+      <PackagePath>transfer2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\user2x.scale-100.png">
+      <PackagePath>user2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\user2x.scale-125.png">
+      <PackagePath>user2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\user2x.scale-150.png">
+      <PackagePath>user2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\user2x.scale-200.png">
+      <PackagePath>user2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\user2x.scale-400.png">
+      <PackagePath>user2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warehouse2x.scale-100.png">
+      <PackagePath>warehouse2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warehouse2x.scale-125.png">
+      <PackagePath>warehouse2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warehouse2x.scale-150.png">
+      <PackagePath>warehouse2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warehouse2x.scale-200.png">
+      <PackagePath>warehouse2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warehouse2x.scale-400.png">
+      <PackagePath>warehouse2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warn2x.scale-100.png">
+      <PackagePath>warn2x.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warn2x.scale-125.png">
+      <PackagePath>warn2x.scale-125.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warn2x.scale-150.png">
+      <PackagePath>warn2x.scale-150.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warn2x.scale-200.png">
+      <PackagePath>warn2x.scale-200.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-windows10.0.19041.0\win10-x64\resizetizer\r\warn2x.scale-400.png">
+      <PackagePath>warn2x.scale-400.png</PackagePath>
+    </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
     <ResolvedSDKReference Include="C:\Users\dsanchez\.nuget\packages\microsoft.windowsappsdk\1.1.5\buildTransitive\..\tools\MSIX\win10-x86\Microsoft.WindowsAppRuntime.1.1.msix">

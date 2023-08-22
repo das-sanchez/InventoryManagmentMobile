@@ -138,7 +138,12 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _qtyUni; }
             set { SetProperty(ref _qtyUni, value); }
         }
-        public int Factor { get; set; }
+        int _factor = 0;
+        public int Factor
+        {
+            get { return _factor; }
+            set { SetProperty(ref _factor, value); }
+        }
         public ProductResult Product { get; set; }
         public bool IsBonus { get; set; } = false;
 
@@ -163,6 +168,9 @@ namespace InventoryManagmentMobile.ViewModels
         public bool IsVendeorOrder { get; set; } = false;
         string _buttonTitle = string.Empty;
         public string ButtonTitle { get { return _buttonTitle; } set { SetProperty(ref _buttonTitle, value); } }
+
+        private bool _hasOrder = false;
+        public bool HasOrder { get { return _hasOrder; } set { SetProperty(ref _hasOrder, value); } }
 
         public ReceptionViewModel(OleRepository _repo)
         {
@@ -427,6 +435,7 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
                     return;
                 }
+                HasOrder = true;
                 Items = Order.Data.Items.ToList();
             }
             catch (Exception ex)
@@ -442,21 +451,21 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ResumenOpcion()
         {
-            if (Order.Data == null)
+            if (!HasOrder)
                 return;
             ShowPanel("R");
         }
 
         private void DetalleOpcion()
         {
-            if (Order.Data == null)
+            if (!HasOrder)
                 return;
             ShowPanel("D");
         }
 
         private void ProductosOpcion()
         {
-            if (Order.Data == null)
+            if (!HasOrder)
                 return;
             ShowPanel("P");
         }
