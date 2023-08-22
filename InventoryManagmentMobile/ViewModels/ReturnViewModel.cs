@@ -93,7 +93,7 @@ namespace InventoryManagmentMobile.ViewModels
             Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
             Detalle = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
             Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                      ;
+            ;
 
             Details = new ObservableCollection<DetailDto>();
             ReturnDetails = new ObservableCollection<ReturnItem>();
@@ -212,12 +212,13 @@ namespace InventoryManagmentMobile.ViewModels
         private async void VendorByNo()
         {
             Vendor = new VendorResult();
+            Vendor = await Repo.VendorById(VendorNo);
             if (Vendor.Data == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
                 return;
             }
-            Vendor = await Repo.VendorById(VendorNo);
+
 
         }
 
@@ -228,13 +229,16 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void DetalleOpcion()
         {
-
+            if (Vendor == null)
+            {
+                return;
+            }
             ShowPanel("D");
         }
 
         private void ProductosOpcion()
         {
-            if (Vendor.Data == null)
+            if (Vendor == null)
             {
                 return;
             }

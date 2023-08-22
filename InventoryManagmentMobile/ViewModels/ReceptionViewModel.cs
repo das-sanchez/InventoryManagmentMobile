@@ -23,12 +23,14 @@ namespace InventoryManagmentMobile.ViewModels
             set
             {
                 SetProperty(ref _type, value);
+                ButtonTitle = "Recibir";
                 if (value == "OC")
                 {
                     IsInvoiceRequired = true;
                     OrderLabel = "Orden de Compra";
                     Title = "Recepcion Orden Compra";
                     TypeDescription = "la Orden de Compra";
+                    ButtonTitle = "Recibir";
                 }
                 else if (value == "RT")
                 {
@@ -37,6 +39,7 @@ namespace InventoryManagmentMobile.ViewModels
                     IsInvoiceRequired = false;
                     Title = "Recepcion Transferencia";
                     TypeDescription = "la Orden de Transferencia";
+                    ButtonTitle = "Recibir";
                 }
                 else
                 {
@@ -45,6 +48,7 @@ namespace InventoryManagmentMobile.ViewModels
                     IsInvoiceRequired = false;
                     Title = "Envio de Mercancia";
                     TypeDescription = "el Envio de Mercancia";
+                    ButtonTitle = "Enviar";
                 }
 
 
@@ -57,6 +61,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         public Command AddItemCommand { get; }
         public Command<ReceptionItem> RemoveItemCommand { get; }
+        public Command<DetailDto> RemoveDetailItemCommand { get; }
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
@@ -104,6 +109,9 @@ namespace InventoryManagmentMobile.ViewModels
 
         private ReceptionItem _itemSelected;
         public ReceptionItem ItemSelected { get => _itemSelected; set { SetProperty(ref _itemSelected, value); } }
+
+        private DetailDto _itemDetailSelected;
+        public DetailDto ItemDetailSelected { get => _itemDetailSelected; set { SetProperty(ref _itemDetailSelected, value); } }
 
         private ItemSummary _itemSummarySelected;
         public ItemSummary ItemSummrySelected { get => _itemSummarySelected; set { SetProperty(ref _itemSummarySelected, value); } }
@@ -153,6 +161,9 @@ namespace InventoryManagmentMobile.ViewModels
         public Command OkCommand { get; }
 
         public bool IsVendeorOrder { get; set; } = false;
+        string _buttonTitle = string.Empty;
+        public string ButtonTitle { get { return _buttonTitle; } set { SetProperty(ref _buttonTitle, value); } }
+
         public ReceptionViewModel(OleRepository _repo)
         {
             repo = _repo;
@@ -175,6 +186,7 @@ namespace InventoryManagmentMobile.ViewModels
             ProductByNoCommand = new Command(() => ProductByNo());
             AddItemCommand = new Command(() => AddItem());
             RemoveItemCommand = new Command<ReceptionItem>(RemoveItem);
+            RemoveDetailItemCommand = new Command<DetailDto>(RemoveDetailItem);
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
@@ -192,6 +204,17 @@ namespace InventoryManagmentMobile.ViewModels
             ShowContent = true;
 
 
+        }
+
+        private async void RemoveDetailItem(DetailDto dto)
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+            if (answer)
+            {
+                var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
+                ReceptionItems.Remove(item);
+                Details.Remove(dto);
+            }
         }
 
         private async void RemoveItem(ReceptionItem item)
@@ -289,11 +312,18 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
-            //if (TotalQty > OrderItem.Qty)
-            //{
-            //    await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
-            //    return;
-            //}
+            if (Factor == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
+                return;
+            }
+
+
+            if (TotalQty > OrderItem.Qty && Type == "OC")
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+                return;
+            }
             if (Product == null)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
@@ -370,6 +400,10 @@ namespace InventoryManagmentMobile.ViewModels
 
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
+                if (un == null)
+                {
+                    throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
+                }
                 Factor = un.Factor;
                 Unidad = $"Cantidad ({OrderItem.Um})";
                 IsLotRequired = OrderItem.IsLotNoRequired;
@@ -377,7 +411,7 @@ namespace InventoryManagmentMobile.ViewModels
             catch (Exception ex)
             {
 
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
 
@@ -408,18 +442,21 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ResumenOpcion()
         {
+            if (Order.Data == null)
+                return;
             ShowPanel("R");
         }
 
         private void DetalleOpcion()
         {
-
+            if (Order.Data == null)
+                return;
             ShowPanel("D");
         }
 
         private void ProductosOpcion()
         {
-            if (Order == null)
+            if (Order.Data == null)
                 return;
             ShowPanel("P");
         }
@@ -444,12 +481,12 @@ namespace InventoryManagmentMobile.ViewModels
                     Detalle = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     break;
-                case "D":
-                    General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    Detalle = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
-                    Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    break;
+                //case "D":
+                //    General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    Detalle = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
+                //    Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    break;
                 case "R":
                     General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };

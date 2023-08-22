@@ -249,7 +249,11 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
                 return;
             }
-
+            if (Factor == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Factor no debe ser Igual a Cero", "Aceptar");
+                return;
+            }
             if (TotalQty == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad  mayor de cero", "Aceptar");
@@ -312,6 +316,10 @@ namespace InventoryManagmentMobile.ViewModels
 
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
+                if (un == null)
+                {
+                    throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
+                }
                 Factor = un.Factor;
                 Unidad = $"Cantidad ({OrderItem.Um})";
 
@@ -319,7 +327,7 @@ namespace InventoryManagmentMobile.ViewModels
             catch (Exception ex)
             {
 
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
 
@@ -348,6 +356,9 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ResumenOpcion()
         {
+            if (Order == null)
+                return;
+
             ShowPanel("R");
         }
 
@@ -359,7 +370,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
-            if (Order.Data == null)
+            if (Order == null)
                 return;
             ShowPanel("P");
         }

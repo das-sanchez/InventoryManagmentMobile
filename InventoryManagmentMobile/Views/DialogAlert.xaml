@@ -31,7 +31,7 @@
                             FontSize="12"
                             HorizontalOptions="Center" />
 
-                        <Button  Text="{Binding Dialog.Label}"  CornerRadius="20" Padding="10" Margin="15" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:DialogAlertViewModel}}, Path=GoBackCommand }"
+                        <Button  Text="{Binding Dialog.Label}" x:Name="btnAceptar"  CornerRadius="20" Padding="10" Margin="15" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:DialogAlertViewModel}}, Path=GoBackCommand }"
                                 BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
 
                     </StackLayout>

@@ -59,13 +59,22 @@ public partial class ReceptionPage : ContentPage
 
     private void btnRecibir_Clicked(object sender, EventArgs e)
     {
-        if (_vm.Order.Data == null)
+        try
         {
-            NoOrder.Focus();
-            return;
+            if (_vm.Order == null)
+            {
+                NoOrder.Focus();
+                return;
+            }
+            _vm.ProductosCommand.Execute(this);
+            productNo.Focus();
         }
-        _vm.ProductosCommand.Execute(this);
-        productNo.Focus();
+        catch (Exception)
+        {
+
+            throw;
+        }
+
     }
 
 
