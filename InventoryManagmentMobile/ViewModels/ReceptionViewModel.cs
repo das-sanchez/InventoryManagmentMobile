@@ -138,8 +138,8 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _qtyUni; }
             set { SetProperty(ref _qtyUni, value); }
         }
-        int _factor = 0;
-        public int Factor
+        string _factor;
+        public string Factor
         {
             get { return _factor; }
             set { SetProperty(ref _factor, value); }
@@ -320,7 +320,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
-            if (Factor == 0)
+            if (string.IsNullOrEmpty(Factor) || Factor.Trim() == "0")
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
                 return;
@@ -378,7 +378,7 @@ namespace InventoryManagmentMobile.ViewModels
             Quantity = "";
             TotalQty = 0;
             QtyUnit = 0;
-            Factor = 0;
+            Factor = string.Empty;
             Unidad = "";
         }
 
@@ -412,7 +412,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
                 }
-                Factor = un.Factor;
+                Factor = un.Factor.ToString();
                 Unidad = $"Cantidad ({OrderItem.Um})";
                 IsLotRequired = OrderItem.IsLotNoRequired;
             }

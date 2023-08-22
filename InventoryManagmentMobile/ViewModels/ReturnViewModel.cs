@@ -80,6 +80,9 @@ namespace InventoryManagmentMobile.ViewModels
             set { SetProperty(ref _storageresult, value); }
         }
         public ReturnItem ObjItem { get; set; }
+
+        private bool _hasVendor = false;
+        public bool HasVendor { get { return _hasVendor; } set { SetProperty(ref _hasVendor, value); } }
         public ReturnViewModel(OleRepository _repo)
 
         {
@@ -243,7 +246,7 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
                 return;
             }
-
+            HasVendor = true;
 
         }
 
@@ -254,7 +257,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void DetalleOpcion()
         {
-            if (Vendor == null)
+            if (!HasVendor)
             {
                 return;
             }
@@ -263,7 +266,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ProductosOpcion()
         {
-            if (Vendor == null)
+            if (!HasVendor)
             {
                 return;
             }

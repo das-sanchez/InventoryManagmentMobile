@@ -365,7 +365,7 @@
                         <!-- Product list-->
                         <CollectionView   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                         VerticalScrollBarVisibility="Never"
-
+                                        
                                         ItemsSource="{Binding  Details}">
                             <CollectionView.Header >
                                 <StackLayout>
