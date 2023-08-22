@@ -46,15 +46,12 @@ public partial class ReceptionPage : ContentPage
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
     {
-        if (_vm.Factor == "0" || string.IsNullOrEmpty(_vm.Factor))
-        {
-            await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es 0", "Aceptar");
-        }
-        if (Convert.ToInt32(_vm.Factor) != Convert.ToInt32(qtyUnit.Text))
+
+        if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
         {
 
             await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
-            _vm.QtyUnit = 0;
+            _vm.QtyUnit = string.Empty;
             qtyUnit.Focus();
             return;
         }

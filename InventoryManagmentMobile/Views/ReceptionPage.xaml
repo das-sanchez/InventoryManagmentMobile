@@ -5,6 +5,10 @@
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionViewModel"
              Title="{ Binding Title }">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                                IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Start">
             <ContentView x:Name="popupLoginView" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" BackgroundColor="#646C8F" Padding="0,0,0,0" IsVisible="{Binding ShowDialog}" AbsoluteLayout.LayoutBounds="0,0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -365,7 +369,7 @@
                         <!-- Product list-->
                         <CollectionView   HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
                                         VerticalScrollBarVisibility="Never"
-                                        
+
                                         ItemsSource="{Binding  Details}">
                             <CollectionView.Header >
                                 <StackLayout>
@@ -403,9 +407,9 @@
                                                     <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontAttributes="Bold" FontSize="12"></Label>
                                                 </StackLayout>
 
-                                                <Label Text="{Binding Quantity,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="12"></Label>
-                                                <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}'}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
-                                                <Label Text="{Binding QtyPending,StringFormat='{0:N2}'}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
+                                                <Label Text="{Binding Quantity,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="12"></Label>
+                                                <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
+                                                <Label Text="{Binding QtyPending,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
 
 
                                             </Grid>

@@ -1,4 +1,5 @@
-﻿using InventoryManagmentMobile.Repositories;
+﻿using InventoryManagmentMobile.Database;
+using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.ViewModels;
 using InventoryManagmentMobile.Views;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
@@ -48,6 +49,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<OrderRepository>();
         builder.Services.AddSingleton<OleRepository>();
+        builder.Services.AddSingleton<OleDataContext>();
 
 
 
