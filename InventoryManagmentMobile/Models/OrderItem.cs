@@ -40,5 +40,7 @@ namespace InventoryManagmentMobile.Models
         public int ProductGroup { get; set; }
         [JsonProperty("isLotNoRequired")]
         public bool IsLotNoRequired { get; set; }
+
+        public bool Bono { get; set; } = false;
     }
 }

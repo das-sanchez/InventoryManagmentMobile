@@ -17,6 +17,7 @@ namespace InventoryManagmentMobile.Models
         public decimal Quantity { get; set; }
         public decimal QtyRecibida { get; set; }
         public decimal QtyPending { get; set; }
+        public bool Bono { get; set; }
 
         public TransactionLine() { }
     }

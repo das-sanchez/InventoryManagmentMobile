@@ -242,7 +242,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 foreach (var line in items)
                 {
-                    Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um });
+                    Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono });
                 }
             }
 
@@ -252,10 +252,10 @@ namespace InventoryManagmentMobile.ViewModels
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
             if (answer)
             {
-                var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
+                var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode && x.Bono == dto.Bono);
                 ReceptionItems.Remove(item);
                 //Details.Remove(dto);
-                _context.ExecuteSql($"DELETE FROM TransactionLine Where OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}'");
+                _context.ExecuteSql($"DELETE FROM TransactionLine Where OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}' AND Bono ={dto.Bono}");
                 LoadItemsAsync();
             }
         }
@@ -380,19 +380,19 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
             int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
-            if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
+            if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo && xc.Bono == IsBonus))
             {
                 ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, LineNo = OrderItem.LineNo, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus });
                 //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
-                _context.DeleteTransationLineByOrderNo(OrderNo);
-                _context.CreateTransactionLine(new TransactionLine { LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um });
+                // _context.DeleteTransationLineByOrderNo(OrderNo);
+                _context.CreateTransactionLine(new TransactionLine { LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
                 //_context.AddItemAsync<TransactionLine>();
             }
             else
             {
-                var recItem = ReceptionItems.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
-                var detItem = Details.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
+                var recItem = ReceptionItems.FirstOrDefault(xc => xc.ProductBarCode == ProductNo && xc.Bono == IsBonus);
+                var detItem = Details.FirstOrDefault(xc => xc.ProductBarCode == ProductNo && xc.Bono == IsBonus);
 
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "El producto ya Existe desea Sumar o Sustituir)?", "Sumar", "Sustituir");
                 if (answer)
@@ -400,9 +400,9 @@ namespace InventoryManagmentMobile.ViewModels
 
                     if (recItem != null)
                     {
-                        ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.Qty += TotalQty; } });
+                        ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo && i.Bono == IsBonus) { i.Qty += TotalQty; } });
                         //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
                     }
                 }
                 else
@@ -412,7 +412,7 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         recItem.Qty = TotalQty;
                         // detItem.QtyRecibida = TotalQty;
-                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {OrderItem.Qty - TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {OrderItem.Qty - TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
                     }
                 }
             }
@@ -430,7 +430,7 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
                 if (OrderItem == null)
                 {
                     if (Type == "OC")
@@ -495,7 +495,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             if (!HasOrder)
                 return;
-            foreach (var item in Details) { item.QtyPending = item.Quantity - item.QtyRecibida; }
+
             ShowPanel("R");
             LoadItemsAsync();
         }
