@@ -385,7 +385,7 @@ namespace InventoryManagmentMobile.ViewModels
                 ReceptionItems.Add(new ReceptionItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, LineNo = OrderItem.LineNo, Qty = TotalQty, Um = OrderItem.Um, Bono = IsBonus });
                 //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
                 // _context.DeleteTransationLineByOrderNo(OrderNo);
-                _context.CreateTransactionLine(new TransactionLine { LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+                _context.CreateTransactionLine(new TransactionLine { LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
                 //_context.AddItemAsync<TransactionLine>();
             }
