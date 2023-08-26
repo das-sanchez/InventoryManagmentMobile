@@ -5,6 +5,10 @@
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionCDViewModel"
              Title="Centro Distribucion">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Start">
             <ContentView x:Name="popupLoginView" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" BackgroundColor="#646C8F" Padding="0,0,0,0" IsVisible="{Binding ShowDialog}" AbsoluteLayout.LayoutBounds="0,0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -195,7 +199,7 @@
                             <StackLayout  Orientation="Horizontal" Padding="2" >
 
                                 <Frame   BackgroundColor="#FCFCFA" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
-                                    <Entry Grid.Column="0"  Placeholder="0.00" Text="{Binding Quantity}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed" ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=OrderByIdCommand }"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                    <Entry Grid.Column="0"  Placeholder="0.00" Text="{Binding Quantity}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
                                 </Frame>
 
                             </StackLayout>
@@ -212,7 +216,7 @@
                             <StackLayout  Orientation="Horizontal" Padding="2" >
 
                                 <Frame   BackgroundColor="#FCFCFA" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
-                                    <Entry Grid.Column="0" Placeholder="0.00" Completed="qtyUnit_Completed" Keyboard="Numeric" x:Name="qtyUnit" Text="{Binding QtyUnit}" ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=OrderByIdCommand }"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                    <Entry Grid.Column="0" Placeholder="0.00" Completed="qtyUnit_Completed" Keyboard="Numeric" x:Name="qtyUnit" Text="{Binding QtyUnit}"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
                                 </Frame>
 
                             </StackLayout>
@@ -374,20 +378,31 @@
                             </CollectionView.Header>
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="model:DetailDto">
+                                    <SwipeView>
+                                        <SwipeView.LeftItems>
+                                            <SwipeItems>
+                                                <SwipeItem   Text="Borrar"
+                                                           IconImageSource="ic_cf_bisync.png"
+                                                           BackgroundColor="Red"
+                                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=RemoveDetailItemCommand}"
+                                                           CommandParameter="{Binding .}"/>
+                                            </SwipeItems>
 
-                                    <Frame CornerRadius="10" HeightRequest="60" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
-                                        <Grid RowDefinitions="*" ColumnDefinitions="3*,2.5*,2.5*,2*">
-                                            <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
-                                                <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontAttributes="Bold" FontSize="10"></Label>
-                                            </StackLayout>
+                                        </SwipeView.LeftItems>
+                                        <Frame CornerRadius="10" HeightRequest="60" Background="#FFF" HasShadow="True" Padding="2" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
+                                            <Grid RowDefinitions="*" ColumnDefinitions="3*,2.5*,2.5*,2*">
+                                                <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="5">
+                                                    <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontAttributes="Bold" FontSize="10"></Label>
+                                                </StackLayout>
 
-                                            <Label Text="{Binding Quantity,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
-                                            <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}'}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
-                                            <Label Text="{Binding QtyPending,StringFormat='{0:N2}'}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                                <Label Text="{Binding Quantity,StringFormat='{0:N2}'}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                                <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}'}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
+                                                <Label Text="{Binding QtyPending,StringFormat='{0:N2}'}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
 
 
-                                        </Grid>
-                                    </Frame>
+                                            </Grid>
+                                        </Frame>
+                                    </SwipeView>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>

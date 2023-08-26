@@ -58,7 +58,7 @@ namespace InventoryManagmentMobile.ViewModels
         public string StorageNo { get { return _storageNo; } set { SetProperty(ref _storageNo, value); } }
 
         public DateTime CurrentDate { get; set; }
-        private readonly OleRepository Repo;
+        public readonly OleRepository Repo;
         public ObservableCollection<Storage> Storages { get; set; }
         private Storage _storageSelected;
         public Storage StorageSelected
@@ -83,6 +83,14 @@ namespace InventoryManagmentMobile.ViewModels
 
         private bool _hasVendor = false;
         public bool HasVendor { get { return _hasVendor; } set { SetProperty(ref _hasVendor, value); } }
+
+        private bool _goBack = false;
+        public bool GoBack { get { return _goBack; } set { SetProperty(ref _goBack, value); } }
+
+        public Command BackCommand { get; }
+        string _vendorName = string.Empty;
+        public string VendorName { get { return _vendorName; } set { SetProperty(ref _vendorName, value); } }
+
         public ReturnViewModel(OleRepository _repo)
 
         {
@@ -119,8 +127,16 @@ namespace InventoryManagmentMobile.ViewModels
             Storages = new ObservableCollection<Storage>();
             LoadStorages();
             CurrentDate = DateTime.Now;
+            BackCommand = new Command(() => BackSync());
         }
-
+        private async void BackSync()
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Esta seguro de Salir?", "Si", "No");
+            if (answer)
+            {
+                await Shell.Current.Navigation.PopAsync();
+            }
+        }
         private async void RemoveReturnItem(ReturnItem item)
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea Remover este producto de la Devolucion?", "Yes", "No");
@@ -237,7 +253,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         }
 
-        private async void VendorByNo()
+        public async void VendorByNo()
         {
             Vendor = new VendorResult();
             Vendor = await Repo.VendorById(VendorNo);
@@ -246,6 +262,22 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
                 return;
             }
+            VendorName = Vendor.Data.Name;
+
+            HasVendor = true;
+
+        }
+        public async Task GetVendorByNo()
+        {
+            Vendor = new VendorResult();
+            Vendor = await Repo.VendorById(VendorNo);
+            if (Vendor.Data == null)
+            {
+                //await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
+                return;
+            }
+            VendorName = Vendor.Data.Name;
+
             HasVendor = true;
 
         }

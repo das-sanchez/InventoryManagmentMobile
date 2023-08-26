@@ -17,6 +17,6 @@ namespace InventoryManagmentMobile.Models
         public decimal QtyPending { get; set; }
         public int Stock { get; set; }
         public bool Bono { get; set; }
-
+        public string Color { get; set; } = "#fff";
     }
 }

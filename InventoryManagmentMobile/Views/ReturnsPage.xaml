@@ -8,7 +8,10 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Guardar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReturnViewModel}}, Path=SaveReturnCommand }"  />
     </ContentPage.ToolbarItems>
-
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding BackCommand}"
+                            IconOverride="back.png" />
+    </Shell.BackButtonBehavior>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Start">
             <Grid RowDefinitions="90">
@@ -99,10 +102,10 @@
                         <Grid ColumnDefinitions="9.2*,0.8*" >
                             <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
                             <Entry Grid.Column="0" x:Name="vendor" Placeholder="Proveedor Id" Text="{Binding VendorNo}"
-                                   ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReturnViewModel}}, Path=GetVendorCommand }"
+                              
                                    VerticalOptions="Center" HorizontalOptions="FillAndExpand"
-                                   Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"
-                                   ClearButtonVisibility="WhileEditing" Completed ="vendor_Completed" >
+                                   Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black" 
+                                    Completed ="vendor_Completed" >
 
                             </Entry >
                         </Grid>
@@ -134,7 +137,7 @@
                     <Frame    BackgroundColor="#FCFCFA" HeightRequest="50" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0" HasShadow="True" >
                         <Grid ColumnDefinitions="0.8*,9.2*">
                             <Image Grid.Column="0" Source="warehouse2x.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Center"></Image >
-                            <Picker Title="Seleccione la Almacen" x:Name="storageNo" SelectedIndexChanged="storageNo_SelectedIndexChanged" ItemsSource="{Binding Storages}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="StartAndExpand"
+                            <Picker Title="Seleccione la Almacen" x:Name="storageNo" SelectedIndexChanged="storageNo_SelectedIndexChanged" ItemsSource="{Binding Storages}" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Focused="storageNo_Focused"
                                     ItemDisplayBinding="{Binding Name}"   SelectedItem="{Binding StorageSelected}" />
                         </Grid>
 
@@ -169,7 +172,7 @@
                                    HorizontalOptions="StartAndExpand" />
                             <Image Grid.Column="0" Grid.Row="2" Source="deliveryman2x.svg" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" HorizontalOptions="Center"></Image >
                             <Label Grid.Column="1" Grid.Row="2"
-                                   Text="{Binding Vendor.Data.Name}"
+                                   Text="{Binding VendorName}"
                                    TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"
                                    FontSize="12"
                                    HorizontalOptions="StartAndExpand" />

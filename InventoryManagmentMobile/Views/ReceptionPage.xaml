@@ -3,12 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="InventoryManagmentMobile.Views.ReceptionPage"
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
+             xmlns:converters="clr-namespace:InventoryManagmentMobile"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionViewModel"
              Title="{ Binding Title }">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
-                                IconOverride="back.png" />
+                            IconOverride="back.png" />
     </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter"
+                                             TrueColor="DarkGreen"
+                                             FalseColor="Black" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Start">
             <ContentView x:Name="popupLoginView" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" BackgroundColor="#646C8F" Padding="0,0,0,0" IsVisible="{Binding ShowDialog}" AbsoluteLayout.LayoutBounds="0,0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -404,12 +412,12 @@
                                         <Frame CornerRadius="10" HeightRequest="45" Background="#FFF" HasShadow="True" Padding="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
                                             <Grid RowDefinitions="*" ColumnDefinitions="3.6*,2*,2.2*,2.2*">
                                                 <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="2">
-                                                    <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontAttributes="Bold" FontSize="12"></Label>
+                                                    <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Bono, Converter={StaticResource BoolToColorConverter}}" FontAttributes="Bold" FontSize="12"></Label>
                                                 </StackLayout>
 
-                                                <Label Text="{Binding Quantity,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="12"></Label>
-                                                <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
-                                                <Label Text="{Binding QtyPending,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="#000" FontSize="12"></Label>
+                                                <Label Text="{Binding Quantity,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="1" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Bono, Converter={StaticResource BoolToColorConverter}}" FontSize="12"></Label>
+                                                <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="{Binding Bono, Converter={StaticResource BoolToColorConverter}}" FontSize="12"></Label>
+                                                <Label Text="{Binding QtyPending,StringFormat='{0:N2}', Mode=TwoWay}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="End" TextColor="{Binding Bono, Converter={StaticResource BoolToColorConverter}}" FontSize="12"></Label>
 
 
                                             </Grid>
@@ -421,7 +429,7 @@
 
                         <StackLayout Padding="10">
 
-                            <Button  Text="Guardar"  CornerRadius="20"
+                            <Button  Text="Finalizar"  CornerRadius="20"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand}"
                                     BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
 

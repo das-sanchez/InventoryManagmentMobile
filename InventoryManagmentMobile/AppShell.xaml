@@ -30,20 +30,20 @@
         <Border BackgroundColor="#ddd"
                 StrokeThickness="0">
             <Grid ColumnDefinitions="Auto, *"
-                    Padding="25"
+                  Padding="25"
                   ColumnSpacing="20">
                 <Image Grid.Column="0"
-                Source="logoole.svg"
-                   Aspect="AspectFill"
-                   HeightRequest="50"
-                   WidthRequest="50"/>
+                       Source="logoole.svg"
+                       Aspect="Fill"
+                       HeightRequest="60"
+                       WidthRequest="60"/>
 
                 <Label Grid.Column="1"
-                   Text="Abhay Prince"
-                   VerticalTextAlignment="Center"
-                   FontSize="28"
-                   FontAttributes="Bold"
-                   TextColor="#333333"/>
+                       Text="Hippermercados Ole"
+                       VerticalTextAlignment="Center"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       TextColor="#333333"/>
             </Grid>
         </Border>
     </Shell.FlyoutHeader>

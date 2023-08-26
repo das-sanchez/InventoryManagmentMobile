@@ -1,10 +1,12 @@
-﻿using InventoryManagmentMobile.Models;
+﻿using InventoryManagmentMobile.Database;
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Models.Dtos;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,13 +67,13 @@ namespace InventoryManagmentMobile.ViewModels
         public ItemSummary ItemSummrySelected { get => _itemSummarySelected; set { SetProperty(ref _itemSummarySelected, value); } }
 
 
-        decimal _quantity;
-        public decimal Quantity
+        string _quantity;
+        public string Quantity
         {
             get { return _quantity; }
             set
             {
-                SetProperty(ref _quantity, value); if (value > 0) { TotalQty = Quantity; }
+                SetProperty(ref _quantity, value); if (!string.IsNullOrEmpty(value)) { TotalQty = Convert.ToDecimal(Quantity); }
             }
         }
         decimal _totalQty;
@@ -80,8 +82,8 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _totalQty; }
             set { SetProperty(ref _totalQty, value); }
         }
-        int _qtyUni;
-        public int QtyUnit
+        string _qtyUni;
+        public string QtyUnit
         {
             get { return _qtyUni; }
             set { SetProperty(ref _qtyUni, value); }
@@ -117,9 +119,20 @@ namespace InventoryManagmentMobile.ViewModels
         public Command ProductByNoCommand { get; }
         private bool _hasOrder = false;
         public bool HasOrder { get { return _hasOrder; } set { SetProperty(ref _hasOrder, value); } }
-        public ReceptionCDViewModel(OleRepository _repo)
+
+
+        public Command BackCommand { get; }
+
+        string _storeNo = string.Empty;
+        public string StoreNo { get { return _storeNo; } set { SetProperty(ref _storeNo, value); } }
+
+        private readonly OleDataContext _context;
+        public Command<DetailDto> RemoveDetailItemCommand { get; }
+
+        public ReceptionCDViewModel(OleRepository _repo, OleDataContext context)
         {
             repo = _repo;
+            _context = context;
             Reception = new TransportationOrder();
             General = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
             Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
@@ -151,11 +164,50 @@ namespace InventoryManagmentMobile.ViewModels
             ItemSummrySelected = new ItemSummary();
             MeasurementUnits = new ObservableCollection<MeasurementUnit>();
             StoreName = Preferences.Get("storeName", "Default Value");
+            StoreNo = Preferences.Get("storeNo", "Default Value");
 
             ExpirationDate = DateTime.Now;
             ShowContent = true;
+            BackCommand = new Command(() => BackSync());
+            RemoveDetailItemCommand = new Command<DetailDto>(RemoveDetailItem);
         }
+        private async void RemoveDetailItem(DetailDto dto)
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+            if (answer)
+            {
+                var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
+                ReceptionItems.Remove(item);
+                //Details.Remove(dto);
+                _context.ExecuteSql($"DELETE FROM TransactionLine Where OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}'");
+                LoadItemsAsync();
+            }
+        }
+        private async void BackSync()
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de Salir?", "Si", "No");
+            if (answer)
+            {
+                await Shell.Current.Navigation.PopAsync();
+            }
+        }
+        public void LoadItemsAsync()
+        {
+            var items = new List<TransactionLine>();
+            Details.Clear();
+            ReceptionItems.Clear();
+            items = _context.GetTransactionLinesByOrderNo(OrderNo);
+            if (items is not null && items.Any())
+            {
 
+                foreach (var line in items)
+                {
+                    Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
+                    ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, QtyOrd = line.Quantity });
+                }
+            }
+
+        }
         private async void RemoveItem(TransportationOrderItem item)
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
@@ -255,9 +307,9 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
                 return;
             }
-            if (Factor == 0)
+            if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Factor no debe ser Igual a Cero", "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
                 return;
             }
             if (TotalQty == 0)
@@ -266,24 +318,27 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             }
 
+
             int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
             if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
             {
-                ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Qty = TotalQty, QtyOrd = TotalQty, Um = OrderItem.Um });
-                Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
+                //ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Qty = TotalQty, QtyOrd = TotalQty, Um = OrderItem.Um });
+                _context.CreateTransactionLine(new TransactionLine { LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+
             }
             else
             {
                 var recItem = ReceptionItems.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
                 var detItem = Details.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "El producto ya Existe desea Sumar (Sumar  = Yes - Sustituir = No)?", "Si", "No");
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sumar", "Sustituir");
                 if (answer)
                 {
 
                     if (recItem != null)
                     {
                         ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.Qty += TotalQty; } });
-                        Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                        //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
                     }
                 }
                 else
@@ -292,14 +347,14 @@ namespace InventoryManagmentMobile.ViewModels
                     if (recItem != null)
                     {
                         recItem.Qty = TotalQty;
-                        detItem.QtyRecibida = TotalQty;
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' ");
                     }
                 }
             }
             ProductNo = "";
-            Quantity = 0;
+            Quantity = "";
             TotalQty = 0;
-            QtyUnit = 0;
+            QtyUnit = "";
             Factor = 0;
             Unidad = "";
         }
@@ -342,7 +397,21 @@ namespace InventoryManagmentMobile.ViewModels
             try
             {
 
+                LoadItemsAsync();
+                if (Details.Count > 0)
+                {
+                    bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Orden de Transaporte, ya fue iniciada Desea Reanudar o Limpiar  e iniciar desde Cero?", "Reanudar", "Limpiar");
+                    if (!answer)
+                    {
+                        _context.DeleteTransationLineByOrderNo(OrderNo);
+                        Details.Clear();
+                        ReceptionItems.Clear();
+                    }
 
+
+
+
+                }
                 Order = await repo.TranspOrderByOrderNo(OrderNo);
                 if (Order.Data == null)
                 {
@@ -367,6 +436,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
 
             ShowPanel("R");
+            LoadItemsAsync();
         }
 
         private void DetalleOpcion()
@@ -402,12 +472,12 @@ namespace InventoryManagmentMobile.ViewModels
                     Detalle = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     break;
-                case "D":
-                    General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    Detalle = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
-                    Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
-                    break;
+                //case "D":
+                //    General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    Detalle = new PanelOption() { PanelVisible = true, BarColor = Color.FromRgba("#cc3300") };
+                //    Resumen = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
+                //    break;
                 case "R":
                     General = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };
                     Productos = new PanelOption() { PanelVisible = false, BarColor = Color.FromRgba("#006600") };

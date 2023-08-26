@@ -1,5 +1,7 @@
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
 using Microsoft.Maui.Controls;
+using System.Diagnostics;
 
 namespace InventoryManagmentMobile.Views;
 
@@ -23,9 +25,22 @@ public partial class ReturnsPage : ContentPage
 
     }
 
-    private void vendor_Completed(object sender, EventArgs e)
+    private async void vendor_Completed(object sender, EventArgs e)
     {
+
+        _vm.Vendor = new VendorResult();
+        _vm.Vendor = await _vm.Repo.VendorById(_vm.VendorNo);
+        if (_vm.Vendor.Data == null)
+        {
+            await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
+            return;
+        }
+        _vm.VendorName = _vm.Vendor.Data.Name;
+
+        _vm.HasVendor = true;
+
         this.storageNo.Focus();
+
         //_vm.VendorNo = sender.ToString();
         //_vm.GetProductCommand.Execute(default);
     }
@@ -56,5 +71,12 @@ public partial class ReturnsPage : ContentPage
         }
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
+    }
+
+
+
+    private async void storageNo_Focused(object sender, FocusEventArgs e)
+    {
+
     }
 }

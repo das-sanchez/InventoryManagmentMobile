@@ -21,6 +21,8 @@ public partial class ReceptionCDPage : ContentPage
     {
 
         this.NoOrder.Unfocus();
+        _vm.ProductosCommand.Execute(this);
+        productNo.Focus();
 
 
     }
@@ -40,16 +42,13 @@ public partial class ReceptionCDPage : ContentPage
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
     {
-        if (_vm.Factor == 0)
-        {
-            await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es 0", "Aceptar");
-        }
+
 
         if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
         {
 
             await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
-            _vm.QtyUnit = 0;
+            _vm.QtyUnit = "";
             qtyUnit.Focus();
             return;
         }
@@ -58,7 +57,7 @@ public partial class ReceptionCDPage : ContentPage
 
     private void btnRecibir_Clicked(object sender, EventArgs e)
     {
-        if (_vm.Order.Data == null)
+        if (_vm.Order == null)
         {
             NoOrder.Focus();
             return;

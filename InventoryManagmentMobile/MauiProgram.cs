@@ -41,7 +41,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ReceptionMenuViewModel>();
         builder.Services.AddTransient<ReceptionViewModel>();
         builder.Services.AddTransient<DialogAlertViewModel>();
-        builder.Services.AddSingleton<ReturnViewModel>();
+        builder.Services.AddTransient<ReturnViewModel>();
         builder.Services.AddSingleton<TransferViewModel>();
         builder.Services.AddSingleton<ReceptionStoreViewModel>();
         builder.Services.AddTransient<ReceptionCDViewModel>();
