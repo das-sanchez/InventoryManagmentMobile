@@ -323,7 +323,7 @@ namespace InventoryManagmentMobile.ViewModels
             if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
             {
                 //ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Qty = TotalQty, QtyOrd = TotalQty, Um = OrderItem.Um });
-                _context.CreateTransactionLine(new TransactionLine { LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+                _context.CreateTransactionLine(new TransactionLine { LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = OrderItem.ProductId, ProductBarCode = ProductNo, ProductName = OrderItem.ProductName, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
             }
             else
