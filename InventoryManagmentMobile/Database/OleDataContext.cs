@@ -46,14 +46,15 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Execute(sql);
         }
-        public List<TransactionLine> QueryAccountWithPositiveBalance()
+
+        public int ValidExist(string filter)
         {
-            return database.Query<TransactionLine>("SELECT * FROM Account WHERE Balance > 0");
+            return database.Query<int>($"SELECT Count(ProductBarCode) Existe FROM TransactionLine WHERE {filter}").FirstOrDefault();
         }
 
-        public List<TransactionLine> GetTransactionLinesByOrderNo(string orderNo)
+        public List<TransactionLine> GetTransactionLinesByOrderNo(string typetrans, string orderNo)
         {
-            return database.Table<TransactionLine>().Where(a => a.OrderNo == orderNo).ToList();
+            return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).ToList();
         }
         public TransactionLine GetTransactionLinesByProductNo(string ProductNo)
         {

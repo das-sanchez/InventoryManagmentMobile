@@ -4,6 +4,7 @@
              x:Class="InventoryManagmentMobile.Views.ReceptionPage"
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
              xmlns:converters="clr-namespace:InventoryManagmentMobile"
+             xmlns:convert="clr-namespace:InventoryManagmentMobile"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionViewModel"
              Title="{ Binding Title }">
     <Shell.BackButtonBehavior>
@@ -15,6 +16,10 @@
             <converters:BoolToColorConverter x:Key="BoolToColorConverter"
                                              TrueColor="DarkGreen"
                                              FalseColor="Black" />
+            <convert:BoolToColorConverter x:Key="BoolToColorConverter1"
+                                          TrueColor="LightGray"
+                                          FalseColor="White" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
@@ -230,8 +235,8 @@
                             </StackLayout>
                             <StackLayout  Orientation="Horizontal" Padding="2">
 
-                                <Frame   BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0"  Margin="0" >
-                                    <Entry Grid.Column="0"   Placeholder="0.00" Text="{Binding Quantity, Mode=TwoWay}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"></Entry >
+                                <Frame   BackgroundColor="{Binding NotEdition, Converter={StaticResource BoolToColorConverter1}}" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0"  Margin="0" >
+                                    <Entry Grid.Column="0"   Placeholder="0.00" Text="{Binding Quantity, Mode=TwoWay}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black" IsReadOnly="{Binding NotEdition}" ></Entry >
                                 </Frame>
 
                             </StackLayout>
@@ -247,8 +252,8 @@
                             </StackLayout>
                             <StackLayout  Orientation="Horizontal" Padding="2"  Margin="5,0,0,5">
 
-                                <Frame   BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
-                                    <Entry Grid.Column="0" Placeholder="0.00" Keyboard="Numeric" Completed="qtyUnit_Completed" x:Name="qtyUnit" Text="{Binding QtyUnit}"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                <Frame   BackgroundColor="{Binding NotEdition, Converter={StaticResource BoolToColorConverter1}}" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
+                                    <Entry Grid.Column="0" Placeholder="0.00" Keyboard="Numeric" Completed="qtyUnit_Completed" x:Name="qtyUnit" Text="{Binding QtyUnit}"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing" IsReadOnly="{Binding NotEdition}"></Entry  >
                                 </Frame>
 
                             </StackLayout>
@@ -261,7 +266,7 @@
                             <Button
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=AddItemCommand }"
                                 Text="+" CornerRadius="30" Margin="2" FontSize="15"
-                                FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2" x:Name="btnAdd"
+                                FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2" x:Name="btnAdd" Clicked="btnAdd_Clicked"
                                 VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Button>
                         </StackLayout>
                     </Grid>

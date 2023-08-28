@@ -60,7 +60,8 @@
     <FlyoutItem Title="Devolver" Icon="devolver2x.svg">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ReturnsPage}" />
     </FlyoutItem>
-
+    <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="mnLogout_Clicked" x:Name="mnLogout">
+    </MenuItem>
 
 
 </Shell>

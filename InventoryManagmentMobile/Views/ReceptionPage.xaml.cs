@@ -52,6 +52,7 @@ public partial class ReceptionPage : ContentPage
 
             await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
             _vm.QtyUnit = string.Empty;
+
             qtyUnit.Focus();
             return;
         }
@@ -94,5 +95,10 @@ public partial class ReceptionPage : ContentPage
 
 
         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+    }
+
+    private void btnAdd_Clicked(object sender, EventArgs e)
+    {
+        this.productNo.Focus();
     }
 }

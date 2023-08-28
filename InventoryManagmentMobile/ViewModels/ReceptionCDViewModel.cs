@@ -129,8 +129,12 @@ namespace InventoryManagmentMobile.ViewModels
         private readonly OleDataContext _context;
         public Command<DetailDto> RemoveDetailItemCommand { get; }
 
+        public string TypeTrans { get; set; } = "OT";
+        private bool _NotEdition = true;
+        public bool NotEdition { get { return _NotEdition; } set { SetProperty(ref _NotEdition, value); } }
         public ReceptionCDViewModel(OleRepository _repo, OleDataContext context)
         {
+
             repo = _repo;
             _context = context;
             Reception = new TransportationOrder();
@@ -179,7 +183,7 @@ namespace InventoryManagmentMobile.ViewModels
                 var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
                 ReceptionItems.Remove(item);
                 //Details.Remove(dto);
-                _context.ExecuteSql($"DELETE FROM TransactionLine Where OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}'");
+                _context.ExecuteSql($"DELETE FROM TransactionLine Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}'");
                 LoadItemsAsync();
             }
         }
@@ -196,7 +200,7 @@ namespace InventoryManagmentMobile.ViewModels
             var items = new List<TransactionLine>();
             Details.Clear();
             ReceptionItems.Clear();
-            items = _context.GetTransactionLinesByOrderNo(OrderNo);
+            items = _context.GetTransactionLinesByOrderNo(TypeTrans, OrderNo);
             if (items is not null && items.Any())
             {
 
@@ -301,6 +305,12 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
+            var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
+            if (un == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", $"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}", "Aceptar");
+                return;
+            }
 
             if (Product == null)
             {
@@ -320,35 +330,28 @@ namespace InventoryManagmentMobile.ViewModels
 
 
             int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
-            if (!ReceptionItems.Any(xc => xc.ProductBarCode == ProductNo))
+
+            int exist = 0;
+            string filter = $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'";
+
+            exist = _context.ValidExist(filter);
+            if (exist == 0)
             {
-                //ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, Qty = TotalQty, QtyOrd = TotalQty, Um = OrderItem.Um });
-                _context.CreateTransactionLine(new TransactionLine { LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = OrderItem.ProductId, ProductBarCode = ProductNo, ProductName = OrderItem.ProductName, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+
+                _context.CreateTransactionLine(new TransactionLine { TypeTrans = TypeTrans, LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = OrderItem.ProductId, ProductBarCode = ProductNo, ProductName = OrderItem.ProductName, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
             }
             else
             {
-                var recItem = ReceptionItems.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
-                var detItem = Details.FirstOrDefault(xc => xc.ProductBarCode == ProductNo);
+
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sumar", "Sustituir");
                 if (answer)
                 {
-
-                    if (recItem != null)
-                    {
-                        ReceptionItems.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.Qty += TotalQty; } });
-                        //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
-                    }
+                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
                 }
                 else
                 {
-
-                    if (recItem != null)
-                    {
-                        recItem.Qty = TotalQty;
-                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' ");
-                    }
+                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' ");
                 }
             }
             ProductNo = "";
@@ -357,6 +360,8 @@ namespace InventoryManagmentMobile.ViewModels
             QtyUnit = "";
             Factor = 0;
             Unidad = "";
+            Product = new ProductResult();
+            NotEdition = true;
         }
 
         private async void ProductByNo()
@@ -383,11 +388,11 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 Factor = un.Factor;
                 Unidad = $"Cantidad ({OrderItem.Um})";
-
+                NotEdition = false;
             }
             catch (Exception ex)
             {
-
+                NotEdition = true;
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }

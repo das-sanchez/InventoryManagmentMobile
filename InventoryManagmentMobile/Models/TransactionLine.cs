@@ -8,6 +8,7 @@ namespace InventoryManagmentMobile.Models
 {
     public class TransactionLine
     {
+        public string TypeTrans { get; set; }
         public string OrderNo { get; set; }
         public int LineNo { get; set; }
         public string ProductId { get; set; }

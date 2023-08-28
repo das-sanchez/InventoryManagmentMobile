@@ -3,12 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="InventoryManagmentMobile.Views.ReceptionCDPage"
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
+             xmlns:convert="clr-namespace:InventoryManagmentMobile"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionCDViewModel"
              Title="Centro Distribucion">
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <convert:BoolToColorConverter x:Key="BoolToColorConverter1"
+                                          TrueColor="LightGray"
+                                          FalseColor="White" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout VerticalOptions="Start">
             <ContentView x:Name="popupLoginView" HorizontalOptions="FillAndExpand" VerticalOptions="Fill" BackgroundColor="#646C8F" Padding="0,0,0,0" IsVisible="{Binding ShowDialog}" AbsoluteLayout.LayoutBounds="0,0, 1, 1" AbsoluteLayout.LayoutFlags="All">
@@ -198,8 +208,8 @@
                             </StackLayout>
                             <StackLayout  Orientation="Horizontal" Padding="2" >
 
-                                <Frame   BackgroundColor="#FCFCFA" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
-                                    <Entry Grid.Column="0"  Placeholder="0.00" Text="{Binding Quantity}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                <Frame   BackgroundColor="{Binding NotEdition, Converter={StaticResource BoolToColorConverter1}}" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
+                                    <Entry Grid.Column="0"  Placeholder="0.00" Text="{Binding Quantity}" Keyboard="Numeric" x:Name="qty" Completed="qty_Completed"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing" IsReadOnly="{Binding NotEdition}"></Entry >
                                 </Frame>
 
                             </StackLayout>
@@ -215,8 +225,8 @@
                             </StackLayout>
                             <StackLayout  Orientation="Horizontal" Padding="2" >
 
-                                <Frame   BackgroundColor="#FCFCFA" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
-                                    <Entry Grid.Column="0" Placeholder="0.00" Completed="qtyUnit_Completed" Keyboard="Numeric" x:Name="qtyUnit" Text="{Binding QtyUnit}"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                <Frame   BackgroundColor="{Binding NotEdition, Converter={StaticResource BoolToColorConverter1}}" HeightRequest="40" HasShadow="True" CornerRadius="10" HorizontalOptions="FillAndExpand" Padding="10,0,10,0">
+                                    <Entry Grid.Column="0" Placeholder="0.00" Completed="qtyUnit_Completed" Keyboard="Numeric" x:Name="qtyUnit" Text="{Binding QtyUnit}"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"   PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing" IsReadOnly="{Binding NotEdition}"></Entry >
                                 </Frame>
 
                             </StackLayout>

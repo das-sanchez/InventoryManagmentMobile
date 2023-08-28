@@ -1,9 +1,11 @@
-﻿using InventoryManagmentMobile.Views;
+﻿using InventoryManagmentMobile.Repositories;
+using InventoryManagmentMobile.Views;
 
 namespace InventoryManagmentMobile;
 
 public partial class AppShell : Shell
 {
+    private readonly OleRepository Repo;
     public AppShell()
     {
         InitializeComponent();
@@ -17,5 +19,10 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(ReceptionMenuPage), typeof(ReceptionMenuPage));
         Routing.RegisterRoute(nameof(ReturnsPage), typeof(ReturnsPage));
         Routing.RegisterRoute(nameof(TransferPage), typeof(TransferPage));
+    }
+
+    private void mnLogout_Clicked(object sender, EventArgs e)
+    {
+        Application.Current.MainPage = new LoginPage(new ViewModels.LoginViewModel(new OleRepository()));
     }
 }
