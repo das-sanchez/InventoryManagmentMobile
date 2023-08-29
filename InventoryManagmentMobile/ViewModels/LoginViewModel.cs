@@ -42,11 +42,24 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _store; }
             set { SetProperty(ref _store, value); }
         }
+        private LoginResult _loginresult;
+        public LoginResult LogResult
+        {
+            get { return _loginresult; }
+            set { SetProperty(ref _loginresult, value); }
+        }
+        private Login _login;
+        public Login LogIn
+        {
+            get { return _login; }
+            set { SetProperty(ref _login, value); }
+        }
         private readonly OleRepository Repo;
         public LoginViewModel(OleRepository _repo)
         {
             Repo = _repo;
             StoreResult = new StoreResult();
+            LogResult = new LoginResult();
             Stores = new ObservableCollection<Store>();
             LoginCommand = new Command(async () => await Login());
             StoreLoad();
@@ -71,7 +84,41 @@ namespace InventoryManagmentMobile.ViewModels
         }
         private async Task Login()
         {
-            Application.Current.MainPage = new AppShell();
+            try
+            {
+                if (string.IsNullOrEmpty(User) || string.IsNullOrEmpty(Password))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login Error", "Usuario o Password esta en Blanco", "Aceptar");
+                    return;
+                }
+
+
+                if (StoreSelected == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login Error", "Debe Seleccionar un Store", "Aceptar");
+                    return;
+                }
+
+                LogIn = new Login();
+                LogIn.StoreId = StoreSelected.Id;
+                LogIn.UserName = User;
+                LogIn.Password = Password;
+                LogResult = new LoginResult();
+                LogResult = await Repo.Login(LogIn);
+
+                if (!LogResult.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Login Error", LogResult.Message, "Aceptar");
+                    return;
+                }
+                Application.Current.MainPage = new AppShell();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
     }
 }

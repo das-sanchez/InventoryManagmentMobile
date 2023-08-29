@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,10 +14,11 @@ namespace InventoryManagmentMobile.Services
     public class ApiService<T> where T : class, new()
     {
         // private CobrosContext _context;
-
+        public string UrlToken { get; set; }
         public ApiService()
         {
             //_context = context;
+            UrlToken = Preferences.Get("token", "Default Value");
         }
 
 
@@ -75,7 +77,10 @@ namespace InventoryManagmentMobile.Services
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
 
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
                     var url1 = Url;
                     var result = await client.GetAsync(url1);
                     // string empr = await result.Content.ReadAsStringAsync();
@@ -115,7 +120,10 @@ namespace InventoryManagmentMobile.Services
                     //client.BaseAddress = new Uri(connection); //http://extranet.brugal.com.do:8026
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
 
                     var url1 = Url;
                     var result = await client.GetAsync(url1);
@@ -157,7 +165,10 @@ namespace InventoryManagmentMobile.Services
 
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -190,7 +201,10 @@ namespace InventoryManagmentMobile.Services
 
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -223,7 +237,10 @@ namespace InventoryManagmentMobile.Services
 
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -256,7 +273,10 @@ namespace InventoryManagmentMobile.Services
 
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-
+                    if (!String.IsNullOrEmpty(UrlToken))
+                    {
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", UrlToken);
+                    }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
                     var content = new StringContent(data, Encoding.UTF8, "application/json");

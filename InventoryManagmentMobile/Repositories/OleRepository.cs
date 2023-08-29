@@ -21,7 +21,8 @@ namespace InventoryManagmentMobile.Repositories
         private readonly ApiService<TransResult> apiPost;
         private readonly ApiService<StorageResult> apiStorage;
         private readonly ApiService<TranspOrderResult> apiTraspe;
-        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); apiStorage = new ApiService<StorageResult>(); apiTraspe = new ApiService<TranspOrderResult>(); }
+        private readonly ApiService<LoginResult> loginPost;
+        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); apiStorage = new ApiService<StorageResult>(); apiTraspe = new ApiService<TranspOrderResult>(); loginPost = new ApiService<LoginResult>(); }
 
         public async Task<OrderResult> OrderByOrderNo(string OrderNo)
         {
@@ -122,6 +123,12 @@ namespace InventoryManagmentMobile.Repositories
         public async Task<TransResult> SaveTransporationOrder(string OrderNo, TransportationOrder order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"transportationOrder/{OrderNo}/Reception", order);
+
+            return result;
+        }
+        public async Task<LoginResult> Login(Login login)
+        {
+            var result = await loginPost.PostData(Constants.UrlBase, $"user/login", login);
 
             return result;
         }
