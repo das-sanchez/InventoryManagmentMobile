@@ -111,6 +111,7 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Login Error", LogResult.Message, "Aceptar");
                     return;
                 }
+                Preferences.Set("token", LogResult.Data.Token);
                 Application.Current.MainPage = new AppShell();
             }
             catch (Exception ex)

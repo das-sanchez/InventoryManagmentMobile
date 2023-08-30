@@ -79,7 +79,7 @@ namespace InventoryManagmentMobile.Services
 
                     if (!String.IsNullOrEmpty(UrlToken))
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", UrlToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
                     }
                     var url1 = Url;
                     var result = await client.GetAsync(url1);
@@ -122,7 +122,7 @@ namespace InventoryManagmentMobile.Services
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
                     if (!String.IsNullOrEmpty(UrlToken))
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", UrlToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
                     }
 
                     var url1 = Url;
@@ -167,7 +167,7 @@ namespace InventoryManagmentMobile.Services
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
                     if (!String.IsNullOrEmpty(UrlToken))
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", UrlToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
                     }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
@@ -203,7 +203,7 @@ namespace InventoryManagmentMobile.Services
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
                     if (!String.IsNullOrEmpty(UrlToken))
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", UrlToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
                     }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
@@ -239,7 +239,7 @@ namespace InventoryManagmentMobile.Services
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
                     if (!String.IsNullOrEmpty(UrlToken))
                     {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("token", UrlToken);
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
                     }
                     var data = JsonConvert.SerializeObject(Ltrans);
 
