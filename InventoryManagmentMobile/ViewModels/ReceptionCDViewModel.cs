@@ -317,10 +317,18 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
+            if (!Product.Product.IsWeighed)
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
-                return;
+                if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
+                    return;
+                }
+            }
+            else
+            {
+                Factor = 1;
+                QtyUnit = "1";
             }
             if (TotalQty == 0)
             {

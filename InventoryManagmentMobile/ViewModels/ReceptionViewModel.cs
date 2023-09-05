@@ -372,18 +372,27 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", $"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}", "Aceptar");
                 return;
             }
-
-            if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
+            if (!Product.Product.IsWeighed)
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
-                return;
+
+                if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
+                    return;
+                }
+                if (Factor == 0 && Type == "OC")
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
+                    return;
+                }
+            }
+            else
+            {
+                Factor = 1;
+                QtyUnit = "1";
             }
 
-            if (Factor == 0 && Type == "OC")
-            {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
-                return;
-            }
+
             if (TotalQty > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
@@ -453,7 +462,7 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
                 if (OrderItem == null)
                 {
                     if (Type == "OC")
@@ -473,11 +482,11 @@ namespace InventoryManagmentMobile.ViewModels
 
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
-                if (un == null)
+                if (un == null && !Product.Product.IsWeighed)
                 {
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
                 }
-                Factor = un.Factor;
+                Factor = (Product.Product.IsWeighed ? 1 : un.Factor);
                 Unidad = $"Cantidad ({OrderItem.Um})";
                 IsLotRequired = OrderItem.IsLotNoRequired;
                 NotEdition = false;

@@ -29,8 +29,8 @@ namespace InventoryManagmentMobile.Models
         [JsonProperty("weight")]
         public long Weight { get; set; }
 
-        [JsonProperty("isLotNoRequired")]
-        public bool IsLotNoRequired { get; set; }
+        [JsonProperty("isWeighed")]
+        public bool IsWeighed { get; set; }
 
 
         [JsonProperty("measurementUnits")]
