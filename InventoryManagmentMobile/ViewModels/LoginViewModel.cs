@@ -66,21 +66,30 @@ namespace InventoryManagmentMobile.ViewModels
         }
         private async void StoreLoad()
         {
-
-            StoreResult = await Repo.StoreByNo("");
-            Stores.Clear();
-            StoreResult.Stores.ToList().ForEach((s) =>
+            try
             {
-                if (s.CompanyId == "5520")
+                StoreResult = await Repo.StoreByNo("");
+                Stores.Clear();
+                StoreResult.Stores.ToList().ForEach((s) =>
                 {
-                    s.Name = "Mercadal - " + s.Name;
-                }
-                else
-                {
-                    s.Name = "Ole - " + s.Name;
-                }
-                Stores.Add(s);
-            });
+                    if (s.CompanyId == "5520")
+                    {
+                        s.Name = "Mercadal - " + s.Name;
+                    }
+                    else
+                    {
+                        s.Name = "Ole - " + s.Name;
+                    }
+                    Stores.Add(s);
+                });
+            }
+            catch (Exception ex)
+            {
+
+                await Application.Current.MainPage.DisplayAlert("Login Error", ex.Message, "Aceptar");
+                return;
+            }
+
         }
         private async Task Login()
         {

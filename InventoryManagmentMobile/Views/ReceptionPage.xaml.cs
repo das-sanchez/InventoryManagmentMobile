@@ -34,8 +34,10 @@ public partial class ReceptionPage : ContentPage
 
     private void productNo_Completed(object sender, EventArgs e)
     {
+        _vm.ProductByNoCommand.Execute(this);
         if (_vm.OrderItem == null)
             this.productNo.Focus();
+
         qty.Focus();
     }
 

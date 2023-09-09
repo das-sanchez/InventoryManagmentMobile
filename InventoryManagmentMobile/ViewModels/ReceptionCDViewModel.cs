@@ -305,6 +305,13 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
+            OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+            if ((TotalQty) > OrderItem.Qty)
+            {
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+                return;
+            }
+
             var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
             if (un == null)
             {
@@ -330,6 +337,15 @@ namespace InventoryManagmentMobile.ViewModels
                 Factor = 1;
                 QtyUnit = "1";
             }
+            if (Factor != Convert.ToInt32(QtyUnit))
+            {
+
+                await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
+
+                QtyUnit = "0";
+
+                return;
+            }
             if (TotalQty == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad  mayor de cero", "Aceptar");
@@ -352,14 +368,38 @@ namespace InventoryManagmentMobile.ViewModels
             else
             {
 
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sumar", "Sustituir");
-                if (answer)
+                var qline = _context.GetLine(TypeTrans, OrderNo, ProductNo, IsBonus);
+
+                if (qline != null)
                 {
-                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
-                }
-                else
-                {
-                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' ");
+                    if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty)
+                    {
+                        bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea  Sustituir)?", "Si", "no");
+                        if (resp)
+                        {
+
+
+                            //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                            _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+
+                        }
+                    }
+                    else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty))
+                    {
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sumar", "Sustituir");
+                        if (answer)
+                        {
+                            //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                            _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+
+                        }
+                        else
+                        {
+                            _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+
+                        }
+                    }
+
                 }
             }
             ProductNo = "";
@@ -382,6 +422,13 @@ namespace InventoryManagmentMobile.ViewModels
                 if (OrderItem == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Transporte", "Aceptar");
+                    ProductNo = "";
+
+                    Quantity = "";
+                    TotalQty = 0;
+                    QtyUnit = string.Empty;
+                    Factor = 0;
+                    NotEdition = true;
                     return;
                 }
 
