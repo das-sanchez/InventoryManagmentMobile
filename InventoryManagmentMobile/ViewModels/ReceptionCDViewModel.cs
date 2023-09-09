@@ -331,6 +331,22 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
                     return;
                 }
+
+                if (Factor == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
+                    return;
+                }
+
+                if (Factor != Convert.ToInt32(QtyUnit))
+                {
+
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
+
+                    QtyUnit = "0";
+
+                    return;
+                }
             }
             else
             {
