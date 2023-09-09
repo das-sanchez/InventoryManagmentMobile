@@ -353,15 +353,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Factor = 1;
                 QtyUnit = "1";
             }
-            if (Factor != Convert.ToInt32(QtyUnit))
-            {
-
-                await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
-
-                QtyUnit = "0";
-
-                return;
-            }
+           
             if (TotalQty == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad  mayor de cero", "Aceptar");
