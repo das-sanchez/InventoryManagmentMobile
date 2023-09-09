@@ -11,16 +11,15 @@ public partial class LoginPage : ContentPage
         this.userName.Focus();
 
     }
-    private void OnHideKeyboardClicked(object sender, EventArgs e)
+
+
+    private void userName_Completed(object sender, EventArgs e)
     {
-        // Call the platform-specific method to hide the keyboard
-        var keyboardService = DependencyService.Get<IKeyboardService>();
-        keyboardService?.HideKeyboard();
+        this.password.Focus();
     }
 
-    private void userName_Focused(object sender, FocusEventArgs e)
+    private void password_Completed(object sender, EventArgs e)
     {
-        var keyboardService = DependencyService.Get<IKeyboardService>();
-        keyboardService?.HideKeyboard();
+        this.liststore.Focus();
     }
 }

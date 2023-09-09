@@ -367,6 +367,8 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void AddItem()
         {
+            OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
+
             var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
             if (un == null)
             {
@@ -394,8 +396,15 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
             var qline = _context.GetLine(Type, OrderNo, ProductNo, IsBonus);
-
-            if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
+            if (qline != null)
+            {
+                if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+                    return;
+                }
+            }
+            if ((TotalQty) > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
                 return;
