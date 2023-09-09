@@ -225,6 +225,7 @@ namespace InventoryManagmentMobile.ViewModels
             ExpirationDate = DateTime.Now;
             ShowContent = true;
             BackCommand = new Command(() => BackSync());
+            var list = _context.GetTransactionLines().ToList();
 
         }
 
@@ -392,8 +393,9 @@ namespace InventoryManagmentMobile.ViewModels
                 QtyUnit = "1";
             }
 
+            var qline = _context.GetLine(Type, OrderNo, ProductNo, IsBonus);
 
-            if (TotalQty > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
+            if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && Type == "OC" && OrderItem.Bono == IsBonus)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
                 return;
@@ -412,10 +414,10 @@ namespace InventoryManagmentMobile.ViewModels
 
             int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
             int exist = 0;
-            string filter = (Type == "OC" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}" : $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
+            string filter = (Type == "OC" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
 
-            exist = _context.ValidExist(filter);
-            if (exist == 0)
+            //exist = _context.ValidExist(filter);
+            if (!_context.ValidExist(Type, OrderNo, ProductNo, IsBonus))
             {
 
                 //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });

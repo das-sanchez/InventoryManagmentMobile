@@ -1,4 +1,6 @@
-﻿using InventoryManagmentMobile.Models;
+﻿
+using InventoryManagmentMobile.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -51,7 +53,14 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Query<int>($"SELECT Count(ProductBarCode) Existe FROM TransactionLine WHERE {filter}").FirstOrDefault();
         }
-
+        public bool ValidExist(string type, string orderno, string productNo, bool IsBonus = false)
+        {
+            return database.Table<TransactionLine>().Any(a => a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus);
+        }
+        public TransactionLine GetLine(string type, string orderno, string productNo, bool IsBonus = false)
+        {
+            return database.Table<TransactionLine>().Where(a => a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus).FirstOrDefault();
+        }
         public List<TransactionLine> GetTransactionLinesByOrderNo(string typetrans, string orderNo)
         {
             return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).ToList();
