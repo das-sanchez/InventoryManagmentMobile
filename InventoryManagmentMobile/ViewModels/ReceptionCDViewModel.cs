@@ -183,7 +183,7 @@ namespace InventoryManagmentMobile.ViewModels
                 var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
                 ReceptionItems.Remove(item);
                 //Details.Remove(dto);
-                _context.ExecuteSql($"DELETE FROM TransactionLine Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{dto.ProductBarCode}'");
+                _context.ExecuteSql($"DELETE FROM TransactionLine Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo.Trim()}' AND ProductBarCode = '{dto.ProductBarCode}'");
                 LoadItemsAsync();
             }
         }
@@ -235,9 +235,17 @@ namespace InventoryManagmentMobile.ViewModels
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
             if (answer)
             {
+
+
+
                 if (ReceptionItems == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                    return;
+                }
+                if (Order.Data.Items.Length != ReceptionItems.Count())
+                {
+                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
                     return;
                 }
                 Reception.Items = ReceptionItems.ToArray();
@@ -246,8 +254,13 @@ namespace InventoryManagmentMobile.ViewModels
                 var Result = await repo.SaveTransporationOrder(OrderNo, Reception);
                 if (Result != null && Result.IsSuccess)
                 {
-
+                    IsBusy = true;
+                    ShowContent = false;
                     // ShowSucces("Transaccion Procesada Correctamente");
+                    _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
+                    Thread.Sleep(5000);
+                    IsBusy = false;
+                    ShowContent = true;
                     var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
 
@@ -353,7 +366,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Factor = 1;
                 QtyUnit = "1";
             }
-           
+
             if (TotalQty == 0)
             {
                 await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad  mayor de cero", "Aceptar");
@@ -471,7 +484,7 @@ namespace InventoryManagmentMobile.ViewModels
                     bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Orden de Transaporte, ya fue iniciada Desea Reanudar o Limpiar  e iniciar desde Cero?", "Reanudar", "Limpiar");
                     if (!answer)
                     {
-                        _context.DeleteTransationLineByOrderNo(OrderNo);
+                        _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
                         Details.Clear();
                         ReceptionItems.Clear();
                     }

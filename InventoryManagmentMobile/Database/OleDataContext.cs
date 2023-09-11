@@ -42,7 +42,18 @@ namespace InventoryManagmentMobile.Database
 
         public int DeleteTransationLineByOrderNo(string OrderNo)
         {
-            return database.Execute($"DELETE FROM TransactionLine Where  OrderNo ='{OrderNo}'");
+            var list = database.Table<TransactionLine>().Where(a => a.OrderNo == OrderNo).ToList();
+            if (list.Count() == 0)
+            {
+                return 0;
+            }
+            list.ForEach((line) => { database.Delete(line); });
+            return list.Count();
+        }
+        public int DeleteTransationLineByOrderNo(string Type, string OrderNo)
+        {
+
+            return database.Execute($"DELETE FROM TransactionLine Where TypeTrans = '{Type}' AND OrderNo ='{OrderNo}'");
         }
         public int ExecuteSql(string sql)
         {

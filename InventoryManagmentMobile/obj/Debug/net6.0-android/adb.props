@@ -1,2 +1,2 @@
-AdbTarget=
+AdbTarget=-s 21214D804F
 AdbOptions=

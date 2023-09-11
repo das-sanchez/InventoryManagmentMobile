@@ -13,7 +13,7 @@
                             IconOverride="back.png" />
     </Shell.BackButtonBehavior>
     <ScrollView>
-        <VerticalStackLayout VerticalOptions="Start">
+        <VerticalStackLayout VerticalOptions="Start" IsVisible="{Binding ShowContent}">
             <Grid RowDefinitions="90">
 
 
@@ -338,7 +338,18 @@
                 </StackLayout>
             </StackLayout>
 
+            <ContentView x:Name="popupView"  BackgroundColor="White" Padding="0,10,0,0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
 
+                <Frame VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="150" WidthRequest="150" BackgroundColor="White" CornerRadius="60" BorderColor="LightGray" HasShadow="True" Padding="5" Margin="15">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" />
+                        <Label Text="Procesando..." Margin="10" />
+                    </VerticalStackLayout>
+
+                </Frame>
+
+            </ContentView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

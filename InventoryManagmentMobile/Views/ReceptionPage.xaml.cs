@@ -32,17 +32,28 @@ public partial class ReceptionPage : ContentPage
 
     }
 
-    private void productNo_Completed(object sender, EventArgs e)
+    private async void productNo_Completed(object sender, EventArgs e)
     {
-        _vm.ProductByNoCommand.Execute(this);
-        if (_vm.OrderItem == null)
+        await _vm.ProductByNo();
+
+        if (_vm.Product.Product == null)
+        {
+            _vm.NotEdition = true;
             this.productNo.Focus();
+            return;
+        }
+
 
         qty.Focus();
     }
 
     private void qty_Completed(object sender, EventArgs e)
     {
+        if (string.IsNullOrEmpty(qty.Text))
+        {
+            qty.Text = "0";
+            return;
+        }
         if (!_vm.Product.Product.IsWeighed)
         {
             qtyUnit.Focus();
@@ -56,8 +67,16 @@ public partial class ReceptionPage : ContentPage
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
     {
+        if (string.IsNullOrEmpty(qtyUnit.Text))
+        {
+            qtyUnit.Text = "0";
+            return;
+        }
+
+
         if (!_vm.Product.Product.IsWeighed)
         {
+
             if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
             {
 

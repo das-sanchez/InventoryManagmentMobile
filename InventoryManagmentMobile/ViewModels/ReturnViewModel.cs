@@ -90,7 +90,8 @@ namespace InventoryManagmentMobile.ViewModels
         public Command BackCommand { get; }
         string _vendorName = string.Empty;
         public string VendorName { get { return _vendorName; } set { SetProperty(ref _vendorName, value); } }
-
+        private bool _showContent = true;
+        public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
         public ReturnViewModel(OleRepository _repo)
 
         {
@@ -128,6 +129,8 @@ namespace InventoryManagmentMobile.ViewModels
             LoadStorages();
             CurrentDate = DateTime.Now;
             BackCommand = new Command(() => BackSync());
+            ShowContent = true;
+
         }
         private async void BackSync()
         {
@@ -180,7 +183,13 @@ namespace InventoryManagmentMobile.ViewModels
                 Order.Comment = "";
                 Order.VendorId = Vendor.Data.Id;
 
+
+                IsBusy = true;
+                ShowContent = false;
                 var Result = await Repo.SaveReturn(Order);
+                Thread.Sleep(5000);
+                IsBusy = false;
+                ShowContent = true;
                 if (Result != null && Result.IsSuccess)
                 {
 

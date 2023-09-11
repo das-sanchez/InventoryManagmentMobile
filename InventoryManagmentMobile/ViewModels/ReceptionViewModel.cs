@@ -204,7 +204,7 @@ namespace InventoryManagmentMobile.ViewModels
             DetalleCommand = new Command(() => DetalleOpcion());
             ResumenCommand = new Command(() => ResumenOpcion());
             OrderByIdCommand = new Command(async () => await OrderByIdAction());
-            ProductByNoCommand = new Command(() => ProductByNo());
+            ProductByNoCommand = new Command(async () => await ProductByNo());
             AddItemCommand = new Command(() => AddItem());
             RemoveItemCommand = new Command<ReceptionItem>(RemoveItem);
             RemoveDetailItemCommand = new Command<DetailDto>(RemoveDetailItem);
@@ -225,7 +225,7 @@ namespace InventoryManagmentMobile.ViewModels
             ExpirationDate = DateTime.Now;
             ShowContent = true;
             BackCommand = new Command(() => BackSync());
-            var list = _context.GetTransactionLines().ToList();
+            //  var list = _context.GetTransactionLines().ToList();
 
         }
 
@@ -242,6 +242,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             var items = new List<TransactionLine>();
             Details.Clear();
+            ReceptionItems.Clear();
             items = _context.GetTransactionLinesByOrderNo(Type, OrderNo);
             if (items is not null && items.Any())
             {
@@ -287,28 +288,39 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void SaveReception()
         {
+            if (string.IsNullOrEmpty(InvoiceNumber) && Type == "OC")
+            {
+                await Application.Current.MainPage.DisplayAlert("Recepcion", "Debe Digitar el Numero de Factura", "Aceptar");
+                return;
+            }
+            if (ReceptionItems == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                return;
+            }
+
+            if (Order.Data.Items.Length != ReceptionItems.Count())
+            {
+                await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
+                return;
+            }
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Desea guardar la Recepcion de {TypeDescription}?", "Yes", "No");
             if (answer)
             {
-                if (ReceptionItems == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
-                    return;
-                }
-                if (string.IsNullOrEmpty(InvoiceNumber) && Type == "OC")
-                {
-                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Debe Dijitar el Numero de Factura", "Aceptar");
-                    return;
-                }
+
                 Reception.Items = ReceptionItems.ToArray();
                 Reception.BillNo = InvoiceNumber;
                 Reception.OrderType = Type;
                 Reception.OrderNo = OrderNo;
-
+                IsBusy = true;
+                ShowContent = false;
                 var Result = await repo.SaveReception(OrderNo, Reception);
+                Thread.Sleep(5000);
+                IsBusy = false;
+                ShowContent = true;
                 if (Result.Data != null && Result.IsSuccess)
                 {
-                    _context.DeleteTransationLineByOrderNo(OrderNo);
+                    _context.DeleteTransationLineByOrderNo(Type, OrderNo);
                     //ShowSucces("Transaccion Procesada Correctamente");
                     var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
@@ -408,7 +420,7 @@ namespace InventoryManagmentMobile.ViewModels
 
             if ((TotalQty) > OrderItem.Qty && OrderItem.Bono == IsBonus)
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Agregar Line", $"La Recibida {(IsBonus ? "En Bono " : "")} es Mayor que la Ordenada", "Aceptar");
                 return;
             }
 
@@ -487,7 +499,7 @@ namespace InventoryManagmentMobile.ViewModels
             NotEdition = true;
         }
 
-        private async void ProductByNo()
+        public async Task ProductByNo()
         {
             try
             {
@@ -516,6 +528,7 @@ namespace InventoryManagmentMobile.ViewModels
                 //Thread.Sleep(3000);
 
                 Product = new ProductResult();
+
                 Product = await repo.ProductByBarCode(ProductNo);
 
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
@@ -541,12 +554,12 @@ namespace InventoryManagmentMobile.ViewModels
             try
             {
                 LoadItemsAsync();
-                if (Details != null)
+                if (Details.Count() > 0)
                 {
                     bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Recepcion de {TypeDescription} ya fue iniciada Desea Reanudar o Limpiar  e iniciar desde Cero?", "Reanudar", "Limpiar");
                     if (!answer)
                     {
-                        _context.DeleteTransationLineByOrderNo(OrderNo);
+                        _context.DeleteTransationLineByOrderNo(Type, OrderNo);
                         Details.Clear();
                         ReceptionItems.Clear();
 

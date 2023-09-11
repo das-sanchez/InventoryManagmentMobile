@@ -30,13 +30,23 @@ public partial class ReceptionCDPage : ContentPage
     private void productNo_Completed(object sender, EventArgs e)
     {
         if (_vm.OrderItem == null)
+        {
             productNo.Focus();
+            return;
+        }
+
 
         qty.Focus();
     }
 
     private void qty_Completed(object sender, EventArgs e)
     {
+        if (string.IsNullOrEmpty(qty.Text))
+        {
+            qty.Text = "0";
+            return;
+        }
+
         if (!_vm.Product.Product.IsWeighed)
         {
             qtyUnit.Focus();
@@ -51,7 +61,11 @@ public partial class ReceptionCDPage : ContentPage
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
     {
-
+        if (string.IsNullOrEmpty(qtyUnit.Text))
+        {
+            qtyUnit.Text = "0";
+            return;
+        }
         if (!_vm.Product.Product.IsWeighed)
         {
             if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
