@@ -39,6 +39,7 @@ public partial class ReceptionPage : ContentPage
         if (_vm.Product.Product == null)
         {
             _vm.NotEdition = true;
+            _vm.InEdition = false;
             this.productNo.Focus();
             return;
         }
@@ -87,7 +88,10 @@ public partial class ReceptionPage : ContentPage
                 return;
             }
         }
-
+        else
+        {
+            qtyUnit.Text = "1";
+        }
         btnAdd.Focus();
     }
 

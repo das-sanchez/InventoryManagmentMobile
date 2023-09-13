@@ -267,6 +267,7 @@
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=AddItemCommand }"
                                 Text="+" CornerRadius="30" Margin="2" FontSize="15"
                                 FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2" x:Name="btnAdd" Clicked="btnAdd_Clicked"
+                                IsEnabled="{Binding InEdition}"
                                 VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"></Button>
                         </StackLayout>
                     </Grid>

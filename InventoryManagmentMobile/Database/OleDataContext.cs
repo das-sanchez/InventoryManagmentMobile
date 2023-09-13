@@ -18,6 +18,7 @@ namespace InventoryManagmentMobile.Database
             var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "oleDb.db");
             database = new SQLiteConnection(dbPath);
             database.CreateTable<TransactionLine>();
+            database.CreateTable<ReturnLine>();
         }
         public List<TransactionLine> GetTransactionLines()
 
@@ -76,10 +77,74 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).ToList();
         }
+        public int NextTransactionLinesByOrderNo(string typetrans, string orderNo)
+        {
+            int nextline = 0;
+            if (!database.Table<TransactionLine>().Any(a => a.TypeTrans == typetrans && a.OrderNo == orderNo))
+            {
+                nextline = 10;
+            }
+            else
+            {
+                nextline = (database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).Max(x => x.LineNo) + 10);
+            }
+
+            return nextline;
+        }
         public TransactionLine GetTransactionLinesByProductNo(string ProductNo)
         {
             return database.Table<TransactionLine>().Where(a => a.ProductBarCode == ProductNo).FirstOrDefault();
         }
+        //Return Lines
+        public List<ReturnLine> GetReturnLines()
+
+        {
+            return database.Table<ReturnLine>().ToList();
+        }
+
+        public int CreateReturnLine(ReturnLine line)
+        {
+            return database.Insert(line);
+        }
+
+        public int UpdateReturnLine(ReturnLine line)
+        {
+            return database.Update(line);
+        }
+
+        public int DeleteReturnLine(ReturnLine line)
+        {
+            return database.Delete(line);
+        }
+
+        public int DeleteReturnLineByVendorNo(string VendorNo)
+        {
+            var list = database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo).ToList();
+            if (list.Count() == 0)
+            {
+                return 0;
+            }
+            list.ForEach((line) => { database.Delete(line); });
+            return list.Count();
+        }
+
+        public bool ValidExistReturnLine(string VendorNo, string productNo)
+        {
+            return database.Table<ReturnLine>().Any(a => a.ProductBarCode == productNo && a.VendorNo == VendorNo);
+        }
+        public ReturnLine GetReturnLine(string VendorNo, string productNo)
+        {
+            return database.Table<ReturnLine>().Where(a => a.ProductBarCode == productNo && a.VendorNo == VendorNo).FirstOrDefault();
+        }
+        public List<ReturnLine> GetReturnLinesByOrderNo(string VendorNo)
+        {
+            return database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo).ToList();
+        }
+        public ReturnLine GetReturnLinesByProductNo(string ProductNo)
+        {
+            return database.Table<ReturnLine>().Where(a => a.ProductBarCode == ProductNo).FirstOrDefault();
+        }
+
         public void Dispose()
         {
             database.Dispose();

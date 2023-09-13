@@ -1,6 +1,8 @@
-﻿using InventoryManagmentMobile.Models;
+﻿using InventoryManagmentMobile.Database;
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,7 +34,8 @@ namespace InventoryManagmentMobile.ViewModels
         public OrderResult OrderResult { get; set; }
         public ReturnHead Order { get; set; }
         public VendorResult Vendor { get; set; }
-        public ProductResult Product { get; set; }
+        private ProductResult _product;
+        public ProductResult Product { get { return _product; } set { SetProperty(ref _product, value); } }
 
         public ObservableCollection<MeasurementUnit> MeasurementUnits { get; set; }
         public MeasurementUnit MeasurementSelected { get; set; }
@@ -92,9 +95,13 @@ namespace InventoryManagmentMobile.ViewModels
         public string VendorName { get { return _vendorName; } set { SetProperty(ref _vendorName, value); } }
         private bool _showContent = true;
         public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
-        public ReturnViewModel(OleRepository _repo)
+
+        private readonly OleDataContext _context;
+
+        public ReturnViewModel(OleRepository _repo, OleDataContext context)
 
         {
+            _context = context;
             ObjItem = new ReturnItem();
             StoreNo = Preferences.Get("storeNo", "Default Value");
             ObjStorageResult = new StorageResult();
@@ -132,6 +139,33 @@ namespace InventoryManagmentMobile.ViewModels
             ShowContent = true;
 
         }
+        public async void LoadItemsAsync()
+        {
+            try
+            {
+                var items = new List<ReturnLine>();
+                int linenumber = 10;
+                ReturnDetails.Clear();
+                items = _context.GetReturnLinesByOrderNo(VendorNo);
+                if (items is not null && items.Any())
+                {
+
+                    foreach (var line in items)
+                    {
+
+                        ReturnDetails.Add(new ReturnItem { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, Qty = line.Quantity, Um = line.Um, StorageId = StorageNo, LineNo = linenumber });
+                        linenumber += 10;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+            }
+
+
+        }
         private async void BackSync()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Esta seguro de Salir?", "Si", "No");
@@ -142,16 +176,24 @@ namespace InventoryManagmentMobile.ViewModels
         }
         private async void RemoveReturnItem(ReturnItem item)
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea Remover este producto de la Devolucion?", "Yes", "No");
-            if (answer)
+
+            try
+            {
+                bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea Remover este producto de la Devolucion?", "Yes", "No");
+                if (answer)
+                {
+                    var qitem = ReturnDetails.FirstOrDefault(x => x.ProductBarCode == item.ProductBarCode);
+                    ReturnDetails.Remove(qitem);
+                    //Details.Remove(dto);
+                    _context.ExecuteSql($"DELETE FROM ReturnLine Where VendorNo = '{VendorNo}' AND ProductBarCode = '{item.ProductBarCode}'");
+                    LoadItemsAsync();
+                }
+            }
+            catch (Exception ex)
             {
 
-                var returnitem = ReturnDetails.FirstOrDefault(xc => xc.ProductBarCode == item.ProductBarCode);
-                if (returnitem != null)
-                {
-                    ReturnDetails.Remove(returnitem);
 
-                }
+                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
             }
         }
 
@@ -171,109 +213,197 @@ namespace InventoryManagmentMobile.ViewModels
         }
         private async void SaveReturn()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
-            if (answer)
+            try
             {
-                if (ReturnDetails == null)
+                if (Vendor.Data == null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Devolucoin", "No a Agregado detalle", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Guardar Devolucion", "Proveedor No Valido", "Aceptar");
                     return;
                 }
-                Order.Items = ReturnDetails.ToArray();
-                Order.Comment = "";
-                Order.VendorId = Vendor.Data.Id;
-
-
-                IsBusy = true;
-                ShowContent = false;
-                var Result = await Repo.SaveReturn(Order);
-                Thread.Sleep(5000);
-                IsBusy = false;
-                ShowContent = true;
-                if (Result != null && Result.IsSuccess)
+                if (ReturnDetails == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Guardar Devolucion", "No a Agregado detalle", "Aceptar");
+                    return;
+                }
+                bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
+                if (answer)
                 {
 
-                    // ShowSucces("Transaccion Procesada Correctamente");
-                    var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+                    Order.Items = ReturnDetails.ToArray();
+                    Order.Comment = "";
+                    Order.VendorId = Vendor.Data.Id;
 
 
-
-                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+                    IsBusy = true;
+                    ShowContent = false;
+                    var Result = await Repo.SaveReturn(Order);
                     Thread.Sleep(5000);
+                    IsBusy = false;
+                    ShowContent = true;
+                    if (Result != null && Result.IsSuccess)
+                    {
 
-                    await Shell.Current.Navigation.PopToRootAsync();
+                        // ShowSucces("Transaccion Procesada Correctamente");
+                        var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+                        Thread.Sleep(5000);
+
+                        await Shell.Current.Navigation.PopToRootAsync();
+                    }
+                    else
+                    {
+
+                        // ShowError(Result.MessagesFromErp[0].Message);
+                        var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+
+
+
+                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
+
+                    }
                 }
                 else
                 {
-
-                    // ShowError(Result.MessagesFromErp[0].Message);
-                    var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
-
-
-
-                    await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-
+                    return;
                 }
             }
-            else
+            catch (Exception)
             {
-                return;
+
+                throw;
             }
+
         }
 
         private async void AddProduct()
         {
-            if (Product == null)
+            try
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
-                return;
+                if (Product == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
+                    return;
+                }
+                if (StorageSelected == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado un storage", "Aceptar");
+                    return;
+                }
+                if (Quantity == 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad de devolver", "Aceptar");
+                    return;
+                }
+                int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
+
+                if (!_context.ValidExistReturnLine(VendorNo, ProductNo))
+                {
+                    _context.CreateReturnLine(new ReturnLine { VendorNo = VendorNo, ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = Product.Product.Name, Quantity = Quantity, Um = Product.Product.BaseUm });
+
+                    /*
+                    ObjItem.ProductId = Product.Product.Id; ObjItem.ProductBarCode = Product.Product.BarCode; ObjItem.LineNo = line; ObjItem.Qty = Quantity; ObjItem.Um = Product.Product.BaseUm;
+                    ObjItem.StorageId = StorageSelected.Id;
+                    ReturnDetails.Add(ObjItem);
+                    */
+                }
+                else
+                {
+
+                    var qline = _context.GetReturnLine(VendorNo, ProductNo);
+
+                    if (qline != null)
+                    {
+
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sumar", "Sustituir");
+                        if (answer)
+                        {
+                            //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+
+                        }
+                        else
+                        {
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+
+                        }
+
+                    }
+
+                }
+                ProductNo = "";
+                Quantity = 0;
             }
-            if (StorageSelected == null)
+            catch (Exception)
             {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado un storage", "Aceptar");
-                return;
+
+                throw;
             }
-            if (Quantity == 0)
-            {
-                await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad de devolver", "Aceptar");
-                return;
-            }
-            int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
 
-
-            ObjItem.ProductId = Product.Product.Id; ObjItem.ProductBarCode = Product.Product.BarCode; ObjItem.LineNo = line; ObjItem.Qty = Quantity; ObjItem.Um = Product.Product.BaseUm;
-            ObjItem.StorageId = StorageSelected.Id;
-            ReturnDetails.Add(ObjItem);
-
-            ProductNo = "";
-            Quantity = 0;
         }
 
         private async void ProductByNo()
         {
-            Product = new ProductResult();
-            Product = await Repo.ProductByBarCode(ProductNo);
-            if (Product.Product == null)
+            try
             {
-                await Application.Current.MainPage.DisplayAlert("Producto", "Producto no Existe", "Aceptar");
-                return;
+                Product = new ProductResult();
+                Product = await Repo.ProductByBarCode(ProductNo);
+                if (Product.Product == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Producto", "Producto no Existe", "Aceptar");
+                    return;
+                }
+                Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
             }
-            Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
 
         public async void VendorByNo()
         {
-            Vendor = new VendorResult();
-            Vendor = await Repo.VendorById(VendorNo);
-            if (Vendor.Data == null)
+            try
             {
-                await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
-                return;
-            }
-            VendorName = Vendor.Data.Name;
+                LoadItemsAsync();
+                if (ReturnDetails.Count() > 0)
+                {
+                    bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Devolucion ya fue iniciada Desea Reanudar o Limpiar  e iniciar desde Cero?", "Reanudar", "Limpiar");
+                    if (!answer)
+                    {
+                        _context.DeleteReturnLineByVendorNo(VendorNo);
 
-            HasVendor = true;
+                        ReturnDetails.Clear();
+
+                    }
+
+
+
+
+                }
+
+                Vendor = new VendorResult();
+                Vendor = await Repo.VendorById(VendorNo);
+                if (Vendor.Data == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
+                    return;
+                }
+                VendorName = Vendor.Data.Name;
+
+                HasVendor = true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
 
         }
         public async Task GetVendorByNo()
@@ -303,6 +433,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             }
             ShowPanel("D");
+            LoadItemsAsync();
         }
 
         private void ProductosOpcion()

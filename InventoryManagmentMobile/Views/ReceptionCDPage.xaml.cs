@@ -27,11 +27,15 @@ public partial class ReceptionCDPage : ContentPage
 
     }
 
-    private void productNo_Completed(object sender, EventArgs e)
+    private async void productNo_Completed(object sender, EventArgs e)
     {
-        if (_vm.OrderItem == null)
+        await _vm.ProductByNo();
+
+        if (_vm.Product.Product == null)
         {
-            productNo.Focus();
+            _vm.NotEdition = true;
+            _vm.InEdition = false;
+            this.productNo.Focus();
             return;
         }
 
@@ -86,13 +90,22 @@ public partial class ReceptionCDPage : ContentPage
 
     private void btnRecibir_Clicked(object sender, EventArgs e)
     {
-        if (_vm.Order == null)
+        try
         {
-            NoOrder.Focus();
-            return;
+            if (_vm.Order == null)
+            {
+                NoOrder.Focus();
+                return;
+            }
+            _vm.ProductosCommand.Execute(this);
+            productNo.Focus();
         }
-        _vm.ProductosCommand.Execute(this);
-        productNo.Focus();
+        catch (Exception)
+        {
+
+            throw;
+        }
+
     }
 
 
@@ -115,5 +128,11 @@ public partial class ReceptionCDPage : ContentPage
     private void NoOrder_TextChanged(object sender, TextChangedEventArgs e)
     {
         //DependencyService.Get<IKeyboardService>().HideKeyboard();
+    }
+
+    private void btnAdd_Clicked(object sender, EventArgs e)
+    {
+
+        this.productNo.Focus();
     }
 }

@@ -132,6 +132,9 @@ namespace InventoryManagmentMobile.ViewModels
         public string TypeTrans { get; set; } = "OT";
         private bool _NotEdition = true;
         public bool NotEdition { get { return _NotEdition; } set { SetProperty(ref _NotEdition, value); } }
+
+        private bool _InEdition = false;
+        public bool InEdition { get { return _InEdition; } set { SetProperty(ref _InEdition, value); } }
         public ReceptionCDViewModel(OleRepository _repo, OleDataContext context)
         {
 
@@ -232,22 +235,24 @@ namespace InventoryManagmentMobile.ViewModels
 
         private async void SaveReception()
         {
+            if (ReceptionItems == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                return;
+            }
+            if (Order.Data.Items.Length != ReceptionItems.Count())
+            {
+                await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
+                return;
+            }
+
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
             if (answer)
             {
 
 
 
-                if (ReceptionItems == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
-                    return;
-                }
-                if (Order.Data.Items.Length != ReceptionItems.Count())
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
-                    return;
-                }
+
                 Reception.Items = ReceptionItems.ToArray();
                 Reception.VendorId = Order.Data.VendorId;
 
@@ -374,26 +379,26 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
 
-            int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
+            int line = _context.NextTransactionLinesByOrderNo(TypeTrans, OrderNo);
 
             int exist = 0;
             string filter = $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'";
-
-            exist = _context.ValidExist(filter);
-            if (exist == 0)
+            if (!_context.ValidExist(TypeTrans, OrderNo, ProductNo, IsBonus))
             {
 
-                _context.CreateTransactionLine(new TransactionLine { TypeTrans = TypeTrans, LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = OrderItem.ProductId, ProductBarCode = ProductNo, ProductName = OrderItem.ProductName, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+                //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
+                // _context.DeleteTransationLineByOrderNo(OrderNo);
+                _context.CreateTransactionLine(new TransactionLine { TypeTrans = TypeTrans, LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
+                //_context.AddItemAsync<TransactionLine>();
             }
             else
             {
-
                 var qline = _context.GetLine(TypeTrans, OrderNo, ProductNo, IsBonus);
 
                 if (qline != null)
                 {
-                    if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty)
+                    if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && TypeTrans == "OT")
                     {
                         bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea  Sustituir)?", "Si", "no");
                         if (resp)
@@ -405,7 +410,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                         }
                     }
-                    else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty))
+                    else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && TypeTrans == "OT"))
                     {
                         bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sumar", "Sustituir");
                         if (answer)
@@ -422,6 +427,8 @@ namespace InventoryManagmentMobile.ViewModels
                     }
 
                 }
+
+
             }
             ProductNo = "";
             Quantity = "";
@@ -431,9 +438,10 @@ namespace InventoryManagmentMobile.ViewModels
             Unidad = "";
             Product = new ProductResult();
             NotEdition = true;
+            InEdition = false;
         }
 
-        private async void ProductByNo()
+        public async Task ProductByNo()
         {
             try
             {
@@ -450,6 +458,7 @@ namespace InventoryManagmentMobile.ViewModels
                     QtyUnit = string.Empty;
                     Factor = 0;
                     NotEdition = true;
+                    InEdition = false;
                     return;
                 }
 
@@ -465,6 +474,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Factor = un.Factor;
                 Unidad = $"Cantidad ({OrderItem.Um})";
                 NotEdition = false;
+                InEdition = true;
             }
             catch (Exception ex)
             {
