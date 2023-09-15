@@ -1,6 +1,7 @@
 ﻿
 using InventoryManagmentMobile.Models;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Maui.Controls.Shapes;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace InventoryManagmentMobile.Database
         private readonly SQLiteConnection database;
         public OleDataContext()
         {
-            var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "oleDb.db");
+            var dbPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "oleDb.db");
             database = new SQLiteConnection(dbPath);
             database.CreateTable<TransactionLine>();
             database.CreateTable<ReturnLine>();
@@ -35,7 +36,50 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Update(line);
         }
+        public int SaveTransactionLine(List<TransactionLine> lines)
+        {
+            try
+            {
+                lines.ForEach((l) =>
+                {
+                    if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
+                    {
+                        database.Update(l);
+                    }
+                    else
+                    {
+                        database.Insert(l);
+                    }
+                });
 
+                return lines.Count();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+        public int SaveTransLine(TransactionLine l)
+        {
+            try
+            {
+                if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
+                {
+                    return database.Update(l);
+                }
+                else
+                {
+                    return database.Insert(l);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         public int DeleteTransationLine(TransactionLine line)
         {
             return database.Delete(line);
@@ -77,6 +121,18 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).ToList();
         }
+        public List<TransactionLine> GetTransactionLinesByOrderNo(string typetrans, string orderNo, string productNo)
+        {
+            if (productNo == "" || productNo == "*" | productNo == "ALL")
+            {
+                return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo).ToList();
+            }
+            else
+            {
+                return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo && a.ProductBarCode == productNo).ToList();
+            }
+
+        }
         public int NextTransactionLinesByOrderNo(string typetrans, string orderNo)
         {
             int nextline = 0;
@@ -116,7 +172,25 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Delete(line);
         }
+        public int SaveReturnLine(ReturnLine l)
+        {
+            try
+            {
+                if (database.Table<ReturnLine>().Any(xc => xc.VendorNo == l.VendorNo && xc.ProductBarCode == l.ProductBarCode))
+                {
+                    return database.Update(l);
+                }
+                else
+                {
+                    return database.Insert(l);
+                }
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+        }
         public int DeleteReturnLineByVendorNo(string VendorNo)
         {
             var list = database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo).ToList();
@@ -139,6 +213,18 @@ namespace InventoryManagmentMobile.Database
         public List<ReturnLine> GetReturnLinesByOrderNo(string VendorNo)
         {
             return database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo).ToList();
+        }
+        public List<ReturnLine> GetReturnLinesByOrderNo(string VendorNo, string productNo)
+        {
+            if (productNo == "" || productNo == "*" | productNo == "ALL")
+            {
+                return database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo).ToList();
+            }
+            else
+            {
+                return database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo && a.ProductBarCode == productNo).ToList();
+            }
+
         }
         public ReturnLine GetReturnLinesByProductNo(string ProductNo)
         {

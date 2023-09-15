@@ -97,7 +97,10 @@ namespace InventoryManagmentMobile.ViewModels
         public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
 
         private readonly OleDataContext _context;
-
+        private bool _InEdition = false;
+        public bool InEdition { get { return _InEdition; } set { SetProperty(ref _InEdition, value); } }
+        string _lookupBarCode = "*";
+        public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
         public ReturnViewModel(OleRepository _repo, OleDataContext context)
 
         {
@@ -147,6 +150,33 @@ namespace InventoryManagmentMobile.ViewModels
                 int linenumber = 10;
                 ReturnDetails.Clear();
                 items = _context.GetReturnLinesByOrderNo(VendorNo);
+                if (items is not null && items.Any())
+                {
+
+                    foreach (var line in items)
+                    {
+
+                        ReturnDetails.Add(new ReturnItem { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, Qty = line.Quantity, Um = line.Um, StorageId = StorageNo, LineNo = linenumber });
+                        linenumber += 10;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+            }
+
+
+        }
+        public async void FindByProduct(string barCode)
+        {
+            try
+            {
+                var items = new List<ReturnLine>();
+                int linenumber = 10;
+                ReturnDetails.Clear();
+                items = _context.GetReturnLinesByOrderNo(VendorNo, barCode);
                 if (items is not null && items.Any())
                 {
 
@@ -302,12 +332,6 @@ namespace InventoryManagmentMobile.ViewModels
                 if (!_context.ValidExistReturnLine(VendorNo, ProductNo))
                 {
                     _context.CreateReturnLine(new ReturnLine { VendorNo = VendorNo, ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = Product.Product.Name, Quantity = Quantity, Um = Product.Product.BaseUm });
-
-                    /*
-                    ObjItem.ProductId = Product.Product.Id; ObjItem.ProductBarCode = Product.Product.BarCode; ObjItem.LineNo = line; ObjItem.Qty = Quantity; ObjItem.Um = Product.Product.BaseUm;
-                    ObjItem.StorageId = StorageSelected.Id;
-                    ReturnDetails.Add(ObjItem);
-                    */
                 }
                 else
                 {
@@ -317,16 +341,16 @@ namespace InventoryManagmentMobile.ViewModels
                     if (qline != null)
                     {
 
-                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sumar", "Sustituir");
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sustituir", "Sumar");
                         if (answer)
                         {
                             //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
 
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
                         }
                         else
                         {
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
 
                         }
 
@@ -335,6 +359,8 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 ProductNo = "";
                 Quantity = 0;
+                Product = new ProductResult();
+                InEdition = false;
             }
             catch (Exception)
             {
@@ -353,13 +379,15 @@ namespace InventoryManagmentMobile.ViewModels
                 if (Product.Product == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Producto", "Producto no Existe", "Aceptar");
+                    InEdition = false;
                     return;
                 }
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
+                InEdition = true;
             }
             catch (Exception)
             {
-
+                InEdition = false;
                 throw;
             }
 
@@ -381,10 +409,6 @@ namespace InventoryManagmentMobile.ViewModels
                         ReturnDetails.Clear();
 
                     }
-
-
-
-
                 }
 
                 Vendor = new VendorResult();
@@ -398,7 +422,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 HasVendor = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

@@ -11,6 +11,8 @@ namespace InventoryManagmentMobile.Models
 {
     public class ReturnLine
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
 
         [Indexed(Name = "CompositeKey", Order = 1, Unique = true)]
         public string VendorNo { get; set; }

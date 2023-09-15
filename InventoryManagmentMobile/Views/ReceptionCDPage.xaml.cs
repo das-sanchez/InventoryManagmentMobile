@@ -135,4 +135,9 @@ public partial class ReceptionCDPage : ContentPage
 
         this.productNo.Focus();
     }
+
+    private void LookBarCode_Completed(object sender, EventArgs e)
+    {
+        _vm.FindByProduct(this.LookBarCode.Text);
+    }
 }

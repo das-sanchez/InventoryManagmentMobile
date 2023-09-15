@@ -136,4 +136,9 @@ public partial class ReceptionPage : ContentPage
     {
         this.productNo.Focus();
     }
+
+    private void LookBarCode_Completed(object sender, EventArgs e)
+    {
+        _vm.FindByProduct(this.LookBarCode.Text);
+    }
 }
