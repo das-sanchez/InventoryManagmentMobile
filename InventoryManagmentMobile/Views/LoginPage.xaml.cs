@@ -4,9 +4,11 @@ namespace InventoryManagmentMobile.Views;
 
 public partial class LoginPage : ContentPage
 {
+    public LoginViewModel _vm { get; set; }
     public LoginPage(LoginViewModel viewModel)
     {
         InitializeComponent();
+        _vm = viewModel;
         this.BindingContext = viewModel;
         this.userName.Focus();
 
@@ -15,6 +17,7 @@ public partial class LoginPage : ContentPage
 
     private void userName_Completed(object sender, EventArgs e)
     {
+        _vm.GetStoreByUser();
         this.password.Focus();
     }
 

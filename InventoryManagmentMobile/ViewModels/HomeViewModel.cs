@@ -17,7 +17,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             list = new ObservableCollection<MenuOption>();
             list.Add(new MenuOption { Id = "RE", Titulo = "Recibir", Icon = "recibo2x.svg" });
-            list.Add(new MenuOption { Id = "ET", Titulo = "Enviar", Icon = "caja2.svg" });
+            list.Add(new MenuOption { Id = "D", Titulo = "Enviar", Icon = "caja2.svg" });
             list.Add(new MenuOption { Id = "DE", Titulo = "Devolver", Icon = "devolver2x.svg" });
 
             ItemTapped = new Command<MenuOption>(OnItemSelected);
@@ -36,7 +36,7 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                     break;
-                case "ET":
+                case "D":
                     await Shell.Current.GoToAsync(nameof(ReceptionPage), navigationParameter);
 
                     break;

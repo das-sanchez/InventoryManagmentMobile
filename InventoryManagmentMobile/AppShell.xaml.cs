@@ -23,6 +23,6 @@ public partial class AppShell : Shell
 
     private void mnLogout_Clicked(object sender, EventArgs e)
     {
-        Application.Current.MainPage = new LoginPage(new ViewModels.LoginViewModel(new OleRepository()));
+        Application.Current.MainPage = new LoginPage(new ViewModels.LoginViewModel(new OleRepository(), new Database.OleDataContext()));
     }
 }

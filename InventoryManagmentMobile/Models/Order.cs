@@ -14,6 +14,8 @@ namespace InventoryManagmentMobile.Models
 
         [JsonPropertyName("companyId")]
         public long CompanyId { get; set; }
+        [JsonPropertyName("orderType")]
+        public string OrderType { get; set; }
 
         [JsonPropertyName("vendorId")]
         public string VendorId { get; set; }

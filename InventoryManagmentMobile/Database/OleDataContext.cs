@@ -20,6 +20,7 @@ namespace InventoryManagmentMobile.Database
             database = new SQLiteConnection(dbPath);
             database.CreateTable<TransactionLine>();
             database.CreateTable<ReturnLine>();
+            database.CreateTable<UserStore>();
         }
         public List<TransactionLine> GetTransactionLines()
 
@@ -230,7 +231,66 @@ namespace InventoryManagmentMobile.Database
         {
             return database.Table<ReturnLine>().Where(a => a.ProductBarCode == ProductNo).FirstOrDefault();
         }
+        //User Store 
+        public List<UserStore> GetUserStores()
 
+        {
+            return database.Table<UserStore>().ToList();
+        }
+
+        public int CreateUserStore(UserStore line)
+        {
+            return database.Insert(line);
+        }
+
+        public int UpdateUserStore(UserStore line)
+        {
+            return database.Update(line);
+        }
+
+        public int DeleteUserStore(UserStore line)
+        {
+            return database.Delete(line);
+        }
+        public int SaveUserStore(UserStore l)
+        {
+            try
+            {
+                if (database.Table<UserStore>().Any(xc => xc.UserId == l.UserId))
+                {
+                    return database.Update(l);
+                }
+                else
+                {
+                    return database.Insert(l);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public int DeleteUserStoreByUserId(string userId)
+        {
+            var list = database.Table<UserStore>().Where(a => a.UserId == userId).ToList();
+            if (list.Count() == 0)
+            {
+                return 0;
+            }
+            list.ForEach((line) => { database.Delete(line); });
+            return list.Count();
+        }
+
+
+        public UserStore GetUserStore(string userId)
+        {
+            return database.Table<UserStore>().Where(a => a.UserId == userId).FirstOrDefault();
+        }
+        public bool ValidExistUserStore(string userId)
+        {
+            return database.Table<UserStore>().Any(a => a.UserId == userId);
+        }
         public void Dispose()
         {
             database.Dispose();

@@ -1,4 +1,5 @@
-﻿using InventoryManagmentMobile.Models;
+﻿using InventoryManagmentMobile.Database;
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
 using System;
 using System.Collections.Generic;
@@ -54,10 +55,18 @@ namespace InventoryManagmentMobile.ViewModels
             get { return _login; }
             set { SetProperty(ref _login, value); }
         }
+        private UserStore _userStoreSelected;
+        public UserStore UserStoreSelected
+        {
+            get { return _userStoreSelected; }
+            set { SetProperty(ref _userStoreSelected, value); }
+        }
+        private readonly OleDataContext _context;
         private readonly OleRepository Repo;
-        public LoginViewModel(OleRepository _repo)
+        public LoginViewModel(OleRepository _repo, OleDataContext context)
         {
             Repo = _repo;
+            _context = context;
             StoreResult = new StoreResult();
             LogResult = new LoginResult();
             Stores = new ObservableCollection<Store>();
@@ -91,6 +100,20 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
         }
+        public void GetStoreByUser()
+        {
+            if (_context.ValidExistUserStore(User))
+            {
+                if (!string.IsNullOrEmpty(User))
+                {
+                    var us = _context.GetUserStore(User);
+                    StoreSelected = Stores.FirstOrDefault(x => x.Id == us.StoreNo);
+                }
+            }
+
+
+        }
+
         private async Task Login()
         {
             try
@@ -106,6 +129,23 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert("Login Error", "Debe Seleccionar un Store", "Aceptar");
                     return;
+                }
+
+                if (_context.ValidExistUserStore(User))
+                {
+                    var us = _context.GetUserStore(User);
+                    if (us.StoreNo != StoreSelected.Id)
+                    {
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Login", $"El Store {StoreSelected.Name} seleccionado es diferente al que tiene por defecto desea cambiarlo?", "Si", "No");
+                        if (answer)
+                        {
+                            _context.SaveUserStore(new UserStore() { Id = us.Id, StoreNo = StoreSelected.Id, UserId = User });
+                        }
+                    }
+                }
+                else
+                {
+                    _context.SaveUserStore(new UserStore() { Id = 0, StoreNo = StoreSelected.Id, UserId = User });
                 }
 
                 LogIn = new Login();

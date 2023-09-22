@@ -19,7 +19,7 @@ public partial class ReceptionPage : ContentPage
     {
 
         this.NoOrder.Unfocus();
-        if (_vm.Type == "OC")
+        if (_vm.Type == "P")
         {
             this.document.Focus();
         }

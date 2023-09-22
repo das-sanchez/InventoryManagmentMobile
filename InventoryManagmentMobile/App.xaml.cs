@@ -1,4 +1,5 @@
-﻿using InventoryManagmentMobile.Repositories;
+﻿using InventoryManagmentMobile.Database;
+using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
 
 namespace InventoryManagmentMobile;
@@ -11,7 +12,7 @@ public partial class App : Application
 
         InitializeComponent();
         Repo = _repo;
-        MainPage = new LoginPage(new ViewModels.LoginViewModel(Repo));
+        MainPage = new LoginPage(new ViewModels.LoginViewModel(Repo, new OleDataContext()));
         //  KeyboardHelper.HideKeyboard();
 
     }

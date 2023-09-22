@@ -27,7 +27,7 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 SetProperty(ref _type, value);
                 ButtonTitle = "Recibir";
-                if (value == "OC")
+                if (value == "P")
                 {
                     IsInvoiceRequired = true;
                     OrderLabel = "Orden de Compra";
@@ -36,7 +36,7 @@ namespace InventoryManagmentMobile.ViewModels
                     ButtonTitle = "Recibir";
                     IsOPOrder = true;
                 }
-                else if (value == "RT")
+                else if (value == "T")
                 {
                     OrderLabel = "No Transferencia";
                     OrderPlaceHolderLabel = "No Transferencia";
@@ -344,7 +344,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                if (string.IsNullOrEmpty(InvoiceNumber) && Type == "OC")
+                if (string.IsNullOrEmpty(InvoiceNumber) && Type == "P")
                 {
                     await Application.Current.MainPage.DisplayAlert("Recepcion", "Debe Digitar el Numero de Factura", "Aceptar");
                     return;
@@ -488,7 +488,11 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", $"La Recibida {(IsBonus ? "En Bono " : "")} es Mayor que la Ordenada", "Aceptar");
                     return;
                 }
-
+                if (!Items.Any(xc => xc.ProductBarCode == ProductNo && xc.Bono == IsBonus))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", $"La cantidad de bonos no puede ser registrada debido a que la orden no incluye bonos para el producto especificado", "Aceptar");
+                    return;
+                }
 
                 if (Product == null)
                 {
@@ -504,7 +508,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
 
-                string filter = (Type == "OC" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
+                string filter = (Type == "P" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'");
 
                 //exist = _context.ValidExist(filter);
                 if (!_context.ValidExist(Type, OrderNo, ProductNo, IsBonus))
@@ -582,11 +586,11 @@ namespace InventoryManagmentMobile.ViewModels
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
                 if (OrderItem == null)
                 {
-                    if (Type == "OC")
+                    if (Type == "P")
                         TypeDescription = "la Orden de Compra";
-                    if (Type == "RT")
+                    if (Type == "T")
                         TypeDescription = "la Orden de Transferencia";
-                    if (Type == "ET")
+                    if (Type == "D")
                         TypeDescription = "el Envio de Mercancia";
 
                     await Application.Current.MainPage.DisplayAlert("Recepcion", $"Producto no esta en {TypeDescription}", "Aceptar");
@@ -654,6 +658,57 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
                     return;
+                }
+                if (Order.Data.OrderType != Type)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden  tiene un tipo diferente al que esta trabajando Tipo: " + Type, "Aceptar");
+                    return;
+                }
+                if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
+                    return;
+                }
+                if (Order.Data.Items.Any(xc => string.IsNullOrEmpty(xc.ProductBarCode)))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene productos sin Codigo de Barra por favor corregir: " + StoreNo, "Aceptar");
+                    return;
+                }
+                var plist = Order.Data.Items
+                                  .Where(x => x.Bono == false)
+                                  .GroupBy(x => new { x.ProductBarCode })
+                                  .Select(x => new
+                                  {
+                                      ProductBarCode = x.Key.ProductBarCode,
+
+                                      Qty = x.Count(xc => xc.Bono)
+                                  }).ToList();
+
+                if (plist.Count() > 0)
+                {
+                    if (plist.Any(xc => xc.Qty > 1))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta Orden tiene productos Repetidos", "Aceptar");
+                        return;
+                    }
+                }
+                var blist = Order.Data.Items
+                                  .Where(x => x.Bono == true)
+                                  .GroupBy(x => new { x.ProductBarCode })
+                                  .Select(x => new
+                                  {
+                                      ProductBarCode = x.Key.ProductBarCode,
+
+                                      Qty = x.Count(xc => xc.Bono)
+                                  }).ToList();
+
+                if (blist.Count() > 0)
+                {
+                    if (blist.Any(xc => xc.Qty > 1))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene prdouctos en Bono repetidos", "Aceptar");
+                        return;
+                    }
                 }
                 HasOrder = true;
                 Items = Order.Data.Items.ToList();
