@@ -116,7 +116,7 @@ namespace InventoryManagmentMobile.Services
                 using (HttpClient client = new HttpClient())
                 {
 
-                    client.Timeout = TimeSpan.FromSeconds(60);
+                    client.Timeout = TimeSpan.FromSeconds(660);
                     //client.BaseAddress = new Uri(connection); //http://extranet.brugal.com.do:8026
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");

@@ -9,6 +9,8 @@ namespace InventoryManagmentMobile.Models
 {
     public class TranspOrderItem
     {
+        [JsonProperty("storeId")]
+        public string StoreId { get; set; }
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 

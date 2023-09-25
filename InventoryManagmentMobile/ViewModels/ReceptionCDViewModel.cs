@@ -536,6 +536,13 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
                     return;
                 }
+                if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
+                {
+                    Order = new TranspOrderResult();
+
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "El Store de la Orden Transportacion es diferente al del usuario", "Aceptar");
+                    return;
+                }
                 HasOrder = true;
                 Items = Order.Data.Items.ToList();
             }

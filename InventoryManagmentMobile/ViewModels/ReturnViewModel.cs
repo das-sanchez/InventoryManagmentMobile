@@ -312,6 +312,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
+                ProductByNo();
                 if (Product == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
@@ -320,6 +321,16 @@ namespace InventoryManagmentMobile.ViewModels
                 if (StorageSelected == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "No a seleccionado un storage", "Aceptar");
+                    return;
+                }
+                if (string.IsNullOrEmpty(ProductNo))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El producto no esta en blanco", "Aceptar");
+                    return;
+                }
+                if (Product.Product.BarCode != ProductNo)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Producto digitado es diferente al que fue consultado, eso significa que los cambiaste y no lo buscate bestia", "Aceptar");
                     return;
                 }
                 if (Quantity == 0)
@@ -341,16 +352,16 @@ namespace InventoryManagmentMobile.ViewModels
                     if (qline != null)
                     {
 
-                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sustituir", "Sumar");
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sumar", "Sustituir");
                         if (answer)
                         {
                             //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
 
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
                         }
                         else
                         {
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
 
                         }
 

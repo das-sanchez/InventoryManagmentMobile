@@ -26,9 +26,18 @@ namespace InventoryManagmentMobile.Repositories
 
         public async Task<OrderResult> OrderByOrderNo(string OrderNo)
         {
-            var order = new OrderResult();
-            order = await apiOrder.GetData(Constants.UrlBase, $"order/{OrderNo}");
-            return order;
+            try
+            {
+                var order = new OrderResult();
+                order = await apiOrder.GetData(Constants.UrlBase, $"order/{OrderNo}");
+                return order;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public async Task<ProductResult> ProductByBarCode(string BarCode)
