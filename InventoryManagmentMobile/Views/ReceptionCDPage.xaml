@@ -6,6 +6,10 @@
              xmlns:convert="clr-namespace:InventoryManagmentMobile"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionCDViewModel"
              Title="Centro Distribucion">
+    <ContentPage.ToolbarItems >
+
+        <ToolbarItem Text="Finalizar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=SaveReceptionCommand }" IsEnabled="{Binding CanSave, Mode=TwoWay}"  />
+    </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
                             IconOverride="back.png" />

@@ -31,7 +31,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     IsInvoiceRequired = true;
                     OrderLabel = "Orden de Compra";
-                    Title = "Recepcion Orden Compra";
+                    Title = "Orden Compra";
                     TypeDescription = "la Orden de Compra";
                     ButtonTitle = "Recibir";
                     IsOPOrder = true;
@@ -41,7 +41,7 @@ namespace InventoryManagmentMobile.ViewModels
                     OrderLabel = "No Transferencia";
                     OrderPlaceHolderLabel = "No Transferencia";
                     IsInvoiceRequired = false;
-                    Title = "Recepcion Transferencia";
+                    Title = "Transferencia";
                     TypeDescription = "la Orden de Transferencia";
                     ButtonTitle = "Recibir";
                 }
@@ -50,7 +50,7 @@ namespace InventoryManagmentMobile.ViewModels
                     OrderLabel = "No Envio";
                     OrderPlaceHolderLabel = "No Envio";
                     IsInvoiceRequired = false;
-                    Title = "Envio de Mercancia";
+                    Title = "Envio";
                     TypeDescription = "el Envio de Mercancia";
                     ButtonTitle = "Enviar";
                 }
@@ -192,6 +192,9 @@ namespace InventoryManagmentMobile.ViewModels
         public bool IsOPOrder { get { return _IsOPOrder; } set { SetProperty(ref _IsOPOrder, value); } }
         string _lookupBarCode = "*";
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
+
+        private bool _canSave = false;
+        public bool CanSave { get { return _canSave; } set { SetProperty(ref _canSave, value); } }
         public ReceptionViewModel(OleRepository _repo, OleDataContext context)
         {
             repo = _repo;
@@ -234,6 +237,7 @@ namespace InventoryManagmentMobile.ViewModels
             ShowContent = true;
             BackCommand = new Command(() => BackSync());
             //  var list = _context.GetTransactionLines().ToList();
+            CanSave = false;
 
         }
 
@@ -354,7 +358,14 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
                     return;
                 }
-
+                if (Order != null)
+                {
+                    if (Order.Data.Items.Length != ReceptionItems.Count())
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
+                        return;
+                    }
+                }
                 if (Order.Data.Items.Length != ReceptionItems.Count())
                 {
                     await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
@@ -444,7 +455,16 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
+                if (Items.Any(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus))
+                {
+                    OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", $"Este Producto no {(IsBonus ? " Existe  en la Orden con Bono" : "Existe en la Orden")} ", "Aceptar");
+                    return;
+                }
+
 
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
                 if (un == null)
@@ -661,17 +681,21 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 if (Order.Data.OrderType != Type)
                 {
+                    Order = new OrderResult();
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden  tiene un tipo diferente al que esta trabajando Tipo: " + Type, "Aceptar");
+
                     return;
                 }
                 if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
                 {
+                    Order = new OrderResult();
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
                     return;
                 }
                 if (Order.Data.Items.Any(xc => string.IsNullOrEmpty(xc.ProductBarCode)))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene productos sin Codigo de Barra por favor corregir: " + StoreNo, "Aceptar");
+                    Order = new OrderResult();
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene productos sin Codigo de Barra por favor corregir: ", "Aceptar");
                     return;
                 }
                 var plist = Order.Data.Items
@@ -688,6 +712,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     if (plist.Any(xc => xc.Qty > 1))
                     {
+                        Order = new OrderResult();
                         await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta Orden tiene productos Repetidos", "Aceptar");
                         return;
                     }
@@ -706,6 +731,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     if (blist.Any(xc => xc.Qty > 1))
                     {
+                        Order = new OrderResult();
                         await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene prdouctos en Bono repetidos", "Aceptar");
                         return;
                     }
@@ -742,6 +768,10 @@ namespace InventoryManagmentMobile.ViewModels
 
             ShowPanel("R");
             LoadItemsAsync();
+            if (ReceptionItems.Count() > 0)
+            {
+                CanSave = true;
+            }
         }
 
         private void DetalleOpcion()
@@ -749,6 +779,7 @@ namespace InventoryManagmentMobile.ViewModels
             if (!HasOrder)
                 return;
             ShowPanel("D");
+            CanSave = false;
         }
 
         private void ProductosOpcion()
@@ -756,11 +787,13 @@ namespace InventoryManagmentMobile.ViewModels
             if (!HasOrder)
                 return;
             ShowPanel("P");
+            CanSave = false;
         }
 
         private void GeneralOpcion()
         {
             ShowPanel("G");
+            CanSave = false;
         }
         private void ShowPanel(string opcion)
         {

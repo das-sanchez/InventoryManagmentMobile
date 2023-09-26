@@ -1,4 +1,5 @@
-﻿using InventoryManagmentMobile.Database;
+﻿
+using InventoryManagmentMobile.Database;
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 namespace InventoryManagmentMobile.ViewModels
 {
     public class ReturnViewModel : BaseViewModel
+
     {
         public Command GeneralCommand { get; }
         public Command ProductosCommand { get; }
@@ -101,6 +103,8 @@ namespace InventoryManagmentMobile.ViewModels
         public bool InEdition { get { return _InEdition; } set { SetProperty(ref _InEdition, value); } }
         string _lookupBarCode = "*";
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
+        private bool _canSave = false;
+        public bool CanSave { get { return _canSave; } set { SetProperty(ref _canSave, value); } }
         public ReturnViewModel(OleRepository _repo, OleDataContext context)
 
         {
@@ -140,6 +144,7 @@ namespace InventoryManagmentMobile.ViewModels
             CurrentDate = DateTime.Now;
             BackCommand = new Command(() => BackSync());
             ShowContent = true;
+            CanSave = false;
 
         }
         public async void LoadItemsAsync()
@@ -352,16 +357,17 @@ namespace InventoryManagmentMobile.ViewModels
                     if (qline != null)
                     {
 
-                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sumar", "Sustituir");
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", $"El producto ya Existe  desea Sumar o Sustituir)?", "Sustituir", "Sumar");
                         if (answer)
                         {
                             //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
 
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
                         }
                         else
                         {
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+
 
                         }
 
@@ -381,7 +387,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         }
 
-        private async void ProductByNo()
+        public async Task ProductByNo()
         {
             try
             {
@@ -405,7 +411,7 @@ namespace InventoryManagmentMobile.ViewModels
 
         }
 
-        public async void VendorByNo()
+        public async Task VendorByNo()
         {
             try
             {
@@ -458,6 +464,10 @@ namespace InventoryManagmentMobile.ViewModels
 
         private void ResumenOpcion()
         {
+            if (ReturnDetails.Count() > 0)
+            {
+                CanSave = true;
+            }
             ShowPanel("R");
         }
 
@@ -468,7 +478,9 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             }
             ShowPanel("D");
+
             LoadItemsAsync();
+            CanSave = false;
         }
 
         private void ProductosOpcion()
@@ -477,12 +489,13 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 return;
             }
-
+            CanSave = false;
             ShowPanel("P");
         }
 
         private void GeneralOpcion()
         {
+            CanSave = false;
             ShowPanel("G");
         }
         private void ShowPanel(string opcion)

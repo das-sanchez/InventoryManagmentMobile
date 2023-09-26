@@ -28,27 +28,42 @@ public partial class ReturnsPage : ContentPage
     private async void vendor_Completed(object sender, EventArgs e)
     {
 
-        _vm.Vendor = new VendorResult();
-        _vm.Vendor = await _vm.Repo.VendorById(_vm.VendorNo);
+        await _vm.VendorByNo();
         if (_vm.Vendor.Data == null)
         {
-            await Application.Current.MainPage.DisplayAlert("Proveedor", "Proveedor no Existe", "Aceptar");
+            vendor.Focus();
             return;
         }
-        _vm.VendorName = _vm.Vendor.Data.Name;
+        else
+        {
+            _vm.VendorName = _vm.Vendor.Data.Name;
 
-        _vm.HasVendor = true;
+            _vm.HasVendor = true;
 
-        this.storageNo.Focus();
+            this.storageNo.Focus();
+        }
+
 
         //_vm.VendorNo = sender.ToString();
         //_vm.GetProductCommand.Execute(default);
     }
 
-    private void productNo_Completed(object sender, EventArgs e)
+    private async void productNo_Completed(object sender, EventArgs e)
     {
-        //productNo.Text = string.Empty;
-        qty.Focus();
+        await _vm.ProductByNo();
+
+        if (_vm.Product.Product == null)
+        {
+
+            _vm.InEdition = false;
+            this.productNo.Focus();
+            return;
+        }
+        else
+        {
+            this.qty.Focus();
+        }
+
 
     }
 
