@@ -86,4 +86,10 @@ public partial class ReturnsPage : ContentPage
     {
         _vm.FindByProduct(this.LookBarCode.Text.Trim());
     }
+
+    private void productNo_Focused(object sender, FocusEventArgs e)
+    {
+        this.qty.Text = string.Empty;
+        _vm.InEdition = false;
+    }
 }

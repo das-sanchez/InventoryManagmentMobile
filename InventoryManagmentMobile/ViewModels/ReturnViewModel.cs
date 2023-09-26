@@ -312,7 +312,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                ProductByNo();
+                //ProductByNo();
                 if (Product == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
@@ -373,7 +373,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Product = new ProductResult();
                 InEdition = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
