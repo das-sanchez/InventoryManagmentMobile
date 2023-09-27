@@ -4,10 +4,10 @@
              x:Class="InventoryManagmentMobile.Views.ReceptionMenuPage"
              xmlns:viewmodel="clr-namespace:InventoryManagmentMobile.ViewModels"
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"
-             x:DataType="viewmodel:HomeViewModel"
+             x:DataType="viewmodel:ReceptionCDViewModel"
              Title="Recibir Mercancia">
     <ScrollView>
-        <VerticalStackLayout VerticalOptions="Start">
+        <VerticalStackLayout x:DataType="viewmodel:ReceptionMenuViewModel" VerticalOptions="Start" >
 
             <Image
                 Source="group9.png"
@@ -19,7 +19,7 @@
                 SemanticProperties.Description="Cute dot net bot waving hi to you!"
                 HeightRequest="125" WidthRequest="170"
                 HorizontalOptions="Center" />
-            <StackLayout Padding="10,5,10,5">
+            <StackLayout Padding="10,5,10,5" IsVisible="{Binding ShowContent}">
                 <CollectionView
                     x:Name="listGroups"
 
@@ -61,6 +61,18 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
+            <ContentView x:Name="popupView"  x:DataType="viewmodel:BaseViewModel" BackgroundColor="White" Padding="0,10,0,0" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding IsBusy}" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="All">
+
+                <Frame VerticalOptions="Center" HorizontalOptions="Center" HeightRequest="150" WidthRequest="150" BackgroundColor="White" CornerRadius="60" BorderColor="LightGray" HasShadow="True" Padding="5" Margin="15">
+
+                    <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" />
+                        <Label Text="Procesando..." Margin="10" />
+                    </VerticalStackLayout>
+
+                </Frame>
+
+            </ContentView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

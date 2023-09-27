@@ -1,11 +1,3 @@
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.runtimeconfig.json
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.pdb
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile.apk
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile.aab
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.aab
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.apk
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.apk.idsig
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\build.props
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\adb.props
@@ -249,9 +241,17 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.AssemblyInfoInputs.cache
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.AssemblyInfo.cs
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.csproj.CoreCompileInputs.cache
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\XamlC.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.pdb
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.runtimeconfig.json
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\InventoryManagmentMobile.pdb
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile.apk
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile.aab
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.aab
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.apk
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\bin\Debug\net6.0-android\com.companyname.inventorymanagmentmobile-Signed.apk.idsig
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\XamlC.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.genruntimeconfig.cache
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\InventoryManagmentMobile.runtimeconfig.json.bin
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\bin\com.companyname.inventorymanagmentmobile.apk
@@ -304,6 +304,7 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Mono.Android.Export.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Mono.Android.Export.pdb
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Mono.Android.pdb
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\mscorlib.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\netstandard.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Newtonsoft.Json.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\SQLite-net.dll
@@ -314,6 +315,7 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\SQLitePCLRaw.provider.e_sqlite3.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.AppContext.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Buffers.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Collections.Concurrent.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Collections.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Collections.Immutable.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Collections.NonGeneric.dll
@@ -329,6 +331,7 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Core.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Data.Common.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Data.DataSetExtensions.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Data.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.Contracts.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.Debug.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.DiagnosticSource.dll
@@ -339,6 +342,7 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.Tools.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.TraceSource.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Diagnostics.Tracing.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Drawing.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Drawing.Primitives.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Dynamic.Runtime.dll
@@ -388,7 +392,9 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Numerics.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Numerics.Vectors.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.ObjectModel.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.CoreLib.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.DataContractSerialization.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.Uri.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.Xml.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.Xml.Linq.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Reflection.DispatchProxy.dll
@@ -455,6 +461,7 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Web.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Web.HttpUtility.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Windows.dll
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Xml.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Xml.Linq.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Xml.ReaderWriter.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Xml.Serialization.dll
@@ -1110,10 +1117,3 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_ResolveLibraryProjectImports.stamp
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\mscorlib.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Collections.Concurrent.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Data.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.CoreLib.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Private.Uri.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\System.Xml.dll

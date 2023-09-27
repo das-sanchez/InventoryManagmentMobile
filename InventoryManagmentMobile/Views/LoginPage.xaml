@@ -53,7 +53,7 @@
                 <Frame    BackgroundColor="#FCFCFA" HeightRequest="50" CornerRadius="15" HorizontalOptions="FillAndExpand" Padding="10,0,10,0" HasShadow="True" >
                     <Grid ColumnDefinitions="0.8*,9.2*">
                         <Image Grid.Column="0" Source="padlock2x.svg" HeightRequest="12" WidthRequest="12" VerticalOptions="Center" HorizontalOptions="Start"></Image >
-                        <Entry Grid.Column="1" x:Name="password"   Placeholder="Contraseña" Completed="password_Completed" Text="{Binding Password}" IsPassword="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" PlaceholderColor="#484848" TextColor="Black"></Entry>
+                        <Entry Grid.Column="1" x:Name="password"   Placeholder="Contraseña" Completed="password_Completed" Focused="password_Focused" Text="{Binding Password}" IsPassword="True" VerticalOptions="Center" HorizontalOptions="FillAndExpand" PlaceholderColor="#484848" TextColor="Black"></Entry>
                     </Grid>
 
                 </Frame>

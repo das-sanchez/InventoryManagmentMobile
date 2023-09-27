@@ -10,10 +10,12 @@ using System.Threading.Tasks;
 namespace InventoryManagmentMobile.ViewModels
 {
 
-    public class ReceptionMenuViewModel
+    public class ReceptionMenuViewModel : BaseViewModel
     {
         public ObservableCollection<MenuOption> list { get; set; }
         public Command<MenuOption> ItemTapped { get; }
+        private bool _showContent;
+        public bool ShowContent { get { return _showContent; } set { SetProperty(ref _showContent, value); } }
         public ReceptionMenuViewModel()
         {
             list = new ObservableCollection<MenuOption>();
@@ -21,10 +23,22 @@ namespace InventoryManagmentMobile.ViewModels
             list.Add(new MenuOption { Id = "T", Titulo = "Transferencia desde otra Tienda", Icon = "transfer2x.svg" });
             list.Add(new MenuOption { Id = "CD", Titulo = "Transferencia desde el Centro de Distribucion", Icon = "warehouse2x.svg" });
             ItemTapped = new Command<MenuOption>(OnItemSelected);
+            IsBusy = false;
+            ShowContent = true;
         }
 
         private async void OnItemSelected(MenuOption option)
         {
+            if (IsBusy)
+            {
+                return;
+            }
+            else
+            {
+                ShowContent = false;
+                IsBusy = true;
+            }
+
             var navigationParameter = new Dictionary<string, object> { { "Type", option.Id } };
             if (option == null)
                 return;
@@ -51,6 +65,8 @@ namespace InventoryManagmentMobile.ViewModels
                 default:
                     break;
             }
+            IsBusy = false;
+            ShowContent = true;
         }
     }
 }

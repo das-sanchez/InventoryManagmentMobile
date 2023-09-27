@@ -25,4 +25,9 @@ public partial class LoginPage : ContentPage
     {
         this.liststore.Focus();
     }
+
+    private void password_Focused(object sender, FocusEventArgs e)
+    {
+        _vm.GetStoreByUser();
+    }
 }
