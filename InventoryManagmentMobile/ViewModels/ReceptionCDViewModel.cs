@@ -539,7 +539,10 @@ namespace InventoryManagmentMobile.ViewModels
                             }
 
                         });
-
+                        if (!pExist)
+                        {
+                            throw new Exception($"Producto no esta orden de transportacion");
+                        }
                     }
                 }
 
