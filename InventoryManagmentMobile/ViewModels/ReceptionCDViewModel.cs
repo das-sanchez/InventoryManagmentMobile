@@ -511,10 +511,38 @@ namespace InventoryManagmentMobile.ViewModels
 
         public async Task ProductByNo()
         {
+            bool pExist = false;
             try
             {
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
+                if (!Items.Any(xc => xc.ProductBarCode == ProductNo))
+                {
+
+
+                    Product = new ProductResult();
+
+                    Product = await repo.ProductByBarCode(ProductNo);
+
+                    var productIds = Product.Product.MeasurementUnits.ToList();
+                    if (productIds.Count() > 0)
+                    {
+                        productIds.ForEach((p) =>
+                        {
+                            if (!pExist)
+                            {
+                                if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.ProductBarCode == p.BarCode && xc.Um == p.BaseUm))
+                                {
+                                    ProductNo = p.BarCode;
+                                    pExist = true;
+                                }
+                            }
+
+                        });
+
+                    }
+                }
+
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
                 if (OrderItem == null)
                 {
@@ -543,10 +571,12 @@ namespace InventoryManagmentMobile.ViewModels
                 Unidad = $"Cantidad ({OrderItem.Um})";
                 NotEdition = false;
                 InEdition = true;
+                pExist = false;
             }
             catch (Exception ex)
             {
                 NotEdition = true;
+                pExist = false;
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }

@@ -366,11 +366,7 @@ namespace InventoryManagmentMobile.ViewModels
                         return;
                     }
                 }
-                if (Order.Data.Items.Length != ReceptionItems.Count())
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
-                    return;
-                }
+
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Desea guardar la Recepcion de {TypeDescription}?", "Yes", "No");
                 if (answer)
                 {
@@ -599,10 +595,50 @@ namespace InventoryManagmentMobile.ViewModels
 
         public async Task ProductByNo()
         {
+            bool pExist = false;
             try
             {
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
+                if (!Items.Any(xc => xc.ProductBarCode == ProductNo))
+                {
+
+
+                    Product = new ProductResult();
+
+                    Product = await repo.ProductByBarCode(ProductNo);
+
+                    var productIds = Product.Product.MeasurementUnits.ToList();
+                    if (productIds.Count() > 0)
+                    {
+                        productIds.ForEach((p) =>
+                        {
+                            if (!pExist)
+                            {
+                                if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.ProductBarCode == p.BarCode && xc.Um == p.BaseUm))
+                                {
+                                    ProductNo = p.BarCode;
+                                    pExist = true;
+                                }
+                            }
+
+                        });
+                        if (!pExist)
+                        {
+                            throw new Exception($"Producto no esta en {TypeDescription}");
+                        }
+
+                        //var oitem = Items.Where(xc => productIds.Contains(xc.ProductBarCode)).FirstOrDefault();
+                        //if (oitem == null)
+                        //{
+                        //    throw new Exception($"Producto no esta en la Orden de Transportacion");
+                        //}
+                        //else
+                        //{
+                        //    ProductNo = oitem.ProductBarCode;
+                        //}
+                    }
+                }
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()) && xc.Bono == IsBonus);
                 if (OrderItem == null)
                 {
@@ -626,8 +662,6 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 //Thread.Sleep(3000);
 
-                Product = new ProductResult();
-
                 Product = await repo.ProductByBarCode(ProductNo);
 
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
@@ -641,6 +675,7 @@ namespace InventoryManagmentMobile.ViewModels
                 IsLotRequired = OrderItem.IsLotNoRequired;
                 NotEdition = false;
                 InEdition = true;
+                pExist = false;
             }
             catch (Exception ex)
             {

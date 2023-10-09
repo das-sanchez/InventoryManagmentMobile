@@ -235,7 +235,7 @@
 
                             </StackLayout>
                         </StackLayout>
-                        <StackLayout Grid.Column="2">
+                        <StackLayout Grid.Column="2" IsVisible="false">
                             <Label Text="Bono" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"></Label>
                             <Switch  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Margin="0,0,10,15" IsToggled="{Binding IsBonus}"></Switch>
                         </StackLayout>

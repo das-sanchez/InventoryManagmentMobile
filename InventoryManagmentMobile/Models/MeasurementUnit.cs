@@ -9,6 +9,9 @@ namespace InventoryManagmentMobile.Models
 {
     public class MeasurementUnit
     {
+        [JsonProperty("barCode")]
+        public string BarCode { get; set; }
+
         [JsonProperty("baseUm")]
         public string BaseUm { get; set; }
 
