@@ -141,6 +141,9 @@ namespace InventoryManagmentMobile.ViewModels
 
         string _lookupBarCode = "*";
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
+
+        string _productId = string.Empty;
+        public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
         public ReceptionCDViewModel(OleRepository _repo, OleDataContext context)
         {
 
@@ -192,7 +195,7 @@ namespace InventoryManagmentMobile.ViewModels
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
                 if (answer)
                 {
-                    var item = ReceptionItems.FirstOrDefault(x => x.ProductBarCode == dto.ProductBarCode);
+                    var item = ReceptionItems.FirstOrDefault(x => x.ProductId == dto.ProductId);
                     ReceptionItems.Remove(item);
                     //Details.Remove(dto);
                     _context.ExecuteSql($"DELETE FROM TransactionLine Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo.Trim()}' AND ProductBarCode = '{dto.ProductBarCode}'");
@@ -262,7 +265,7 @@ namespace InventoryManagmentMobile.ViewModels
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
             if (answer)
             {
-                var det = Details.FirstOrDefault(x => x.ProductBarCode == item.ProductBarCode);
+                var det = Details.FirstOrDefault(x => x.ProductId == item.ProductId);
                 ReceptionItems.Remove(ItemSelected);
                 Details.Remove(det);
             }
@@ -385,7 +388,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+                OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()));
                 if ((TotalQty) > OrderItem.Qty)
                 {
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
@@ -444,8 +447,8 @@ namespace InventoryManagmentMobile.ViewModels
                 int line = _context.NextTransactionLinesByOrderNo(TypeTrans, OrderNo);
 
                 int exist = 0;
-                string filter = $" OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}'";
-                if (!_context.ValidExist(TypeTrans, OrderNo, ProductNo, IsBonus))
+                string filter = $" OrderNo = '{OrderNo}' AND ProductId = '{ProductId}'";
+                if (!_context.ValidExist(TypeTrans, OrderNo, ProductId, IsBonus))
                 {
 
                     //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
@@ -456,7 +459,7 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 else
                 {
-                    var qline = _context.GetLine(TypeTrans, OrderNo, ProductNo, IsBonus);
+                    var qline = _context.GetLine(TypeTrans, OrderNo, ProductId, IsBonus);
 
                     if (qline != null)
                     {
@@ -468,7 +471,7 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                                 //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
 
                             }
                         }
@@ -478,11 +481,11 @@ namespace InventoryManagmentMobile.ViewModels
                             if (answer)
                             {
                                 //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
-                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
                             }
                             else
                             {
-                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductBarCode = '{ProductNo}' AND Bono = {IsBonus}");
+                                _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
 
                             }
                         }
@@ -492,6 +495,8 @@ namespace InventoryManagmentMobile.ViewModels
 
                 }
                 ProductNo = "";
+
+                ProductId = "";
                 Quantity = "";
                 TotalQty = 0;
                 QtyUnit = "";
@@ -516,37 +521,35 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 //OrderItem = new OrderItem();
                 if (string.IsNullOrEmpty(ProductNo)) return;
-                if (!Items.Any(xc => xc.ProductBarCode == ProductNo))
+
+
+
+                Product = new ProductResult();
+
+                Product = await repo.ProductByBarCode(ProductNo);
+                ProductId = Product.Product.Id;
+                var productIds = Product.Product.MeasurementUnits.ToList();
+                if (productIds.Count() > 0)
                 {
-
-
-                    Product = new ProductResult();
-
-                    Product = await repo.ProductByBarCode(ProductNo);
-
-                    var productIds = Product.Product.MeasurementUnits.ToList();
-                    if (productIds.Count() > 0)
+                    productIds.ForEach((p) =>
                     {
-                        productIds.ForEach((p) =>
-                        {
-                            if (!pExist)
-                            {
-                                if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.ProductBarCode == p.BarCode && xc.Um == p.BaseUm))
-                                {
-                                    ProductNo = p.BarCode;
-                                    pExist = true;
-                                }
-                            }
-
-                        });
                         if (!pExist)
                         {
-                            throw new Exception($"Producto no esta orden de transportacion");
+                            if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.ProductBarCode == p.BarCode && xc.Um == p.BaseUm))
+                            {
+                                ProductNo = p.BarCode;
+                                pExist = true;
+                            }
                         }
+
+                    });
+                    if (!pExist)
+                    {
+                        throw new Exception($"Producto no esta orden de transportacion");
                     }
                 }
 
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductBarCode.Trim().Equals(ProductNo.Trim()));
+                OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()));
                 if (OrderItem == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Transporte", "Aceptar");

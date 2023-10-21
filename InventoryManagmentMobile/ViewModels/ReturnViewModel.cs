@@ -105,6 +105,8 @@ namespace InventoryManagmentMobile.ViewModels
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
         private bool _canSave = false;
         public bool CanSave { get { return _canSave; } set { SetProperty(ref _canSave, value); } }
+        string _productId = string.Empty;
+        public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
         public ReturnViewModel(OleRepository _repo, OleDataContext context)
 
         {
@@ -217,10 +219,10 @@ namespace InventoryManagmentMobile.ViewModels
                 bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea Remover este producto de la Devolucion?", "Yes", "No");
                 if (answer)
                 {
-                    var qitem = ReturnDetails.FirstOrDefault(x => x.ProductBarCode == item.ProductBarCode);
+                    var qitem = ReturnDetails.FirstOrDefault(x => x.ProductId == item.ProductId || x.ProductBarCode == item.ProductBarCode);
                     ReturnDetails.Remove(qitem);
                     //Details.Remove(dto);
-                    _context.ExecuteSql($"DELETE FROM ReturnLine Where VendorNo = '{VendorNo}' AND ProductBarCode = '{item.ProductBarCode}'");
+                    _context.ExecuteSql($"DELETE FROM ReturnLine Where VendorNo = '{VendorNo}' AND ProductId = '{item.ProductId}'");
                     LoadItemsAsync();
                 }
             }
@@ -333,7 +335,7 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "El producto no esta en blanco", "Aceptar");
                     return;
                 }
-                if (Product.Product.BarCode != ProductNo)
+                if (Product.Product.Id != ProductId)
                 {
                     await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Producto digitado es diferente al que fue consultado, eso significa que los cambiaste y no lo buscate bestia", "Aceptar");
                     return;
@@ -345,14 +347,14 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
 
-                if (!_context.ValidExistReturnLine(VendorNo, ProductNo))
+                if (!_context.ValidExistReturnLine(VendorNo, ProductId))
                 {
                     _context.CreateReturnLine(new ReturnLine { VendorNo = VendorNo, ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = Product.Product.Name, Quantity = Quantity, Um = Product.Product.BaseUm });
                 }
                 else
                 {
 
-                    var qline = _context.GetReturnLine(VendorNo, ProductNo);
+                    var qline = _context.GetReturnLine(VendorNo, ProductId);
 
                     if (qline != null)
                     {
@@ -362,11 +364,11 @@ namespace InventoryManagmentMobile.ViewModels
                         {
                             //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
 
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = {Quantity} Where VendorNo = '{VendorNo}' AND ProductId = '{ProductId}'");
                         }
                         else
                         {
-                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductBarCode = '{ProductNo}'");
+                            _context.ExecuteSql($"UPDATE ReturnLine SET Quantity = Quantity +{Quantity} Where VendorNo = '{VendorNo}' AND ProductId = '{ProductId}'");
 
 
                         }
@@ -375,6 +377,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 }
                 ProductNo = "";
+                ProductId = "";
                 Quantity = 0;
                 Product = new ProductResult();
                 InEdition = false;
@@ -400,6 +403,7 @@ namespace InventoryManagmentMobile.ViewModels
                     return;
                 }
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
+                ProductId = Product.Product.Id;
                 InEdition = true;
             }
             catch (Exception)

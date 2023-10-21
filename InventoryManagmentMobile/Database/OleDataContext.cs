@@ -43,7 +43,7 @@ namespace InventoryManagmentMobile.Database
             {
                 lines.ForEach((l) =>
                 {
-                    if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
+                    if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductId == l.ProductId && xc.Bono == l.Bono || xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
                     {
                         database.Update(l);
                     }
@@ -66,7 +66,7 @@ namespace InventoryManagmentMobile.Database
         {
             try
             {
-                if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
+                if (database.Table<TransactionLine>().Any(xc => xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductId == l.ProductId && xc.Bono == l.Bono || xc.LineNo == l.LineNo && xc.OrderNo == l.OrderNo && xc.ProductBarCode == l.ProductBarCode && xc.Bono == l.Bono))
                 {
                     return database.Update(l);
                 }
@@ -108,15 +108,15 @@ namespace InventoryManagmentMobile.Database
 
         public int ValidExist(string filter)
         {
-            return database.Query<int>($"SELECT Count(ProductBarCode) Existe FROM TransactionLine WHERE {filter}").FirstOrDefault();
+            return database.Query<int>($"SELECT Count(ProductId) Existe FROM TransactionLine WHERE {filter}").FirstOrDefault();
         }
         public bool ValidExist(string type, string orderno, string productNo, bool IsBonus = false)
         {
-            return database.Table<TransactionLine>().Any(a => a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus);
+            return database.Table<TransactionLine>().Any(a => a.ProductId == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus || a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus);
         }
         public TransactionLine GetLine(string type, string orderno, string productNo, bool IsBonus = false)
         {
-            return database.Table<TransactionLine>().Where(a => a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus).FirstOrDefault();
+            return database.Table<TransactionLine>().Where(a => a.ProductId == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus || a.ProductBarCode == productNo && a.TypeTrans == type && a.OrderNo == orderno && a.Bono == IsBonus).FirstOrDefault();
         }
         public List<TransactionLine> GetTransactionLinesByOrderNo(string typetrans, string orderNo)
         {
@@ -130,7 +130,7 @@ namespace InventoryManagmentMobile.Database
             }
             else
             {
-                return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo && a.ProductBarCode == productNo).ToList();
+                return database.Table<TransactionLine>().Where(a => a.TypeTrans == typetrans && a.OrderNo == orderNo && a.ProductId == productNo || a.TypeTrans == typetrans && a.OrderNo == orderNo && a.ProductBarCode == productNo).ToList();
             }
 
         }
@@ -150,7 +150,7 @@ namespace InventoryManagmentMobile.Database
         }
         public TransactionLine GetTransactionLinesByProductNo(string ProductNo)
         {
-            return database.Table<TransactionLine>().Where(a => a.ProductBarCode == ProductNo).FirstOrDefault();
+            return database.Table<TransactionLine>().Where(a => a.ProductId == ProductNo || a.ProductBarCode == ProductNo).FirstOrDefault();
         }
         //Return Lines
         public List<ReturnLine> GetReturnLines()
@@ -177,7 +177,7 @@ namespace InventoryManagmentMobile.Database
         {
             try
             {
-                if (database.Table<ReturnLine>().Any(xc => xc.VendorNo == l.VendorNo && xc.ProductBarCode == l.ProductBarCode))
+                if (database.Table<ReturnLine>().Any(xc => xc.VendorNo == l.VendorNo && xc.ProductId == l.ProductId || xc.VendorNo == l.VendorNo && xc.ProductBarCode == l.ProductBarCode))
                 {
                     return database.Update(l);
                 }
@@ -205,11 +205,11 @@ namespace InventoryManagmentMobile.Database
 
         public bool ValidExistReturnLine(string VendorNo, string productNo)
         {
-            return database.Table<ReturnLine>().Any(a => a.ProductBarCode == productNo && a.VendorNo == VendorNo);
+            return database.Table<ReturnLine>().Any(a => a.ProductId == productNo && a.VendorNo == VendorNo || a.ProductBarCode == productNo && a.VendorNo == VendorNo);
         }
         public ReturnLine GetReturnLine(string VendorNo, string productNo)
         {
-            return database.Table<ReturnLine>().Where(a => a.ProductBarCode == productNo && a.VendorNo == VendorNo).FirstOrDefault();
+            return database.Table<ReturnLine>().Where(a => a.ProductId == productNo && a.VendorNo == VendorNo || a.ProductBarCode == productNo && a.VendorNo == VendorNo).FirstOrDefault();
         }
         public List<ReturnLine> GetReturnLinesByOrderNo(string VendorNo)
         {
@@ -223,13 +223,13 @@ namespace InventoryManagmentMobile.Database
             }
             else
             {
-                return database.Table<ReturnLine>().Where(a => a.VendorNo == VendorNo && a.ProductBarCode == productNo).ToList();
+                return database.Table<ReturnLine>().Where(a => a.ProductId == productNo && a.VendorNo == VendorNo || a.VendorNo == VendorNo && a.ProductBarCode == productNo).ToList();
             }
 
         }
         public ReturnLine GetReturnLinesByProductNo(string ProductNo)
         {
-            return database.Table<ReturnLine>().Where(a => a.ProductBarCode == ProductNo).FirstOrDefault();
+            return database.Table<ReturnLine>().Where(a => a.ProductId == ProductNo || a.ProductBarCode == ProductNo).FirstOrDefault();
         }
         //User Store 
         public List<UserStore> GetUserStores()
