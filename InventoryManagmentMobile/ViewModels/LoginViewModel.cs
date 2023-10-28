@@ -79,6 +79,10 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 StoreResult = await Repo.StoreByNo("");
                 Stores.Clear();
+                if (!StoreResult.IsSuccess)
+                {
+                    throw new Exception(StoreResult.Message);
+                }
                 StoreResult.Stores.ToList().ForEach((s) =>
                 {
                     if (s.CompanyId == "5520")
