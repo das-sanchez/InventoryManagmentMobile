@@ -62,7 +62,16 @@ namespace InventoryManagmentMobile.Repositories
 
         public async Task<TransResult> SaveReception(string OrderNo, ReceptionHead order)
         {
-            var result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Reception", order);
+
+            var result = new TransResult();
+            if (order.OrderType != "T")
+            {
+                result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Reception", order);
+            }
+            else
+            {
+                result = await apiPost.PostData(Constants.UrlBase, $"inboundDelivery", order);
+            }
 
             return result;
         }
@@ -142,5 +151,26 @@ namespace InventoryManagmentMobile.Repositories
             return result;
         }
 
+        public async Task<TransResult> SaveInboundDelivery(string OrderNo, ReceptionHead order)
+        {
+            var result = await apiPost.PostData(Constants.UrlBase, $"inboundDelivery", order);
+
+            return result;
+        }
+
+        public async Task<OrderResult> InboundDeliveryByOrderNo(string OrderNo)
+        {
+            try
+            {
+                var order = new OrderResult();
+                order = await apiOrder.GetData(Constants.UrlBase, $"inboundDelivery/{OrderNo}");
+                return order;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

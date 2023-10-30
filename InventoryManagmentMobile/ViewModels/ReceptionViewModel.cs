@@ -380,7 +380,11 @@ namespace InventoryManagmentMobile.ViewModels
                     Reception.OrderNo = OrderNo;
                     IsBusy = true;
                     ShowContent = false;
-                    var Result = await repo.SaveReception(OrderNo, Reception);
+                    var Result = new TransResult();
+
+                    Result = await repo.SaveReception(OrderNo, Reception);
+
+
                     Thread.Sleep(5000);
                     IsBusy = false;
                     ShowContent = true;
@@ -716,7 +720,15 @@ namespace InventoryManagmentMobile.ViewModels
                 }
 
                 Order = new OrderResult();
-                Order = await repo.OrderByOrderNo(OrderNo);
+                if (Type == "T")
+                {
+                    Order = await repo.InboundDeliveryByOrderNo(OrderNo);
+                }
+                else
+                {
+                    Order = await repo.OrderByOrderNo(OrderNo);
+                }
+
                 if (Order.Data == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
