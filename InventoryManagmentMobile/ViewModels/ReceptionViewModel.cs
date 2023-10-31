@@ -648,29 +648,33 @@ namespace InventoryManagmentMobile.ViewModels
                     //}
                 }
 
-                OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
-                if (OrderItem == null)
+                if (Type == "P")
                 {
-                    if (Type == "P")
-                        TypeDescription = "la Orden de Compra";
-                    if (Type == "T")
-                        TypeDescription = "la Orden de Transferencia";
-                    if (Type == "D")
-                        TypeDescription = "el Envio de Mercancia";
 
-                    await Application.Current.MainPage.DisplayAlert("Recepcion", $"Producto no esta en {TypeDescription}", "Aceptar");
-                    ProductNo = "";
-                    ProductId = "";
-                    Quantity = "";
-                    TotalQty = 0;
-                    QtyUnit = string.Empty;
-                    Factor = 0;
-                    NotEdition = true;
-                    InEdition = false;
-                    return;
+                    OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
+                    if (OrderItem == null)
+                    {
+                        if (Type == "P")
+                            TypeDescription = "la Orden de Compra";
+                        if (Type == "T")
+                            TypeDescription = "la Orden de Transferencia";
+                        if (Type == "D")
+                            TypeDescription = "el Envio de Mercancia";
+
+                        await Application.Current.MainPage.DisplayAlert("Recepcion", $"Producto no esta en {TypeDescription}", "Aceptar");
+                        ProductNo = "";
+                        ProductId = "";
+                        Quantity = "";
+                        TotalQty = 0;
+                        QtyUnit = string.Empty;
+                        Factor = 0;
+                        NotEdition = true;
+                        InEdition = false;
+                        return;
+                    }
                 }
-                //Thread.Sleep(3000);
-                if (Product.Product == null)
+                    //Thread.Sleep(3000);
+                    if (Product.Product == null)
                 {
                     Product = await repo.ProductByBarCode(ProductNo);
 
@@ -747,18 +751,13 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
                     return;
                 }
-                if (Order.Data.Items.Any(xc => string.IsNullOrEmpty(xc.ProductBarCode)))
-                {
-                    Order = new OrderResult();
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene productos sin Codigo de Barra por favor corregir: ", "Aceptar");
-                    return;
-                }
+               
                 var plist = Order.Data.Items
                                   .Where(x => x.Bono == false)
-                                  .GroupBy(x => new { x.ProductBarCode })
+                                  .GroupBy(x => new { x.ProductId })
                                   .Select(x => new
                                   {
-                                      ProductBarCode = x.Key.ProductBarCode,
+                                      ProductId = x.Key.ProductId,
 
                                       Qty = x.Count(xc => xc.Bono)
                                   }).ToList();
@@ -774,10 +773,10 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 var blist = Order.Data.Items
                                   .Where(x => x.Bono == true)
-                                  .GroupBy(x => new { x.ProductBarCode })
+                                  .GroupBy(x => new { x.ProductId })
                                   .Select(x => new
                                   {
-                                      ProductBarCode = x.Key.ProductBarCode,
+                                      ProductId = x.Key.ProductId,
 
                                       Qty = x.Count(xc => xc.Bono)
                                   }).ToList();
@@ -787,7 +786,7 @@ namespace InventoryManagmentMobile.ViewModels
                     if (blist.Any(xc => xc.Qty > 1))
                     {
                         Order = new OrderResult();
-                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene prdouctos en Bono repetidos", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden contiene productos en Bono repetidos", "Aceptar");
                         return;
                     }
                 }
