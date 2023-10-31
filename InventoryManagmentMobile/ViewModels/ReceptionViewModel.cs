@@ -632,10 +632,7 @@ namespace InventoryManagmentMobile.ViewModels
                         }
 
                     });
-                    if (!pExist)
-                    {
-                        throw new Exception($"Producto no esta en {TypeDescription}");
-                    }
+                     
 
                     //var oitem = Items.Where(xc => productIds.Contains(xc.ProductBarCode)).FirstOrDefault();
                     //if (oitem == null)
