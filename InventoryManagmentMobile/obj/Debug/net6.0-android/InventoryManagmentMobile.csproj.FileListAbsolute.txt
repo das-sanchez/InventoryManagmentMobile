@@ -620,8 +620,6 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Xamarin.Kotlin.StdLib.Jdk8.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Xamarin.KotlinX.Coroutines.Android.dll
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\assets\Xamarin.KotlinX.Coroutines.Core.Jvm.dll
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.armeabi-v7a.s
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.armeabi-v7a-shared.inc
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\AndroidManifest.xml
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\AndroidManifest.xml
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\__environment__.txt
@@ -630,7 +628,6 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\bin\mono.android.jar
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\static.flag
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\buildid.txt
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\environment.armeabi-v7a.s
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\src\androidx\activity\ktx\R.java
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\src\androidx\activity\R.java
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\src\androidx\annotation\experimental\R.java
@@ -1103,11 +1100,6 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\src\mono\MonoPackageManager_Resources.java
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\bin\packaged_resources
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\src\com\companyname\inventorymanagmentmobile\R.java
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\compressed_assemblies.armeabi-v7a.s
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.armeabi-v7a.o
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\environment.armeabi-v7a.o
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\compressed_assemblies.armeabi-v7a.o
-C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\app_shared_libraries\armeabi-v7a\libxamarin-app.so
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\bin\classes.dex
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\bin\classes2.dex
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_CleanIntermediateIfNeeded.stamp
@@ -1117,3 +1109,11 @@ C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_GenerateJavaStubs.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.arm64-v8a.s
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.shared.inc
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\environment.arm64-v8a.s
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\compressed_assemblies.arm64-v8a.s
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\typemaps.arm64-v8a.o
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\environment.arm64-v8a.o
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\android\compressed_assemblies.arm64-v8a.o
+C:\Users\dsanchez\source\repos\InventoryManagmentMobile\InventoryManagmentMobile\obj\Debug\net6.0-android\app_shared_libraries\arm64-v8a\libxamarin-app.so
