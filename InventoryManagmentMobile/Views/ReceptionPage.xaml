@@ -420,7 +420,7 @@
                                             </SwipeItems>
 
                                         </SwipeView.LeftItems>
-                                        <Frame CornerRadius="10" HeightRequest="45" Background="#FFF" HasShadow="True" Padding="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
+                                        <Frame CornerRadius="10" HeightRequest="45" Background="#fefef2" HasShadow="True" Padding="5" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Margin="0,5,2,5">
                                             <Grid RowDefinitions="*" ColumnDefinitions="3.6*,2*,2.2*,2.2*">
                                                 <StackLayout  Grid.Column="0"  Grid.RowSpan="3" VerticalOptions="Center" Padding="2">
                                                     <Label Text="{Binding ProductBarCode }" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{Binding Bono, Converter={StaticResource BoolToColorConverter}}" FontAttributes="Bold" FontSize="12"></Label>

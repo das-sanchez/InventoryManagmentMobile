@@ -791,7 +791,7 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 HasOrder = true;
                 Items = Order.Data.Items.ToList();
-                if (hasClear)
+                if (hasClear || ReceptionItems.Count() == 0)
                 {
                     if (Order.Data.Items.Count() > 0)
                     {
