@@ -163,7 +163,7 @@ namespace InventoryManagmentMobile.Repositories
             try
             {
                 var order = new OrderResult();
-                order = await apiOrder.GetData(Constants.UrlBase, $"inboundDelivery/{OrderNo}");
+                order = await apiOrder.GetData(Constants.UrlBase, $"InboundDelivery/{OrderNo}");
                 return order;
             }
             catch (Exception)
