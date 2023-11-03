@@ -131,7 +131,7 @@
 
                             <Grid ColumnDefinitions="9.2*,0.8*" >
                                 <Image Grid.Column="1" Source="calendar1x.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
-                                <DatePicker Grid.Column="0" x:Name="dateCurrent"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"    TextColor="Black" ></DatePicker >
+                                <DatePicker Grid.Column="0" x:Name="dateCurrent"  VerticalOptions="Center" HorizontalOptions="FillAndExpand"    TextColor="Black" IsEnabled="False" ></DatePicker >
                             </Grid>
 
                         </Frame>
