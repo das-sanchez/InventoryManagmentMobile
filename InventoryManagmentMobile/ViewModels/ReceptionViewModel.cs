@@ -621,6 +621,13 @@ namespace InventoryManagmentMobile.ViewModels
                 Product = new ProductResult();
 
                 Product = await repo.ProductByBarCode(ProductNo);
+                if (!Product.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Producdto", $"Producto no existe", "Aceptar");
+                    return;
+                }
+
+
                 ProductId = Product.Product.Id;
                 var productIds = Product.Product.MeasurementUnits.ToList();
                 if (productIds.Count() > 0)
