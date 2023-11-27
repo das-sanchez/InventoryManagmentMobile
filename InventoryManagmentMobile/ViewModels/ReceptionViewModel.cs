@@ -731,25 +731,34 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order = await repo.OrderByOrderNo(OrderNo);
                 }
+                if (Order == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Transaccion no Encontrada", "Aceptar");
+                    return;
+                }
+                else
+                {
+                    if (Order.Data == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
+                        return;
+                    }
+                    if (Order.Data.OrderType != Type)
+                    {
+                        Order = new OrderResult();
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden  tiene un tipo diferente al que esta trabajando Tipo: " + Type, "Aceptar");
 
-                if (Order.Data == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
-                    return;
+                        return;
+                    }
+                    if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
+                    {
+                        Order = new OrderResult();
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
+                        return;
+                    }
                 }
-                if (Order.Data.OrderType != Type)
-                {
-                    Order = new OrderResult();
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden  tiene un tipo diferente al que esta trabajando Tipo: " + Type, "Aceptar");
 
-                    return;
-                }
-                if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
-                {
-                    Order = new OrderResult();
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
-                    return;
-                }
+
 
                 var plist = Order.Data.Items
                                   .Where(x => x.Bono == false)

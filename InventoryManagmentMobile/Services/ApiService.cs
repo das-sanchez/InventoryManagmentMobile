@@ -232,6 +232,7 @@ namespace InventoryManagmentMobile.Services
 
             try
             {
+
                 using (HttpClient client = new HttpClient())
                 {
 
