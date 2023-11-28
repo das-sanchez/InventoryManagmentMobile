@@ -546,7 +546,7 @@ namespace InventoryManagmentMobile.ViewModels
                         {
                             if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.Um == p.BaseUm))
                             {
-                                ProductNo = p.BarCode;
+                                //ProductNo = p.BarCode;
                                 pExist = true;
                             }
                         }
