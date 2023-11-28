@@ -267,7 +267,7 @@ namespace InventoryManagmentMobile.ViewModels
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
-                        ReceptionItems.Add(new ReceptionItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
+                        ReceptionItems.Add(new ReceptionItem() { StoreNo = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
                     }
                 }
             }
@@ -293,7 +293,7 @@ namespace InventoryManagmentMobile.ViewModels
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
-                        ReceptionItems.Add(new ReceptionItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
+                        ReceptionItems.Add(new ReceptionItem() { StoreNo = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
                     }
                 }
             }
@@ -369,6 +369,8 @@ namespace InventoryManagmentMobile.ViewModels
                         return;
                     }
                 }
+
+
 
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Desea guardar la Recepcion de {TypeDescription}?", "Yes", "No");
                 if (answer)
@@ -539,7 +541,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                     //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
                     // _context.DeleteTransationLineByOrderNo(OrderNo);
-                    _context.CreateTransactionLine(new TransactionLine { TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+                    _context.CreateTransactionLine(new TransactionLine { StoreNo = StoreNo, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
                     //_context.AddItemAsync<TransactionLine>();
                 }
@@ -758,7 +760,14 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                 }
 
-
+                if (Type == "T")
+                {
+                    if (StoreNo != Order.Data.VendorId)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
+                        return;
+                    }
+                }
 
                 var plist = Order.Data.Items
                                   .Where(x => x.Bono == false)
@@ -806,7 +815,7 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         Order.Data.Items.ToList().ForEach((l) =>
                         {
-                            var line = new TransactionLine { TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono };
+                            var line = new TransactionLine { StoreNo = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono };
                             _context.SaveTransLine(line);
                         });
                     }

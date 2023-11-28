@@ -533,6 +533,10 @@ namespace InventoryManagmentMobile.ViewModels
                     return;
                 }
                 ProductId = Product.Product.Id;
+                if (!Items.Any(xc => xc.ProductId == Product.Product.Id))
+                {
+                    throw new Exception($"Producto no esta orden de transportacion");
+                }
                 var productIds = Product.Product.MeasurementUnits.ToList();
                 if (productIds.Count() > 0)
                 {
@@ -540,7 +544,7 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         if (!pExist)
                         {
-                            if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.ProductBarCode == p.BarCode && xc.Um == p.BaseUm))
+                            if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.Um == p.BaseUm))
                             {
                                 ProductNo = p.BarCode;
                                 pExist = true;
@@ -550,7 +554,7 @@ namespace InventoryManagmentMobile.ViewModels
                     });
                     if (!pExist)
                     {
-                        throw new Exception($"Producto no esta orden de transportacion");
+                        throw new Exception($"Este producto no tiene definida la unidad de medida con la que se encuentra en el documento.");
                     }
                 }
 

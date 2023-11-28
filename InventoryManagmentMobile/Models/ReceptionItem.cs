@@ -29,6 +29,9 @@ namespace InventoryManagmentMobile.Models
         [JsonProperty("bono")]
         public bool Bono { get; set; }
 
+        [JsonProperty("storeNo")]
+        public string StoreNo { get; set; }
+
 
     }
 }
