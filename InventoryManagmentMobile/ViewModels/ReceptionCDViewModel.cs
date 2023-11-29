@@ -577,7 +577,7 @@ namespace InventoryManagmentMobile.ViewModels
                 Product = await repo.ProductByBarCode(ProductNo);
                 MeasurementUnits = new ObservableCollection<MeasurementUnit>();
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
-                var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
+                var un = MeasurementUnits.FirstOrDefault(xc =>  xc.BaseUm == OrderItem.Um);
                 if (un == null)
                 {
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
