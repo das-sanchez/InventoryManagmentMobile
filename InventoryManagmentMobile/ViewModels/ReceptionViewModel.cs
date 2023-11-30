@@ -267,7 +267,7 @@ namespace InventoryManagmentMobile.ViewModels
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
-                        ReceptionItems.Add(new ReceptionItem() { StoreNo = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
+                        ReceptionItems.Add(new ReceptionItem() { StoreId = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
                     }
                 }
             }
@@ -293,7 +293,7 @@ namespace InventoryManagmentMobile.ViewModels
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
-                        ReceptionItems.Add(new ReceptionItem() { StoreNo = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
+                        ReceptionItems.Add(new ReceptionItem() { StoreId = line.StoreNo, ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, Bono = line.Bono });
                     }
                 }
             }
@@ -541,7 +541,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                     //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
                     // _context.DeleteTransationLineByOrderNo(OrderNo);
-                    _context.CreateTransactionLine(new TransactionLine { StoreNo = StoreNo, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
+                    _context.CreateTransactionLine(new TransactionLine { StoreNo = OrderItem.StoreId, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus });
 
                     //_context.AddItemAsync<TransactionLine>();
                 }
@@ -631,25 +631,29 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                 ProductId = Product.Product.Id;
+                if (!Items.Any(xc => xc.ProductId == Product.Product.Id))
+                {
+                    throw new Exception($"Producto no esta orden de transportacion");
+                }
                 var productIds = Product.Product.MeasurementUnits.ToList();
                 if (productIds.Count() > 0)
                 {
-
                     productIds.ForEach((p) =>
                     {
                         if (!pExist)
                         {
                             if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.Um == p.BaseUm))
                             {
-                                ProductNo = p.BarCode;
-
+                                //ProductNo = p.BarCode;
                                 pExist = true;
                             }
                         }
 
                     });
-
-
+                    if (!pExist)
+                    {
+                        throw new Exception($"Este producto no tiene definida la unidad de medida con la que se encuentra en el documento.");
+                    }
                 }
 
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);

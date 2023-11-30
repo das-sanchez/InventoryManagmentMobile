@@ -30,7 +30,7 @@ namespace InventoryManagmentMobile.Models
         public bool Bono { get; set; }
 
         [JsonProperty("storeNo")]
-        public string StoreNo { get; set; }
+        public string StoreId { get; set; }
 
 
     }
