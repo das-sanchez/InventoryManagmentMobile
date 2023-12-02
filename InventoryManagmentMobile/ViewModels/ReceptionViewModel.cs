@@ -737,6 +737,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order = await repo.OrderByOrderNo(OrderNo);
                 }
+
                 if (Order == null)
                 {
                     await Application.Current.MainPage.DisplayAlert("Trasanccion", "Transaccion no Encontrada", "Aceptar");
@@ -756,21 +757,26 @@ namespace InventoryManagmentMobile.ViewModels
 
                         return;
                     }
-                    if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
-                    {
-                        Order = new OrderResult();
-                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
-                        return;
-                    }
-                }
 
-                if (Type == "T")
-                {
-                    if (StoreNo != Order.Data.VendorId)
+                    if (Type == "D" || Type == "T")
                     {
-                        await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
-                        return;
+                        if (StoreNo != Order.Data.VendorId)
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
+                            return;
+                        }
                     }
+                    else
+                    {
+                        if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
+                        {
+                            Order = new OrderResult();
+                            await Application.Current.MainPage.DisplayAlert("Trasanccion", "Esta orden no pertenece a este Store: " + StoreNo, "Aceptar");
+                            return;
+                        }
+                    }
+
+                  
                 }
 
                 var plist = Order.Data.Items

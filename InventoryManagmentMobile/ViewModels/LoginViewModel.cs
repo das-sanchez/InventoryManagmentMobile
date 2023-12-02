@@ -83,6 +83,9 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     throw new Exception(StoreResult.Message);
                 }
+
+                StoreResult.Stores = StoreResult.Stores.OrderBy(x => x.CompanyId).ThenBy(x => x.Name).ToArray();
+
                 StoreResult.Stores.ToList().ForEach((s) =>
                 {
                     if (s.CompanyId == "5520")
