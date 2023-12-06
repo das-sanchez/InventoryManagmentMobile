@@ -1,0 +1,101 @@
+is_global = true
+build_property.TargetFramework = net7.0-windows10.0.22621.0
+build_property.TargetPlatformMinVersion = 10.0.17763.0
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = InventoryManagmentMobile
+build_property.ProjectDir = C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/App.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.App.xaml
+build_metadata.AdditionalFiles.TargetPath = App.xaml
+build_metadata.AdditionalFiles.RelativePath = App.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/AppShell.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.AppShell.xaml
+build_metadata.AdditionalFiles.TargetPath = AppShell.xaml
+build_metadata.AdditionalFiles.RelativePath = AppShell.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/MainPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.MainPage.xaml
+build_metadata.AdditionalFiles.TargetPath = MainPage.xaml
+build_metadata.AdditionalFiles.RelativePath = MainPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Resources/Styles/Colors.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Resources.Styles.Colors.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Colors.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Colors.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Resources/Styles/Styles.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Resources.Styles.Styles.xaml
+build_metadata.AdditionalFiles.TargetPath = Resources\Styles\Styles.xaml
+build_metadata.AdditionalFiles.RelativePath = Resources\Styles\Styles.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/ConfirnDialog.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ConfirnDialog.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ConfirnDialog.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ConfirnDialog.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/DialogAlert.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.DialogAlert.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\DialogAlert.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\DialogAlert.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/HomePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.HomePage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\HomePage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\HomePage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/LoginPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.LoginPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\LoginPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\LoginPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/RecepcionStorePage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.RecepcionStorePage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\RecepcionStorePage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\RecepcionStorePage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/ReceptionCDPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ReceptionCDPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ReceptionCDPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ReceptionCDPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/ReceptionMenuPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ReceptionMenuPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ReceptionMenuPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ReceptionMenuPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/ReceptionPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ReceptionPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ReceptionPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ReceptionPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/ReturnsPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.ReturnsPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\ReturnsPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\ReturnsPage.xaml
+
+[C:/Users/Ericson/source/repos/HiperOle/InventoryManagmentMobileNew/InventoryManagmentMobile/Views/TransferPage.xaml]
+build_metadata.AdditionalFiles.GenKind = Xaml
+build_metadata.AdditionalFiles.ManifestResourceName = InventoryManagmentMobile.Views.TransferPage.xaml
+build_metadata.AdditionalFiles.TargetPath = Views\TransferPage.xaml
+build_metadata.AdditionalFiles.RelativePath = Views\TransferPage.xaml

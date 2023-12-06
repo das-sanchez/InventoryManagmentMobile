@@ -98,7 +98,6 @@ namespace InventoryManagmentMobile.Database
         }
         public int DeleteTransationLineByOrderNo(string Type, string OrderNo)
         {
-
             return database.Execute($"DELETE FROM TransactionLine Where TypeTrans = '{Type}' AND OrderNo ='{OrderNo}'");
         }
         public int ExecuteSql(string sql)

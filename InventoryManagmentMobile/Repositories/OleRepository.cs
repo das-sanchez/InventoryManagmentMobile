@@ -62,8 +62,8 @@ namespace InventoryManagmentMobile.Repositories
 
         public async Task<TransResult> SaveReception(string OrderNo, ReceptionHead order)
         {
-
             var result = new TransResult();
+
             if (order.OrderType != "T")
             {
                 result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Reception", order);
@@ -75,11 +75,10 @@ namespace InventoryManagmentMobile.Repositories
 
             return result;
         }
+
         public async Task<TransResult> SaveReturn(ReturnHead order)
         {
-            var data = JsonConvert.SerializeObject(order);
             var result = await apiPost.PostData(Constants.UrlBase, $"order/return", order);
-
             return (TransResult)result;
         }
 
@@ -141,7 +140,6 @@ namespace InventoryManagmentMobile.Repositories
         public async Task<TransResult> SaveTransporationOrder(string OrderNo, TransportationOrder order)
         {
             var result = await apiPost.PostData(Constants.UrlBase, $"transportationOrder/{OrderNo}/Reception", order);
-
             return result;
         }
         public async Task<LoginResult> Login(Login login)

@@ -248,6 +248,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
         }
+
         private async void SaveReturn()
         {
             try
@@ -257,9 +258,9 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Guardar Devolucion", "Proveedor No Valido", "Aceptar");
                     return;
                 }
-                if (ReturnDetails == null)
+                if (ReturnDetails == null || (ReturnDetails != null && ReturnDetails.Count == 0))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Devolucion", "No a Agregado detalle", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Guardar Devolucion", "No has agregado detalle", "Aceptar");
                     return;
                 }
                 bool answer = await Application.Current.MainPage.DisplayAlert("Devolucion", "Desea guardar la Devolucion?", "Yes", "No");
@@ -270,20 +271,16 @@ namespace InventoryManagmentMobile.ViewModels
                     Order.Comment = "";
                     Order.VendorId = Vendor.Data.Id;
 
-
                     IsBusy = true;
                     ShowContent = false;
                     var Result = await Repo.SaveReturn(Order);
-                    Thread.Sleep(5000);
+                    //Thread.Sleep(5000);
                     IsBusy = false;
                     ShowContent = true;
-                    if (Result != null && Result.IsSuccess)
+                    if (Result.IsSuccess)
                     {
-
                         // ShowSucces("Transaccion Procesada Correctamente");
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
-
-
 
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
                         Thread.Sleep(5000);
@@ -292,14 +289,9 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                     else
                     {
-
                         // ShowError(Result.MessagesFromErp[0].Message);
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
-
-
-
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-
                     }
                 }
                 else

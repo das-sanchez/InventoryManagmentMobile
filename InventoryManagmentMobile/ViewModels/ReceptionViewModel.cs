@@ -356,11 +356,13 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Recepcion", "Debe Digitar el Numero de Factura", "Aceptar");
                     return;
                 }
-                if (ReceptionItems == null)
+
+                if (ReceptionItems == null || (ReceptionItems != null && ReceptionItems.Count == 0))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No has agregado detalle", "Aceptar");
                     return;
                 }
+
                 if (Order != null)
                 {
                     if (Order.Data.Items.Length != ReceptionItems.Count())
@@ -370,9 +372,8 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                 }
 
-
-
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Desea guardar la Recepcion de {TypeDescription}?", "Yes", "No");
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", $"Desea guardar la recepción de {TypeDescription}?", "Yes", "No");
+               
                 if (answer)
                 {
 
@@ -386,33 +387,26 @@ namespace InventoryManagmentMobile.ViewModels
 
                     Result = await repo.SaveReception(OrderNo, Reception);
 
-
-                    Thread.Sleep(5000);
+                    //Thread.Sleep(5000);
                     IsBusy = false;
                     ShowContent = true;
-                    if (Result.Data != null && Result.IsSuccess)
+
+                    if (Result.IsSuccess)
                     {
                         _context.DeleteTransationLineByOrderNo(Type, OrderNo);
                         //ShowSucces("Transaccion Procesada Correctamente");
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
 
-
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
 
                         Thread.Sleep(5000);
                         await Shell.Current.Navigation.PopToRootAsync();
-
                     }
                     else
                     {
-
                         //ShowError(Result.Message);
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
-
-
-
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-
                     }
 
                 }
@@ -424,7 +418,7 @@ namespace InventoryManagmentMobile.ViewModels
             catch (Exception ex)
             {
 
-                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
 
         }
@@ -510,7 +504,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 if ((TotalQty) > OrderItem.Qty && OrderItem.Bono == IsBonus)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Agregar Line", $"La Recibida {(IsBonus ? "En Bono " : "")} es Mayor que la Ordenada", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Agregar Line", $"La Cantidad Recibida {(IsBonus ? "En Bono " : "")} es Mayor que la Ordenada", "Aceptar");
                     return;
                 }
                 if (!Items.Any(xc => xc.ProductId == ProductId && xc.Bono == IsBonus))
@@ -559,7 +553,7 @@ namespace InventoryManagmentMobile.ViewModels
                         {
                             if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && OrderItem.Bono == IsBonus)
                             {
-                                bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea  Sustituir)?", "Si", "no");
+                                bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sustituir?", "Si", "No");
                                 if (resp)
                                 {
 
@@ -571,7 +565,7 @@ namespace InventoryManagmentMobile.ViewModels
                             }
                             else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && OrderItem.Bono == IsBonus))
                             {
-                                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sustituir", "Sumar");
+                                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sumar o Sustituir", "Sustituir", "Sumar");
                                 if (answer)
                                 {
                                     //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });

@@ -282,7 +282,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                if (ReceptionItems == null)
+                if (ReceptionItems == null || (ReceptionItems != null && ReceptionItems.Count == 0))
                 {
                     await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
                     return;
@@ -303,28 +303,24 @@ namespace InventoryManagmentMobile.ViewModels
 
 
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
+               
                 if (answer)
                 {
-
-
-
-
                     Reception.Items = ReceptionItems.ToArray();
                     Reception.VendorId = Order.Data.VendorId;
 
                     var Result = await repo.SaveTransporationOrder(OrderNo, Reception);
-                    if (Result != null && Result.IsSuccess)
+
+                    if (Result.IsSuccess)
                     {
                         IsBusy = true;
                         ShowContent = false;
                         // ShowSucces("Transaccion Procesada Correctamente");
                         _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
-                        Thread.Sleep(5000);
+                        //Thread.Sleep(5000);
                         IsBusy = false;
                         ShowContent = true;
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
-
-
 
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
                         Thread.Sleep(5000);
@@ -333,14 +329,9 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                     else
                     {
-
                         // ShowError(Result.MessagesFromErp[0].Message);
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
-
-
-
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-
                     }
 
                 }

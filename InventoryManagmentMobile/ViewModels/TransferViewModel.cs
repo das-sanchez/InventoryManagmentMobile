@@ -127,19 +127,19 @@ namespace InventoryManagmentMobile.ViewModels
         private async void SaveReception()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
+
             if (answer)
             {
-                if (ReceptionItems == null)
+                if (ReceptionItems == null || (ReceptionItems != null && ReceptionItems.Count == 0) )
                 {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No has agregado detalle", "Aceptar");
                     return;
                 }
-                Reception.Items = ReceptionItems.ToArray();
 
+                Reception.Items = ReceptionItems.ToArray();
                 Reception.OrderNo = OrderNo;
 
-                var Result = await repo.SaveReception(OrderNo, Reception);
-
+                await repo.SaveReception(OrderNo, Reception);
             }
             else
             {
