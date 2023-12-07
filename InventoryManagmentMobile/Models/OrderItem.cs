@@ -36,6 +36,9 @@ namespace InventoryManagmentMobile.Models
         [JsonPropertyName("um")]
         public string Um { get; set; }
 
+        [JsonPropertyName("umName")]
+        public string UmName { get; set; }
+
         [JsonPropertyName("productGroup")]
         public int ProductGroup { get; set; }
         [JsonProperty("isLotNoRequired")]

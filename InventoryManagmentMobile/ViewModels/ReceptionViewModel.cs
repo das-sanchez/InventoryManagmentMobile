@@ -396,11 +396,13 @@ namespace InventoryManagmentMobile.ViewModels
                         _context.DeleteTransationLineByOrderNo(Type, OrderNo);
                         //ShowSucces("Transaccion Procesada Correctamente");
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
+                        var dialogViewModel = new DialogAlertViewModel(dialogParam, goToBeginning: true);
+                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(dialogViewModel));
 
-                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-
-                        Thread.Sleep(5000);
-                        await Shell.Current.Navigation.PopToRootAsync();
+                        //Thread.Sleep(5000);
+                        await Task.Delay(5000);
+                        if (!dialogViewModel.UserHasInteracted)
+                            await Shell.Current.Navigation.PopToRootAsync();
                     }
                     else
                     {
@@ -686,7 +688,7 @@ namespace InventoryManagmentMobile.ViewModels
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
                 }
                 Factor = (Product.Product.IsWeighed ? 1 : un.Factor);
-                Unidad = $"Cantidad ({OrderItem.Um})";
+                Unidad = $"Cantidad ({OrderItem.UmName})";
                 IsLotRequired = OrderItem.IsLotNoRequired;
                 NotEdition = false;
                 InEdition = true;

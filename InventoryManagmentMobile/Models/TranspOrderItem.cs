@@ -25,5 +25,8 @@ namespace InventoryManagmentMobile.Models
 
         [JsonProperty("um")]
         public string Um { get; set; }
+
+        [JsonProperty("umName")]
+        public string UmName { get; set; }
     }
 }

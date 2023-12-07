@@ -14,7 +14,6 @@ namespace InventoryManagmentMobile.Views
 
             this.BindingContext = _vm;
         }
-
         private async void btnAceptar_Clicked(object sender, EventArgs e)
         {
             string response = btnAceptar.Text; // Esto podría ser un valor de algún control en tu cuadro de diálogo

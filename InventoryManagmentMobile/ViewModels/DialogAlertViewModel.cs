@@ -11,6 +11,7 @@ namespace InventoryManagmentMobile.ViewModels
     public class DialogAlertViewModel : BaseViewModel
     {
         Dialog dialog;
+        public bool UserHasInteracted { get; private set; } = false;
         public Dialog Dialog
         {
             get { return dialog; }
@@ -27,10 +28,34 @@ namespace InventoryManagmentMobile.ViewModels
             Dialog = _dialog;
             GoBackCommand = new Command(() => GoBack());
         }
+        public DialogAlertViewModel(Dialog _dialog, bool goToBeginning)
+
+        {
+            Dialog = _dialog;
+
+            //GoBackCommand = new Command(() => (goToBeginning ? GoToBeginning() : GoBack()));
+            //GoBackCommand = new Command(() => (goToBeginning ? GoToBeginning() : GoBack()));
+            GoBackCommand = new Command(() =>
+            {
+                if (goToBeginning)
+                    GoToBeginning();
+                else
+                    GoBack();
+
+                UserHasInteracted = true;
+            });
+        }
+
+
 
         private async void GoBack()
         {
             await Shell.Current.Navigation.PopModalAsync();
+        }
+
+        private async void GoToBeginning()
+        {
+            await Shell.Current.Navigation.PopToRootAsync();
         }
     }
 }

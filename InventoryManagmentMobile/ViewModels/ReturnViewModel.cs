@@ -281,11 +281,13 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         // ShowSucces("Transaccion Procesada Correctamente");
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
+                        var dialogAlertViewModel = new DialogAlertViewModel(dialogParam, goToBeginning: true);
+                        
+                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(dialogAlertViewModel));
+                        await Task.Delay(5000);
 
-                        await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
-                        Thread.Sleep(5000);
-
-                        await Shell.Current.Navigation.PopToRootAsync();
+                        if (dialogAlertViewModel.UserHasInteracted)
+                            await Shell.Current.Navigation.PopToRootAsync();
                     }
                     else
                     {
