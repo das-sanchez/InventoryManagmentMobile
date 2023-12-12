@@ -25,7 +25,7 @@ namespace InventoryManagmentMobile.Models
         public decimal QtyRecibida { get; set; }
         public decimal QtyPending { get; set; }
         public bool Bono { get; set; }
-        public string StoreNo { get; set; }
+        public string StoreId { get; set; }
 
         public TransactionLine() { }
     }

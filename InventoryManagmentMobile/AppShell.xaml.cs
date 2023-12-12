@@ -23,6 +23,7 @@ public partial class AppShell : Shell
 
     private void mnLogout_Clicked(object sender, EventArgs e)
     {
+        Preferences.Set("token", string.Empty);
         Application.Current.MainPage = new LoginPage(new ViewModels.LoginViewModel(new OleRepository(), new Database.OleDataContext()));
     }
 }

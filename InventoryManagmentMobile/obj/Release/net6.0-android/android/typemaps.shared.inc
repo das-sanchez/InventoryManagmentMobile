@@ -57,108 +57,108 @@ map_aname.10:
 
 	.type	map_aname.11, @object
 map_aname.11:
-	.asciz	"InventoryManagmentMobile"
-	.size	map_aname.11, 25
+	.asciz	"Xamarin.Kotlin.StdLib"
+	.size	map_aname.11, 22
 
 	.type	map_aname.12, @object
 map_aname.12:
-	.asciz	"Xamarin.Kotlin.StdLib"
-	.size	map_aname.12, 22
+	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModel"
+	.size	map_aname.12, 37
 
 	.type	map_aname.13, @object
 map_aname.13:
-	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModel"
-	.size	map_aname.13, 37
+	.asciz	"Xamarin.AndroidX.Navigation.Common"
+	.size	map_aname.13, 35
 
 	.type	map_aname.14, @object
 map_aname.14:
-	.asciz	"Xamarin.AndroidX.Navigation.Common"
-	.size	map_aname.14, 35
+	.asciz	"Microsoft.Maui.Controls"
+	.size	map_aname.14, 24
 
 	.type	map_aname.15, @object
 map_aname.15:
-	.asciz	"Microsoft.Maui.Controls"
-	.size	map_aname.15, 24
+	.asciz	"Xamarin.AndroidX.Fragment"
+	.size	map_aname.15, 26
 
 	.type	map_aname.16, @object
 map_aname.16:
-	.asciz	"Xamarin.AndroidX.Fragment"
-	.size	map_aname.16, 26
+	.asciz	"Mono.Android"
+	.size	map_aname.16, 13
 
 	.type	map_aname.17, @object
 map_aname.17:
-	.asciz	"Mono.Android"
-	.size	map_aname.17, 13
+	.asciz	"Xamarin.Google.Android.Material"
+	.size	map_aname.17, 32
 
 	.type	map_aname.18, @object
 map_aname.18:
-	.asciz	"Xamarin.Google.Android.Material"
-	.size	map_aname.18, 32
+	.asciz	"Xamarin.KotlinX.Coroutines.Core.Jvm"
+	.size	map_aname.18, 36
 
 	.type	map_aname.19, @object
 map_aname.19:
-	.asciz	"Xamarin.KotlinX.Coroutines.Core.Jvm"
-	.size	map_aname.19, 36
+	.asciz	"Xamarin.AndroidX.Loader"
+	.size	map_aname.19, 24
 
 	.type	map_aname.20, @object
 map_aname.20:
-	.asciz	"Xamarin.AndroidX.Loader"
-	.size	map_aname.20, 24
+	.asciz	"Xamarin.AndroidX.CardView"
+	.size	map_aname.20, 26
 
 	.type	map_aname.21, @object
 map_aname.21:
-	.asciz	"Xamarin.AndroidX.CardView"
+	.asciz	"Xamarin.AndroidX.Activity"
 	.size	map_aname.21, 26
 
 	.type	map_aname.22, @object
 map_aname.22:
-	.asciz	"Xamarin.AndroidX.Activity"
-	.size	map_aname.22, 26
+	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
+	.size	map_aname.22, 36
 
 	.type	map_aname.23, @object
 map_aname.23:
-	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
-	.size	map_aname.23, 36
+	.asciz	"Microsoft.Maui.Graphics"
+	.size	map_aname.23, 24
 
 	.type	map_aname.24, @object
 map_aname.24:
-	.asciz	"Microsoft.Maui.Graphics"
-	.size	map_aname.24, 24
+	.asciz	"Xamarin.AndroidX.ViewPager"
+	.size	map_aname.24, 27
 
 	.type	map_aname.25, @object
 map_aname.25:
-	.asciz	"Xamarin.AndroidX.ViewPager"
-	.size	map_aname.25, 27
+	.asciz	"Xamarin.AndroidX.CustomView"
+	.size	map_aname.25, 28
 
 	.type	map_aname.26, @object
 map_aname.26:
-	.asciz	"Xamarin.AndroidX.CustomView"
-	.size	map_aname.26, 28
+	.asciz	"Xamarin.AndroidX.RecyclerView"
+	.size	map_aname.26, 30
 
 	.type	map_aname.27, @object
 map_aname.27:
-	.asciz	"Xamarin.AndroidX.RecyclerView"
-	.size	map_aname.27, 30
+	.asciz	"Xamarin.AndroidX.SavedState"
+	.size	map_aname.27, 28
 
 	.type	map_aname.28, @object
 map_aname.28:
-	.asciz	"Xamarin.AndroidX.SavedState"
-	.size	map_aname.28, 28
+	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModelSavedState"
+	.size	map_aname.28, 47
 
 	.type	map_aname.29, @object
 map_aname.29:
-	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModelSavedState"
-	.size	map_aname.29, 47
+	.asciz	"Xamarin.AndroidX.Navigation.UI"
+	.size	map_aname.29, 31
 
 	.type	map_aname.30, @object
 map_aname.30:
-	.asciz	"Xamarin.AndroidX.Navigation.UI"
-	.size	map_aname.30, 31
+	.asciz	"Xamarin.AndroidX.Navigation.Fragment"
+	.size	map_aname.30, 37
 
 	.type	map_aname.31, @object
 map_aname.31:
-	.asciz	"Xamarin.AndroidX.Navigation.Fragment"
-	.size	map_aname.31, 37
+	.asciz	"InventoryManagmentMobile"
+	.size	map_aname.31, 25
 
 	.type	map_aname.32, @object
 map_aname.32:
