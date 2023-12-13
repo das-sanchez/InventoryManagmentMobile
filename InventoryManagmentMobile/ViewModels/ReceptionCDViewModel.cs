@@ -3,13 +3,7 @@ using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Models.Dtos;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.ViewModels
 {
@@ -231,7 +225,7 @@ namespace InventoryManagmentMobile.ViewModels
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff"), StoreId = line.StoreId });
-                        ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, QtyOrd = line.Quantity, StoreId = line.StoreId });
+                        ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, QtyOrd = line.Quantity, StoreId = line.StoreId, StorageId = line.StorageId });
                     }
                 }
             }
@@ -255,7 +249,7 @@ namespace InventoryManagmentMobile.ViewModels
                 foreach (var line in items)
                 {
                     Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff"), StoreId = line.StoreId });
-                    ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, QtyOrd = line.Quantity, StoreId = line.StoreId });
+                    ReceptionItems.Add(new TransportationOrderItem() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, LineNo = line.LineNo, Qty = line.QtyRecibida, Um = line.Um, QtyOrd = line.Quantity, StoreId = line.StoreId, StorageId = line.StorageId });
                 }
             }
 
@@ -619,7 +613,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order = new TranspOrderResult();
                     OrderNo = "";
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "El Store de la Orden Transportacion es diferente al del usuario", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "La tienda de la Orden Transportacion es diferente al del usuario", "Aceptar");
                     return;
                 }
                 if (Order.Data.Items.Any(xc => string.IsNullOrEmpty(xc.ProductBarCode)))

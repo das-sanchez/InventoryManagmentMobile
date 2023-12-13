@@ -26,6 +26,7 @@ namespace InventoryManagmentMobile.Models
         public decimal QtyPending { get; set; }
         public bool Bono { get; set; }
         public string StoreId { get; set; }
+        public string StorageId { get; set; }
 
         public TransactionLine() { }
     }

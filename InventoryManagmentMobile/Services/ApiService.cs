@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using static SQLite.SQLite3;
 
 namespace InventoryManagmentMobile.Services
 {
@@ -112,118 +113,95 @@ namespace InventoryManagmentMobile.Services
         {
             try
             {
-
                 using (HttpClient client = new HttpClient())
                 {
-
                     client.Timeout = TimeSpan.FromSeconds(660);
-                    //client.BaseAddress = new Uri(connection); //http://extranet.brugal.com.do:8026
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-                    if (!String.IsNullOrEmpty(UrlToken))
-                    {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
-                    }
 
-                    var url1 = Url;
-                    var result = await client.GetAsync(url1);
-                    // string empr = await result.Content.ReadAsStringAsync();
+                    var token = Preferences.Get("token", string.Empty);
+
+                    if (!String.IsNullOrEmpty(token))
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    
+                    var result = await client.GetAsync(Url);
+
                     if (result.IsSuccessStatusCode)
                     {
                         var content = await result.Content.ReadAsStringAsync();
-                        var Items = JsonConvert.DeserializeObject<T>(content);
-                        return Items;
-
-
+                        return JsonConvert.DeserializeObject<T>(content);
                     }
-                    else
-                    {
-                        var content = await result.Content.ReadAsStringAsync();
-                        var Items = JsonConvert.DeserializeObject<T>(content);
-                        return Items;
-                    }
-                    throw new Exception(result.ReasonPhrase);
-
+                    
+                    throw new Exception("Se produjo el siguiente error al tratar al ejecutar la consulta al server: " + result.ReasonPhrase);   
                 }
-
-
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
         public async Task<T> PostData(string UrlBase, string Url, List<T> Ltrans)
         {
-            T LS = new T();
-
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-                    if (!String.IsNullOrEmpty(UrlToken))
-                    {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
-                    }
+
+                    var token = Preferences.Get("token", string.Empty);
+
+                    if (!String.IsNullOrEmpty(token))
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                     var data = JsonConvert.SerializeObject(Ltrans);
-
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
-                    string url = Url;
-                    var response = await client.PostAsync(url, content);
-                    var result = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
+                    var response = await client.PostAsync(Url, content);
 
-                    LS = result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        return  JsonConvert.DeserializeObject<T>(responseData);
+                    }
 
-
-
-                    return LS;
+                    throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
                 }
-
             }
             catch (Exception ex)
             {
-
-                return LS;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<T> PostData(string UrlBase, string Url, object Ltrans)
         {
-            T LS = new T();
-
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-
                     client.BaseAddress = new Uri(UrlBase);
                     client.DefaultRequestHeaders.Add("ZUMO-API-VERSION", "2.0.0");
-                    if (!String.IsNullOrEmpty(UrlToken))
-                    {
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UrlToken);
-                    }
+
+                    var token = Preferences.Get("token", string.Empty);
+
+                    if (!String.IsNullOrEmpty(token))
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                     var data = JsonConvert.SerializeObject(Ltrans);
-
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
-                    string url = Url;
-                    var response = await client.PostAsync(url, content);
-                    var result = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
+                    var response = await client.PostAsync(Url, content);
 
-                    LS = result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<T>(responseData);
+                    }
 
-
-
-                    return LS;
+                    throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
                 }
-
             }
             catch (Exception ex)
             {
-
-                return LS;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<T> PutData(string UrlBase, string Url, List<T> Ltrans)

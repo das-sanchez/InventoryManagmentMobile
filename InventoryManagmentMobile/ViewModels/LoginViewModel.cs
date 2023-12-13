@@ -1,12 +1,7 @@
 ﻿using InventoryManagmentMobile.Database;
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.ViewModels
 {
@@ -134,7 +129,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                 if (StoreSelected == null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Login Error", "Debe Seleccionar un Store", "Aceptar");
+                    await Application.Current.MainPage.DisplayAlert("Login Error", "Debe seleccionar una tienda", "Aceptar");
                     return;
                 }
 
@@ -143,7 +138,7 @@ namespace InventoryManagmentMobile.ViewModels
                     var us = _context.GetUserStore(User);
                     if (us.StoreNo != StoreSelected.Id)
                     {
-                        bool answer = await Application.Current.MainPage.DisplayAlert("Login", $"El Store {StoreSelected.Name} seleccionado es diferente al que tiene por defecto desea cambiarlo?", "Si", "No");
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Login", $"La tienda {StoreSelected.Name} seleccionada es diferente al que tiene por defecto desea cambiarlo?", "Si", "No");
                         if (answer)
                         {
                             _context.SaveUserStore(new UserStore() { Id = us.Id, StoreNo = StoreSelected.Id, UserId = User });

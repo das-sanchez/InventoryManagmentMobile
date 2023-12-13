@@ -3,15 +3,7 @@ using InventoryManagmentMobile.Database;
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
-
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InventoryManagmentMobile.ViewModels
 {
