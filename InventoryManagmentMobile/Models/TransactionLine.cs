@@ -27,6 +27,7 @@ namespace InventoryManagmentMobile.Models
         public bool Bono { get; set; }
         public string StoreId { get; set; }
         public string StorageId { get; set; }
+        public bool BarCodeScanned { get; set; }
 
         public TransactionLine() { }
     }

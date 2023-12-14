@@ -71,7 +71,8 @@ namespace InventoryManagmentMobile.ViewModels
         private readonly OleRepository repo;
 
 
-
+        string _itemTitle = string.Empty;
+        public string ItemTitle { get { return _itemTitle; } set { SetProperty(ref _itemTitle, value); } }
 
         string _productNo = string.Empty;
         public string ProductNo { get { return _productNo; } set { SetProperty(ref _productNo, value); } }
@@ -185,7 +186,8 @@ namespace InventoryManagmentMobile.ViewModels
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
 
         private bool _canSave = false;
-        public bool CanSave { get { return _canSave; } set { SetProperty(ref _canSave, value); } }
+        public bool CanSave { get { return _canSave; } set { 
+                SetProperty(ref _canSave, value); } }
 
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
@@ -231,7 +233,7 @@ namespace InventoryManagmentMobile.ViewModels
             ShowContent = true;
             BackCommand = new Command(() => BackSync());
             CanSave = false;
-
+            ItemTitle = string.Empty;
         }
 
         private async void BackSync()
@@ -353,7 +355,10 @@ namespace InventoryManagmentMobile.ViewModels
                     
                 if (Order != null && Order.Data.Items.Length != ReceptionItems.Count())    
                     throw new Exception("La cantidad de líneas en la orden es diferente a las recibidas");
-                        
+
+                if (!Details.Any(x => x.QtyRecibida > 0))
+                    throw new Exception($"El documento no puede ser registrado ya no se ha especificado la cantidad {(Type == "D" ? "despachada" : "recibida.")}");
+
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", $"¿Esta seguro que desea guardar la recepción de {TypeDescription}?", "Si", "No");
                
                 if (answer)
@@ -428,7 +433,6 @@ namespace InventoryManagmentMobile.ViewModels
         }
 
 
-
         private async void AddItem()
         {
             try
@@ -471,12 +475,15 @@ namespace InventoryManagmentMobile.ViewModels
                     
                 if (TotalQty == 0)
                     throw new Exception("Debe digitar la cantidad");
-                    
+
+                if (Type =="P" && IsBonus && OrderItem.Qty != TotalQty)
+                    throw new Exception("La cantidad de bonos deber ser recibida en su totalidad.");
+
                 int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
                 string filter = (Type == "P" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductId = '{ProductId}'");
 
                 if (!_context.ValidExist(Type, OrderNo, ProductId, IsBonus))
-                    _context.CreateTransactionLine(new TransactionLine { StoreId = OrderItem.StoreId, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus, StorageId = OrderItem.StorageId });
+                    _context.CreateTransactionLine(new TransactionLine { StoreId = OrderItem.StoreId, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus, StorageId = OrderItem.StorageId, BarCodeScanned = false});
 
                 else
                 {
@@ -510,7 +517,9 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                 }
 
-                ProductNo = "";
+                if (!(Type == "P" && IsBonus && OrderItem.Qty == TotalQty))
+                    ProductNo = "";
+
                 ProductId = "";
                 Quantity = "";
                 TotalQty = 0;
@@ -570,6 +579,31 @@ namespace InventoryManagmentMobile.ViewModels
                         throw new Exception($"Este producto no tiene definida la unidad de medida con la que se encuentra en el documento.");
                 }
 
+                //Tratamientos de bonos
+                string bonusMessage = "";
+                var bonusItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: true);
+                
+                if (bonusItem != null) // Si tiene bonos
+                {
+                    if (bonusItem.Quantity != bonusItem.QtyRecibida)
+                    {
+                        bonusMessage = "Este producto contiene bonos. Favor recibir la cantidad total de bonos primero y luego la cantidad normal.";
+                        IsBonus = true;
+                    }
+                    else
+                    {
+                        bonusMessage = " Habiendo registado la cantidad total de bonos, ahora favor registrar la cantidad normal.";
+                        IsBonus = false;
+                    }
+
+                    await Application.Current.MainPage.DisplayAlert("Aviso Bono", bonusMessage, "Aceptar");
+                }
+
+                var tLine = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
+
+                if (!tLine.BarCodeScanned)
+                    _context.ExecuteSql($"UPDATE TransactionLine SET BarCodeScanned = 1, ProductBarCode = '{ProductNo}'  Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' ");
+    
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
 
                 if (OrderItem == null)
@@ -626,6 +660,9 @@ namespace InventoryManagmentMobile.ViewModels
 
             try
             {
+                if (string.IsNullOrEmpty(OrderNo))
+                    return;
+
                 LoadItemsAsync();
 
                 if (Details.Count() > 0 && Details.Any(x => x.QtyRecibida > 0))
@@ -706,7 +743,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order.Data.Items.ToList().ForEach((l) =>
                     {
-                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId };
+                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId, BarCodeScanned = false };
                         _context.SaveTransLine(line);
                     });   
                 }
@@ -732,6 +769,7 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 CanSave = true;
             }
+            ItemTitle = "Finalizar";
         }
 
         private void DetalleOpcion()
@@ -740,6 +778,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("D");
             CanSave = false;
+            ItemTitle = string.Empty;
         }
 
         private void ProductosOpcion()
@@ -748,12 +787,14 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("P");
             CanSave = false;
+            ItemTitle = string.Empty;
         }
 
         private void GeneralOpcion()
         {
             ShowPanel("G");
             CanSave = false;
+            ItemTitle = string.Empty;
         }
         private void ShowPanel(string opcion)
         {

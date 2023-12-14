@@ -1,3 +1,4 @@
+using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
 
 namespace InventoryManagmentMobile.Views;
@@ -15,8 +16,9 @@ public partial class LoginPage : ContentPage
     }
 
 
-    private void userName_Completed(object sender, EventArgs e)
+    private async void userName_Completed(object sender, EventArgs e)
     {
+        await _vm.GetStoreListByUser(userName.Text);
         _vm.GetStoreByUser();
         this.password.Focus();
     }
@@ -26,8 +28,11 @@ public partial class LoginPage : ContentPage
         this.liststore.Focus();
     }
 
-    private void password_Focused(object sender, FocusEventArgs e)
+
+    private async void userName_Unfocused(object sender, FocusEventArgs e)
     {
+        await _vm.GetStoreListByUser(userName.Text);
         _vm.GetStoreByUser();
+
     }
 }

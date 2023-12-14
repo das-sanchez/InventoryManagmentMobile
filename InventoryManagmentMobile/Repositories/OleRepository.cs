@@ -17,12 +17,24 @@ namespace InventoryManagmentMobile.Repositories
         private readonly ApiService<OrderResult> apiOrder;
         private readonly ApiService<ProductResult> apiProduct;
         private readonly ApiService<StoreResult> apiStore;
+        private readonly ApiService<UserStoresResult> apiUserStore;
         private readonly ApiService<VendorResult> apiVendor;
         private readonly ApiService<TransResult> apiPost;
         private readonly ApiService<StorageResult> apiStorage;
         private readonly ApiService<TranspOrderResult> apiTraspe;
         private readonly ApiService<LoginResult> loginPost;
-        public OleRepository() { apiOrder = new ApiService<OrderResult>(); apiProduct = new ApiService<ProductResult>(); apiStore = new ApiService<StoreResult>(); apiVendor = new ApiService<VendorResult>(); apiPost = new ApiService<TransResult>(); apiStorage = new ApiService<StorageResult>(); apiTraspe = new ApiService<TranspOrderResult>(); loginPost = new ApiService<LoginResult>(); }
+
+        public OleRepository() { 
+            apiOrder = new ApiService<OrderResult>();                      
+            apiProduct = new ApiService<ProductResult>(); 
+            apiStore = new ApiService<StoreResult>();
+            apiUserStore = new ApiService<UserStoresResult>();
+            apiVendor = new ApiService<VendorResult>(); 
+            apiPost = new ApiService<TransResult>(); 
+            apiStorage = new ApiService<StorageResult>(); 
+            apiTraspe = new ApiService<TranspOrderResult>(); 
+            loginPost = new ApiService<LoginResult>(); 
+        }
 
         public async Task<OrderResult> OrderByOrderNo(string OrderNo)
         {
@@ -101,6 +113,13 @@ namespace InventoryManagmentMobile.Repositories
             var product = new StoreResult();
             product = await apiStore.GetData(Constants.UrlBase, $"store");
             return product;
+        }
+
+        public async Task<UserStoresResult> GetStoreListByUser(string username)
+        {
+            var stores = new UserStoresResult();
+            stores = await apiUserStore.GetData(Constants.UrlBase, $"User/GetStoresByUser/{username}");
+            return stores;
         }
 
         public async Task<List<StoreResult>> Stores()

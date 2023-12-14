@@ -2,6 +2,7 @@
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.Repositories;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace InventoryManagmentMobile.ViewModels
 {
@@ -26,12 +27,23 @@ namespace InventoryManagmentMobile.ViewModels
         public Command LoginCommand { get; }
 
         public ObservableCollection<Store> Stores { get; set; }
+
         private Store _storeSelecte;
+
         public Store StoreSelected
         {
             get { return _storeSelecte; }
-            //set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != "5520" ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
-            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", value.Name); }
+
+            set 
+            {     
+                SetProperty(ref _storeSelecte, value); 
+
+                if (value != null)
+                {
+                    Preferences.Set("storeNo", value.Id); 
+                    Preferences.Set("storeName", value.Name);
+                }
+            }
         }
         private StoreResult _store;
         public StoreResult StoreResult
@@ -67,7 +79,7 @@ namespace InventoryManagmentMobile.ViewModels
             LogResult = new LoginResult();
             Stores = new ObservableCollection<Store>();
             LoginCommand = new Command(async () => await Login());
-            StoreLoad();
+            //StoreLoad();
         }
         private async void StoreLoad()
         {
@@ -75,10 +87,10 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 StoreResult = await Repo.StoreByNo("");
                 Stores.Clear();
+
                 if (!StoreResult.IsSuccess)
-                {
                     throw new Exception(StoreResult.Message);
-                }
+                
 
                 StoreResult.Stores = StoreResult.Stores.OrderBy(x => x.CompanyId).ThenBy(x => x.Name).ToArray();
 
@@ -103,14 +115,62 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
         }
+        public async Task GetStoreListByUser(string username)
+        {
+            try
+            {
+                //Stores = new ObservableCollection<Store>();
+
+
+                StoreResult = null;
+                 
+                var storesByUsers = await Repo.GetStoreListByUser(username);
+                
+                if (storesByUsers == null)
+                    throw new Exception("Se produjo un error al consultar las tiendas para el usuario, no se obtuvo ninguna información.");
+
+                if (!storesByUsers.IsSuccess)
+                    throw new Exception(storesByUsers.Message);
+
+                StoreResult = new StoreResult()
+                {
+                    IsSuccess = storesByUsers.IsSuccess,
+                    Message = storesByUsers.Message,
+                    MessagesFromErp = storesByUsers.MessagesFromErp,
+                    Stores = storesByUsers.Data.Select(x => new Store
+                    {
+                        Name = x.StoreName,
+                        Id = x.StoreId,
+                    }).ToArray()
+                };
+
+                Stores.Clear();
+
+                //StoreResult.Stores = StoreResult.Stores.OrderBy(x => x.CompanyId).ThenBy(x => x.Name).ToArray();
+
+                StoreResult.Stores.OrderBy(x => x.Name).ToList().ForEach((s) =>
+                {
+                    Stores.Add(s);
+                });
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+            }
+
+        }
         public void GetStoreByUser()
         {
+            //StoreSelected = new Store();
+
             if (_context.ValidExistUserStore(User))
             {
                 if (!string.IsNullOrEmpty(User))
                 {
                     var us = _context.GetUserStore(User);
-                    StoreSelected = Stores.FirstOrDefault(x => x.Id == us.StoreNo);
+
+                    if (Stores.Any(x => x.Id == us.StoreNo))
+                        StoreSelected = Stores.FirstOrDefault(x => x.Id == us.StoreNo);
                 }
             }
 

@@ -10,7 +10,8 @@ public partial class ReceptionPage : ContentPage
     {
         InitializeComponent();
         _vm = viewModel;
-        this.BindingContext = viewModel;
+        this.BindingContext = _vm;
+        _vm.CanSave = false;
 
     }
 
@@ -31,6 +32,7 @@ public partial class ReceptionPage : ContentPage
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
+        var a =sender.ToString();
         await _vm.ProductByNo();
 
         if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
@@ -126,6 +128,9 @@ public partial class ReceptionPage : ContentPage
     private void btnAdd_Clicked(object sender, EventArgs e)
     {
         this.productNo.Focus();
+
+        if (!String.IsNullOrEmpty(this.productNo.Text)) 
+            productNo_Completed(productNo, EventArgs.Empty);
     }
 
     private void LookBarCode_Completed(object sender, EventArgs e)
