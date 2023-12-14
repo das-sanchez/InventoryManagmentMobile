@@ -19,26 +19,22 @@ public partial class ReceptionCDPage : ContentPage
     }
     private void NoOrder_Completed(object sender, EventArgs e)
     {
-
         this.NoOrder.Unfocus();
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
-
-
     }
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
         await _vm.ProductByNo();
 
-        if (_vm.Product.Product == null)
+        if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
         {
             _vm.NotEdition = true;
             _vm.InEdition = false;
             this.productNo.Focus();
             return;
         }
-
 
         qty.Focus();
     }
@@ -60,7 +56,6 @@ public partial class ReceptionCDPage : ContentPage
             qtyUnit.Text = "1";
             btnAdd.Focus();
         }
-
     }
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
@@ -70,6 +65,7 @@ public partial class ReceptionCDPage : ContentPage
             qtyUnit.Text = "0";
             return;
         }
+
         if (!_vm.Product.Product.IsWeighed)
         {
             if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
@@ -85,6 +81,7 @@ public partial class ReceptionCDPage : ContentPage
         {
             qtyUnit.Text = "1";
         }
+
         btnAdd.Focus();
     }
 
@@ -97,13 +94,13 @@ public partial class ReceptionCDPage : ContentPage
                 NoOrder.Focus();
                 return;
             }
+
             _vm.ProductosCommand.Execute(this);
             productNo.Focus();
         }
-        catch (Exception)
+        catch (Exception ex )
         {
-
-            throw;
+            Application.Current.MainPage.DisplayAlert("Recepcion", ex.Message, "Aceptar");
         }
 
     }
@@ -119,9 +116,6 @@ public partial class ReceptionCDPage : ContentPage
     private async void btnFinalizar_Clicked(object sender, EventArgs e)
     {
         var dialogParam = new Dialog() { Icon = "cross2x", Description = "Error al Procesar la Recepcion", Title = "Recepcion Mercancia", Label = "Volver" };
-
-
-
         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
     }
 

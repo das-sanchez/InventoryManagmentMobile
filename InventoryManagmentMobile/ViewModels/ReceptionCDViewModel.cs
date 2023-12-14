@@ -182,34 +182,34 @@ namespace InventoryManagmentMobile.ViewModels
             RemoveDetailItemCommand = new Command<DetailDto>(RemoveDetailItem);
             CanSave = false;
         }
+
         private async void RemoveDetailItem(DetailDto dto)
         {
             try
             {
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "¿Esta seguro de borrar?", "Si", "No");
+
                 if (answer)
                 {
                     var item = ReceptionItems.FirstOrDefault(x => x.ProductId == dto.ProductId);
                     ReceptionItems.Remove(item);
-                    //Details.Remove(dto);
                     _context.ExecuteSql($"DELETE FROM TransactionLine Where TypeTrans = '{TypeTrans}' AND OrderNo = '{OrderNo.Trim()}' AND ProductBarCode = '{dto.ProductBarCode}'");
                     LoadItemsAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
 
         }
         private async void BackSync()
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de Salir?", "Si", "No");
+            bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", "¿Esta seguro de salir?", "Si", "No");
+
             if (answer)
-            {
                 await Shell.Current.Navigation.PopAsync();
-            }
+            
         }
         public async void FindByProduct(string barCode)
         {
@@ -219,9 +219,9 @@ namespace InventoryManagmentMobile.ViewModels
                 Details.Clear();
                 ReceptionItems.Clear();
                 items = _context.GetTransactionLinesByOrderNo(TypeTrans, OrderNo, barCode);
-                if (items is not null && items.Any())
-                {
 
+                if (items is not null && items.Any() && items.Any(x => x.QtyRecibida > 0))
+                {
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff"), StoreId = line.StoreId });
@@ -231,11 +231,8 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
-
-                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
-
-
         }
         public void LoadItemsAsync()
         {
@@ -256,13 +253,21 @@ namespace InventoryManagmentMobile.ViewModels
         }
         private async void RemoveItem(TransportationOrderItem item)
         {
-            bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Esta seguro de borrar?", "Si", "No");
-            if (answer)
+            try
             {
-                var det = Details.FirstOrDefault(x => x.ProductId == item.ProductId);
-                ReceptionItems.Remove(ItemSelected);
-                Details.Remove(det);
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "¿Esta seguro de borrar?", "Si", "No");
+
+                if (answer)
+                {
+                    var det = Details.FirstOrDefault(x => x.ProductId == item.ProductId);
+                    ReceptionItems.Remove(ItemSelected);
+                    Details.Remove(det);
+                }
             }
+            catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+            }   
         }
 
         private async Task OkReceptionAsync()
@@ -277,26 +282,15 @@ namespace InventoryManagmentMobile.ViewModels
             try
             {
                 if (ReceptionItems == null || (ReceptionItems != null && ReceptionItems.Count == 0))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No a Agregado detalle", "Aceptar");
-                    return;
-                }
+                    throw new Exception("No se ha agregado ningun producto.");
+                    
                 if (!ReceptionItems.Any(xc => xc.Qty > 0))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "No se han recibido productos de la orden.", "Aceptar");
-                    return;
-                }
-                if (Order != null)
-                {
-                    if (Order.Data.Items.Length != ReceptionItems.Count())
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Guardar Recepcion", "La Cantidad de Lineas en la Orden es Diferente a la Recibidas", "Aceptar");
-                        return;
-                    }
-                }
+                    throw new Exception("No se han recibido productos de la orden.");
 
-
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la Recepcion de la Orden de Compra?", "Yes", "No");
+                if (Order != null && Order.Data.Items.Length != ReceptionItems.Count())
+                    throw new Exception("La cantidad de lineas en la orden es diferente a las recibidas.");
+                    
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "Desea guardar la recepción de la Orden de Compra?", "Si", "No");
                
                 if (answer)
                 {
@@ -309,11 +303,12 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         IsBusy = true;
                         ShowContent = false;
-                        // ShowSucces("Transaccion Procesada Correctamente");
+
                         _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
 
                         IsBusy = false;
                         ShowContent = true;
+
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
                         var dialogAlertViewModel = new DialogAlertViewModel(dialogParam, goToBeginning: true);
 
@@ -325,23 +320,15 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                     else
                     {
-                        // ShowError(Result.MessagesFromErp[0].Message);
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
                     }
-
-                }
-                else
-                {
-                    return;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Guardar Recepción", ex.Message, "Aceptar");
             }
-
         }
         private void ShowError(string message)
         {
@@ -370,52 +357,33 @@ namespace InventoryManagmentMobile.ViewModels
         }
 
 
-
+        
         private async void AddItem()
         {
             try
             {
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()));
+
                 if ((TotalQty) > OrderItem.Qty)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "La Recibida es Mayor que la Ordenada", "Aceptar");
-                    return;
-                }
-
+                    throw new Exception("La cantidad recibida es mayor que la ordenada");
+                    
                 var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
-                if (un == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Agregar Line", $"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}", "Aceptar");
-                    return;
-                }
 
+                if (un == null)
+                    throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.UmName}");
+                    
                 if (Product == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe buscar un producto", "Aceptar");
-                    return;
-                }
+                    throw new Exception("Debe buscar un producto");
+                    
                 if (!Product.Product.IsWeighed)
                 {
-                    if (string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0")
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
-                        return;
-                    }
-
-                    if (Factor == 0)
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Agregar Line", "El factor es requerido", "Aceptar");
-                        return;
-                    }
-
+                    if ((string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0") || Factor == 0)
+                        throw new Exception("El factor es requerido");
+                     
                     if (Factor != Convert.ToInt32(QtyUnit))
                     {
-
-                        await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
-
                         QtyUnit = "0";
-
-                        return;
+                        throw new Exception("El Factor digitado es diferente al de la unidad ordenada.");
                     }
                 }
                 else
@@ -425,24 +393,16 @@ namespace InventoryManagmentMobile.ViewModels
                 }
 
                 if (TotalQty == 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Agregar Line", "Debe digitar la cantidad  mayor de cero", "Aceptar");
-                    return;
-                }
-
-
+                    throw new Exception("Debe digitar la cantidad  mayor de cero");
+                    
                 int line = _context.NextTransactionLinesByOrderNo(TypeTrans, OrderNo);
 
                 int exist = 0;
                 string filter = $" OrderNo = '{OrderNo}' AND ProductId = '{ProductId}'";
+
                 if (!_context.ValidExist(TypeTrans, OrderNo, ProductId, IsBonus))
                 {
-
-                    //Details.Add(new DetailDto() { ProductBarCode = ProductNo, ProductId = Product.Product.Id, ProductName = OrderItem.ProductName, QtyPending = OrderItem.Qty - TotalQty, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, Stock = 0 });
-                    // _context.DeleteTransationLineByOrderNo(OrderNo);
                     _context.CreateTransactionLine(new TransactionLine { TypeTrans = TypeTrans, LineNo = line, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = OrderItem.Qty, QtyRecibida = TotalQty, QtyPending = OrderItem.Qty - TotalQty, Um = OrderItem.Um, Bono = IsBonus, StoreId = OrderItem.StoreId });
-
-                    //_context.AddItemAsync<TransactionLine>();
                 }
                 else
                 {
@@ -453,36 +413,23 @@ namespace InventoryManagmentMobile.ViewModels
                         if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && TypeTrans == "OT")
                         {
                             bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea  Sustituir)?", "Si", "no");
+
                             if (resp)
-                            {
-
-
-                                //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
                                 _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
-
-                            }
                         }
                         else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && TypeTrans == "OT"))
                         {
                             bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")} desea Sumar o Sustituir)?", "Sustituir", "Sumar");
+
                             if (answer)
-                            {
-                                //Details.ToList().ForEach((i) => { if (i.ProductBarCode == ProductNo) { i.QtyRecibida += TotalQty; i.QtyPending = i.Quantity - i.QtyRecibida; } });
                                 _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
-                            }
                             else
-                            {
                                 _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = QtyRecibida +{TotalQty}, QtyPending = QtyPending-{TotalQty} Where TypeTrans='{TypeTrans}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
-
-                            }
                         }
-
                     }
-
-
                 }
-                ProductNo = "";
 
+                ProductNo = "";
                 ProductId = "";
                 Quantity = "";
                 TotalQty = 0;
@@ -493,38 +440,40 @@ namespace InventoryManagmentMobile.ViewModels
                 NotEdition = true;
                 InEdition = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
-
         }
 
         public async Task ProductByNo()
         {
             bool pExist = false;
+
             try
             {
-                //OrderItem = new OrderItem();
-                if (string.IsNullOrEmpty(ProductNo)) return;
-
-
+                if (string.IsNullOrEmpty(ProductNo)) 
+                    return;
 
                 Product = new ProductResult();
-
                 Product = await repo.ProductByBarCode(ProductNo);
+
+                if (Product == null)
+                    throw new Exception("Se produjo un error al consultar el producto, no se obtuvo ninguna información.");
+
                 if (!Product.IsSuccess)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Producdto", $"Producto no existe", "Aceptar");
-                    return;
-                }
+                    throw new Exception(Product.Message);
+
+                if (Product.Product == null)
+                    throw new Exception("Producto no existe.");
+     
                 ProductId = Product.Product.Id;
+
                 if (!Items.Any(xc => xc.ProductId == Product.Product.Id))
-                {
-                    throw new Exception($"Producto no esta orden de transportacion");
-                }
+                    throw new Exception("Producto no esta orden de transportacion");
+                    
                 var productIds = Product.Product.MeasurementUnits.ToList();
+
                 if (productIds.Count() > 0)
                 {
                     productIds.ForEach((p) =>
@@ -532,43 +481,38 @@ namespace InventoryManagmentMobile.ViewModels
                         if (!pExist)
                         {
                             if (Items.Any(xc => xc.ProductId == Product.Product.Id && xc.Um == p.BaseUm))
-                            {
-                                //ProductNo = p.BarCode;
                                 pExist = true;
-                            }
                         }
-
                     });
+
                     if (!pExist)
-                    {
                         throw new Exception($"Este producto no tiene definida la unidad de medida con la que se encuentra en el documento.");
-                    }
                 }
 
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()));
+
                 if (OrderItem == null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Recepcion", "Producto no esta en la Orden de Transporte", "Aceptar");
                     ProductNo = "";
-
                     Quantity = "";
                     TotalQty = 0;
                     QtyUnit = string.Empty;
                     Factor = 0;
                     NotEdition = true;
                     InEdition = false;
-                    return;
+                    throw new Exception("Producto no se encuentra en la Orden de Transporte");   
                 }
 
                 Product = new ProductResult();
                 Product = await repo.ProductByBarCode(ProductNo);
                 MeasurementUnits = new ObservableCollection<MeasurementUnit>();
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
+
                 var un = MeasurementUnits.FirstOrDefault(xc =>  xc.BaseUm == OrderItem.Um);
+
                 if (un == null)
-                {
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
-                }
+                
                 Factor = un.Factor;
                 Unidad = $"Cantidad ({OrderItem.UmName})";
                 NotEdition = false;
@@ -587,52 +531,52 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-
                 LoadItemsAsync();
-                if (Details.Count > 0)
+
+                if (Details.Count > 0 && Details.Any(x => x.QtyRecibida > 0))
                 {
-                    bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Orden de Transaporte, ya fue iniciada Desea Reanudar o Limpiar  e iniciar desde Cero?", "Reanudar", "Limpiar");
+                    bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"Esta Orden de Transaporte ya fue iniciada. ¿Desea Reanudar o Limpiar?", "Reanudar", "Limpiar");
+
                     if (!answer)
                     {
                         _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
                         Details.Clear();
                         ReceptionItems.Clear();
                     }
-
-
-
-
                 }
+                else
+                {
+                    _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
+                }
+
                 Order = await repo.TranspOrderByOrderNo(OrderNo);
+
+                if (Order == null)
+                    throw new Exception("Se produjo un error al consultar el documento, no se obtuvo ninguna información.");
+
+                if (!Order.IsSuccess)
+                    throw new Exception(Order.Message);
+
                 if (Order.Data == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", Order.Message, "Aceptar");
-                    return;
-                }
+                    throw new Exception("No se recibieron datos datos. Por favor, póngase en contacto con el administrador del sistema.");
+
+                if (!Order.IsSuccess)
+                    throw new Exception($"Se ha producido un error al tratar al consultar la información: {Order.Message}.");
+
                 if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))
-                {
-                    Order = new TranspOrderResult();
-                    OrderNo = "";
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "La tienda de la Orden Transportacion es diferente al del usuario", "Aceptar");
-                    return;
-                }
+                    throw new Exception($"Esta orden no esta configurada para ser procesada en la tienda {StoreName}");
+                    
                 if (Order.Data.Items.Any(xc => string.IsNullOrEmpty(xc.ProductBarCode)))
-                {
-                    Order = new TranspOrderResult();
-                    OrderNo = "";
-                    await Application.Current.MainPage.DisplayAlert("Trasanccion", "La Orden Transportacion contiene productos que no tienen codigo de barra", "Aceptar");
-                    return;
-                    OrderNo = "";
-                }
+                    throw new Exception("La Orden contiene productos sin código de barra");
+                    
                 HasOrder = true;
                 Items = Order.Data.Items.ToList();
             }
             catch (Exception ex)
             {
-
-                throw;
+                OrderNo = "";
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
-
         }
 
 

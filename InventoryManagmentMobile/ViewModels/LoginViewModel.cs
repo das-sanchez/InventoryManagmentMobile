@@ -30,7 +30,8 @@ namespace InventoryManagmentMobile.ViewModels
         public Store StoreSelected
         {
             get { return _storeSelecte; }
-            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != "5520" ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
+            //set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", (value.CompanyId != "5520" ? "HipperOle " + value.Name : "Mercadal " + value.Name)); }
+            set { SetProperty(ref _storeSelecte, value); Preferences.Set("storeNo", value.Id); Preferences.Set("storeName", value.Name); }
         }
         private StoreResult _store;
         public StoreResult StoreResult
@@ -121,28 +122,21 @@ namespace InventoryManagmentMobile.ViewModels
             try
             {
                 if (string.IsNullOrEmpty(User) || string.IsNullOrEmpty(Password))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Login Error", "Usuario o Password esta en Blanco", "Aceptar");
-                    return;
-                }
-
-
+                    throw new Exception("Usuario o Password esta en Blanco");
+                   
                 if (StoreSelected == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Login Error", "Debe seleccionar una tienda", "Aceptar");
-                    return;
-                }
-
+                    throw new Exception("Debe seleccionar una tienda");
+                    
                 if (_context.ValidExistUserStore(User))
                 {
                     var us = _context.GetUserStore(User);
+
                     if (us.StoreNo != StoreSelected.Id)
                     {
-                        bool answer = await Application.Current.MainPage.DisplayAlert("Login", $"La tienda {StoreSelected.Name} seleccionada es diferente al que tiene por defecto desea cambiarlo?", "Si", "No");
+                        bool answer = await Application.Current.MainPage.DisplayAlert("Login", $"La tienda {StoreSelected.Name} seleccionada es diferente a la que tiene por defecto. ¿Desea cambiarla?", "Si", "No");
+
                         if (answer)
-                        {
                             _context.SaveUserStore(new UserStore() { Id = us.Id, StoreNo = StoreSelected.Id, UserId = User });
-                        }
                     }
                 }
                 else
@@ -158,17 +152,14 @@ namespace InventoryManagmentMobile.ViewModels
                 LogResult = await Repo.Login(LogIn);
 
                 if (!LogResult.IsSuccess)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Login Error", LogResult.Message, "Aceptar");
-                    return;
-                }
+                    throw new Exception(LogResult.Message);
+                    
                 Preferences.Set("token", LogResult.Data.Token);
                 Application.Current.MainPage = new AppShell();
             }
             catch (Exception ex)
             {
-
-                throw;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
 
         }

@@ -1,14 +1,7 @@
-﻿using InventoryManagmentMobile.Database;
-using InventoryManagmentMobile.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
-using static SQLite.SQLite3;
+
 
 namespace InventoryManagmentMobile.Services
 {
@@ -126,13 +119,16 @@ namespace InventoryManagmentMobile.Services
                     
                     var result = await client.GetAsync(Url);
 
-                    if (result.IsSuccessStatusCode)
-                    {
-                        var content = await result.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<T>(content);
-                    }
-                    
-                    throw new Exception("Se produjo el siguiente error al tratar al ejecutar la consulta al server: " + result.ReasonPhrase);   
+                    var content = await result.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(content);
+
+                    //if (result.IsSuccessStatusCode)
+                    //{
+                    //    var content = await result.Content.ReadAsStringAsync();
+                    //    return JsonConvert.DeserializeObject<T>(content);
+                    //}
+
+                    //throw new Exception("Se produjo el siguiente error al tratar al ejecutar la consulta al server: " + result.ReasonPhrase);   
                 }
             }
             catch (Exception ex)
@@ -190,13 +186,28 @@ namespace InventoryManagmentMobile.Services
                     var content = new StringContent(data, Encoding.UTF8, "application/json");
                     var response = await client.PostAsync(Url, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseData = await response.Content.ReadAsStringAsync();
-                        return JsonConvert.DeserializeObject<T>(responseData);
-                    }
+                    var responseData = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(responseData);
+                    
+                    //if (response.IsSuccessStatusCode)
+                    //{
+                    //    var responseData = await response.Content.ReadAsStringAsync();
+                    //    return JsonConvert.DeserializeObject<T>(responseData);
+                    //}
+                    //else
+                    //{
+                    //    //if (response.StatusCode == System.Net.HttpStatusCode.)
+                    //    //{
+                    //    //    var responseData = await response.Content.ReadAsStringAsync();
+                    //    //    response.p
 
-                    throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
+                    //    //}
+                    //    //throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
+
+                    //    throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
+                    //}
+
+                    ////throw new Exception("Se produjo el siguiente error al tratar de enviar la información al server: " + response.ReasonPhrase);
                 }
             }
             catch (Exception ex)

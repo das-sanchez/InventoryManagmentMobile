@@ -21,15 +21,13 @@ public partial class ReturnsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-
     }
 
     private async void vendor_Completed(object sender, EventArgs e)
     {
-
         await _vm.VendorByNo();
-        if (_vm.Vendor.Data == null)
+
+        if (_vm.Vendor == null || (_vm.Vendor != null && _vm.Vendor.Data == null))
         {
             vendor.Focus();
             return;
@@ -37,24 +35,17 @@ public partial class ReturnsPage : ContentPage
         else
         {
             _vm.VendorName = _vm.Vendor.Data.Name;
-
             _vm.HasVendor = true;
-
             this.storageNo.Focus();
         }
-
-
-        //_vm.VendorNo = sender.ToString();
-        //_vm.GetProductCommand.Execute(default);
     }
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
         await _vm.ProductByNo();
 
-        if (_vm.Product.Product == null)
+        if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
         {
-
             _vm.InEdition = false;
             this.productNo.Focus();
             return;
@@ -79,11 +70,14 @@ public partial class ReturnsPage : ContentPage
 
     private void btnProduct_Clicked(object sender, EventArgs e)
     {
-        if (_vm.Vendor.Data == null)
+        //_vm.Vendor.Data == null
+        if (!_vm.HasVendor )
         {
+            Application.Current.MainPage.DisplayAlert("Error","Antes de recibir los productos, instroduzca un codigo de proveedor válido y presione enter para ejecutar la busqueda.", "Aceptar");
             this.vendor.Focus();
             return;
         }
+
         _vm.ProductosCommand.Execute(this);
         productNo.Focus();
     }
