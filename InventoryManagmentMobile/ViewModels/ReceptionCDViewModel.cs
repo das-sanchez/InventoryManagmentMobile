@@ -455,6 +455,9 @@ namespace InventoryManagmentMobile.ViewModels
                 if (string.IsNullOrEmpty(ProductNo)) 
                     return;
 
+                if (ProductNo.Length == 4)
+                    ProductNo = "200" + ProductNo + "00000";
+
                 Product = new ProductResult();
                 Product = await repo.ProductByBarCode(ProductNo);
 

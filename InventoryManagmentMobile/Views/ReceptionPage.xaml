@@ -8,7 +8,7 @@
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionViewModel"
              Title="{ Binding Title }">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding ItemTitle}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand }" IsEnabled="{Binding CanSave}"  />
+        <ToolbarItem Text="{Binding ItemTitle}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionToolbarCommand }" IsEnabled="{Binding CanSave}"  />
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
@@ -264,7 +264,7 @@
                         <StackLayout Grid.Column="2">
                             <StackLayout IsVisible="{Binding IsOPOrder}">
                                 <Label Text="Bono" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Black"></Label>
-                                <Switch  VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Margin="0,0,10,15" IsToggled="{Binding IsBonus}"></Switch>
+                                <Switch Toggled="OnSwitchToggled" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" Margin="0,0,10,15" IsToggled="{Binding IsBonus}"></Switch>
                             </StackLayout>
                         </StackLayout>
                         <StackLayout Grid.Column="3">
@@ -352,7 +352,7 @@
                                     <SwipeView>
                                         <SwipeView.LeftItems>
                                             <SwipeItems>
-                                                <SwipeItem   Text="Borrar"
+                                                <SwipeItem   Text="Limpiar"
                                                            IconImageSource="ic_cf_bisync.png"
                                                            BackgroundColor="Red"
                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=RemoveItemCommand}"
@@ -412,7 +412,7 @@
                                     <SwipeView>
                                         <SwipeView.LeftItems>
                                             <SwipeItems>
-                                                <SwipeItem   Text="Borrar"
+                                                <SwipeItem   Text="Limpiar"
                                                            IconImageSource="ic_cf_bisync.png"
                                                            BackgroundColor="Red"
                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=RemoveDetailItemCommand}"

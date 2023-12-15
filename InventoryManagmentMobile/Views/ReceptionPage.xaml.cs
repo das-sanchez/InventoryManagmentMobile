@@ -13,6 +13,16 @@ public partial class ReceptionPage : ContentPage
         this.BindingContext = _vm;
         _vm.CanSave = false;
 
+        if (BindingContext is ReceptionViewModel viewModel1)
+        {
+            viewModel1.FindProductRequested += OnFindProductRequested;
+        }
+
+    }
+    private void OnFindProductRequested()
+    {
+        if (!String.IsNullOrEmpty(this.productNo.Text))
+            productNo_Completed(productNo, EventArgs.Empty);
     }
 
     private void NoOrder_Completed(object sender, EventArgs e)
@@ -32,7 +42,6 @@ public partial class ReceptionPage : ContentPage
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
-        var a =sender.ToString();
         await _vm.ProductByNo();
 
         if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
@@ -129,12 +138,17 @@ public partial class ReceptionPage : ContentPage
     {
         this.productNo.Focus();
 
-        if (!String.IsNullOrEmpty(this.productNo.Text)) 
-            productNo_Completed(productNo, EventArgs.Empty);
+        //if (!String.IsNullOrEmpty(this.productNo.Text)) 
+        //    productNo_Completed(productNo, EventArgs.Empty);
     }
 
     private void LookBarCode_Completed(object sender, EventArgs e)
     {
         _vm.FindByProduct(this.LookBarCode.Text);
+    }
+
+    private async void OnSwitchToggled(object sender, ToggledEventArgs e)
+    {
+        await _vm.ProductByNo(showBonusAlert: false);
     }
 }

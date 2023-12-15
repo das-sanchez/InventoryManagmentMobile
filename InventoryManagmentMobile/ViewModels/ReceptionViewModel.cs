@@ -4,12 +4,15 @@ using InventoryManagmentMobile.Models.Dtos;
 using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace InventoryManagmentMobile.ViewModels
 {
     [QueryProperty(nameof(Type), nameof(Type))]
     public class ReceptionViewModel : BaseViewModel
     {
+        public event Action FindProductRequested;
+
         string _type = string.Empty;
         public string Type
         {
@@ -61,7 +64,9 @@ namespace InventoryManagmentMobile.ViewModels
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
+        public Command SaveReceptionToolbarCommand { get; }
 
+        
 
         ObservableCollection<DetailDto> _details;
         public ObservableCollection<DetailDto> Details { get { return _details; } set { SetProperty(ref _details, value); } }
@@ -189,6 +194,27 @@ namespace InventoryManagmentMobile.ViewModels
         public bool CanSave { get { return _canSave; } set { 
                 SetProperty(ref _canSave, value); } }
 
+
+        private bool _canSave2;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool CanSave2
+        {
+            get => _canSave2;
+            set
+            {
+                if (_canSave2 != value)
+                {
+                    _canSave2 = value;
+                    OnPropertyChanged(nameof(CanSave2));
+                }
+            }
+        }
+
+
+
+
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
         public ReceptionViewModel(OleRepository _repo, OleDataContext context)
@@ -218,6 +244,7 @@ namespace InventoryManagmentMobile.ViewModels
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
+            SaveReceptionToolbarCommand = new Command(() => SaveReceptionFromToolbar());
             OkCommand = new Command(() =>  OkReceptionAsync());
             OrderItem = new OrderItem();
             ItemsSummary = new ObservableCollection<ItemSummary>();
@@ -234,6 +261,11 @@ namespace InventoryManagmentMobile.ViewModels
             BackCommand = new Command(() => BackSync());
             CanSave = false;
             ItemTitle = string.Empty;
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private async void BackSync()
@@ -279,9 +311,9 @@ namespace InventoryManagmentMobile.ViewModels
                 Details.Clear();
                 ReceptionItems.Clear();
                 items = _context.GetTransactionLinesByOrderNo(Type, OrderNo, barCode);
+
                 if (items is not null && items.Any())
                 {
-
                     foreach (var line in items)
                     {
                         Details.Add(new DetailDto() { ProductBarCode = line.ProductBarCode, ProductId = line.ProductId, ProductName = line.ProductName, Quantity = line.Quantity, QtyRecibida = line.QtyRecibida, QtyPending = line.QtyPending, Stock = 0, Um = line.Um, Bono = line.Bono, Color = (line.Bono ? "#bdebca" : "#fffffff") });
@@ -291,22 +323,27 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
-
                 await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
             }
-
-
         }
         private async void RemoveDetailItem(DetailDto dto)
         {
             try
             {
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "¿Esta seguro de borrar?", "Si", "No");
+                if (dto.Bono)
+                {
+                    var bonusItem = _context.GetLine(Type, OrderNo, dto.ProductId, IsBonus: true);
+                    var normalItem = _context.GetLine(Type, OrderNo, dto.ProductId, IsBonus: false);
+
+                    if (bonusItem.QtyRecibida > 0 && normalItem != null && normalItem.QtyRecibida > 0)
+                        throw new Exception("Para para reestablecer la cantidad de bono a cero primero debe hacerlo para la línea de la cantidad normal.");
+                }
+
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"¿Esta seguro de reestabler la cantidad {(Type == "D" ? "despachada" : "recibida")} a cero?", "Si", "No");
+
                 if (answer)
                 {
-                    var item = ReceptionItems.FirstOrDefault(x => x.ProductId == dto.ProductId && x.Bono == dto.Bono);
-                    ReceptionItems.Remove(item);
-                    _context.ExecuteSql($"DELETE FROM TransactionLine Where OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' AND Bono ={dto.Bono}");
+                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
                     LoadItemsAsync();
                 }
             }
@@ -321,13 +358,21 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
-                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", "¿Esta seguro de borrar?", "Si", "No");
+                if (item.Bono)
+                {
+                    var bonusItem = _context.GetLine(Type, OrderNo, item.ProductId, IsBonus: true);
+                    var normalItem = _context.GetLine(Type, OrderNo, item.ProductId, IsBonus: false);
+                    
+                    if (bonusItem.QtyRecibida > 0 && normalItem != null && normalItem.QtyRecibida > 0)
+                        throw new Exception("Para para reestabler la cantidad de bono a cero primero debe reestablecer la línea de la cantidad normal.");
+                }
+                
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"¿Esta seguro de reestabler la cantidad {(Type == "D" ? "despachada" :"recibida")} a cero?", "Si", "No");
 
                 if (answer)
                 {
-                    var det = Details.FirstOrDefault(x => x.ProductId == item.ProductId);
-                    ReceptionItems.Remove(item);
-                    Details.Remove(det);
+                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' and Bono = {item.Bono}");
+                    LoadItemsAsync();
                 }
             }
             catch (Exception ex)
@@ -343,6 +388,11 @@ namespace InventoryManagmentMobile.ViewModels
             await Shell.Current.Navigation.PopToRootAsync();
         }
 
+        private async void SaveReceptionFromToolbar()
+        {
+            if (CanSave)
+                SaveReception();
+        }
         private async void SaveReception()
         {
             try
@@ -479,6 +529,19 @@ namespace InventoryManagmentMobile.ViewModels
                 if (Type =="P" && IsBonus && OrderItem.Qty != TotalQty)
                     throw new Exception("La cantidad de bonos deber ser recibida en su totalidad.");
 
+                var bonusItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: true);
+
+                if (!IsBonus && bonusItem != null && bonusItem.Quantity != bonusItem.QtyRecibida)
+                {
+                    //throw new Exception("Este producto contiene bono, antes de registar la cantidad normal debe recibir los bonos en su totalidad.");
+                    await Application.Current.MainPage.DisplayAlert("Error", "Este producto contiene bono, antes de registar la cantidad normal debe recibir los bonos en su totalidad.", "Aceptar");
+                    IsBonus = true;
+                    await ProductByNo(showBonusAlert:false);
+                    //FindProductRequested?.Invoke();
+                    return;
+                }
+                    
+
                 int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
                 string filter = (Type == "P" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductId = '{ProductId}'");
 
@@ -517,7 +580,11 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                 }
 
-                if (!(Type == "P" && IsBonus && OrderItem.Qty == TotalQty))
+                
+
+                bool executeFindProductRequested = Type == "P" && IsBonus && OrderItem.Qty == TotalQty && Items.Any(x => x.ProductId == ProductId && !x.Bono);
+
+                if (!executeFindProductRequested)
                     ProductNo = "";
 
                 ProductId = "";
@@ -530,20 +597,27 @@ namespace InventoryManagmentMobile.ViewModels
                 OrderItem = new OrderItem();
                 NotEdition = true;
                 InEdition = false;
+
+                if(executeFindProductRequested)
+                    FindProductRequested?.Invoke();
+                
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar"); ;
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar"); 
             }
         }
-
-        public async Task ProductByNo()
+        
+        public async Task ProductByNo(bool showBonusAlert = true)
         {
             bool pExist = false;
             try
             {
                 if (string.IsNullOrEmpty(ProductNo)) 
                     return;
+
+                if (ProductNo.Length == 4)
+                    ProductNo = "200" + ProductNo + "00000";
 
                 Product = new ProductResult();
                 Product = await repo.ProductByBarCode(ProductNo);
@@ -583,7 +657,7 @@ namespace InventoryManagmentMobile.ViewModels
                 string bonusMessage = "";
                 var bonusItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: true);
                 
-                if (bonusItem != null) // Si tiene bonos
+                if (bonusItem != null && showBonusAlert) // Si tiene bonos
                 {
                     if (bonusItem.Quantity != bonusItem.QtyRecibida)
                     {
@@ -768,6 +842,7 @@ namespace InventoryManagmentMobile.ViewModels
             if (ReceptionItems.Count() > 0)
             {
                 CanSave = true;
+                CanSave2 = true;
             }
             ItemTitle = "Finalizar";
         }
@@ -778,6 +853,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("D");
             CanSave = false;
+            CanSave2 = false;
             ItemTitle = string.Empty;
         }
 
@@ -787,6 +863,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("P");
             CanSave = false;
+            CanSave2 = false;
             ItemTitle = string.Empty;
         }
 
@@ -794,6 +871,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             ShowPanel("G");
             CanSave = false;
+            CanSave2 = false;
             ItemTitle = string.Empty;
         }
         private void ShowPanel(string opcion)

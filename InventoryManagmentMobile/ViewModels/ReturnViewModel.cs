@@ -350,6 +350,9 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(ProductNo))
                 {
+                    if (ProductNo.Length == 4)
+                        ProductNo = "200" + ProductNo + "00000";
+
                     Product = new ProductResult();
                     Product = await Repo.ProductByBarCode(ProductNo);
 
