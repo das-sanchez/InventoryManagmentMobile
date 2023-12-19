@@ -12,6 +12,9 @@ namespace InventoryManagmentMobile.ViewModels
     public class ReceptionViewModel : BaseViewModel
     {
         public event Action FindProductRequested;
+        public event Action FactorFocusRequested;
+        public event Action QuantityFocusRequested;
+        public event Action ProductFocusRequested;
 
         string _type = string.Empty;
         public string Type
@@ -149,8 +152,15 @@ namespace InventoryManagmentMobile.ViewModels
             set { SetProperty(ref _factor, value); }
         }
         public ProductResult Product { get; set; }
+
         private bool _isBonus = false;
         public bool IsBonus { get { return _isBonus; } set { SetProperty(ref _isBonus, value); } }
+
+        private bool _switchBonusEnabled = false;
+        public bool SwitchBonusEnabled { get { return _switchBonusEnabled; } set { SetProperty(ref _switchBonusEnabled, value); } }
+
+        private bool _seachProductEnabled = true;
+        public bool SeachProductEnabled { get { return _seachProductEnabled; } set { SetProperty(ref _seachProductEnabled, value); } }
 
         public DateTime ExpirationDate { get; set; }
         public ObservableCollection<MeasurementUnit> MeasurementUnits { get; set; }
@@ -191,29 +201,11 @@ namespace InventoryManagmentMobile.ViewModels
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
 
         private bool _canSave = false;
-        public bool CanSave { get { return _canSave; } set { 
-                SetProperty(ref _canSave, value); } }
-
-
-        private bool _canSave2;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public bool CanSave2
-        {
-            get => _canSave2;
-            set
-            {
-                if (_canSave2 != value)
-                {
-                    _canSave2 = value;
-                    OnPropertyChanged(nameof(CanSave2));
-                }
-            }
+        public bool CanSave 
+        { 
+            get { return _canSave; } 
+            set { SetProperty(ref _canSave, value); } 
         }
-
-
-
 
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
@@ -261,11 +253,6 @@ namespace InventoryManagmentMobile.ViewModels
             BackCommand = new Command(() => BackSync());
             CanSave = false;
             ItemTitle = string.Empty;
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private async void BackSync()
@@ -323,7 +310,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
         private async void RemoveDetailItem(DetailDto dto)
@@ -482,11 +469,22 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
+        private bool HasBonus()
+        {
+            return _context.GetLine(Type, OrderNo, ProductId, IsBonus: true) != null;
+        }
+
+        private void TurnOffBonusSwith()
+        {
+            IsBonus = false;
+        }
 
         private async void AddItem()
         {
             try
             {
+                //ProductFocusRequested?.Invoke();
+
                 if (!Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
                     throw new Exception($"Este Producto no {(IsBonus ? " Existe  en la Orden con Bono" : "Existe en la Orden")} ");
 
@@ -500,11 +498,15 @@ namespace InventoryManagmentMobile.ViewModels
                 if (!Product.Product.IsWeighed)
                 {
                     if ((string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0") || Factor == 0)
+                    {
+                        FactorFocusRequested?.Invoke();
                         throw new Exception("El factor es requerido");
+                    }
                         
                     if (Factor != Convert.ToInt32(QtyUnit))
                     {
                         QtyUnit = "0";
+                        FactorFocusRequested?.Invoke();
                         throw new Exception("El Factor digitado es diferente al de la unidad ordenada.");
                     }
                 }
@@ -515,21 +517,46 @@ namespace InventoryManagmentMobile.ViewModels
                 }
 
                 if ((TotalQty) > OrderItem.Qty && OrderItem.Bono == IsBonus)
+                {
+                    QuantityFocusRequested?.Invoke();
                     throw new Exception($"La cantidad recibida {(IsBonus ? "en Bono " : "")} es mayor que la ordenada");
+                }
                     
                 if (!Items.Any(xc => xc.ProductId == ProductId && xc.Bono == IsBonus))
+                {
+                    QuantityFocusRequested?.Invoke();
                     throw new Exception($"La cantidad de bonos no puede ser registrada debido a que la orden no incluye bonos para el producto especificado");
+                }
+                    
                     
                 if (Product == null)
+                {
+                    ProductFocusRequested?.Invoke();
                     throw new Exception("Debe buscar un producto.");
+                }    
+                    
                     
                 if (TotalQty == 0)
+                {
+                    QuantityFocusRequested?.Invoke();
                     throw new Exception("Debe digitar la cantidad");
+                }
+                    
 
                 if (Type =="P" && IsBonus && OrderItem.Qty != TotalQty)
+                {
+                    QuantityFocusRequested?.Invoke();
                     throw new Exception("La cantidad de bonos deber ser recibida en su totalidad.");
-
+                }
+                    
                 var bonusItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: true);
+
+                if(IsBonus && bonusItem == null)
+                {
+                    IsBonus = false;
+                    throw new Exception("Este producto no contiene bono.");
+                }
+                    
 
                 if (!IsBonus && bonusItem != null && bonusItem.Quantity != bonusItem.QtyRecibida)
                 {
@@ -537,7 +564,7 @@ namespace InventoryManagmentMobile.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Error", "Este producto contiene bono, antes de registar la cantidad normal debe recibir los bonos en su totalidad.", "Aceptar");
                     IsBonus = true;
                     await ProductByNo(showBonusAlert:false);
-                    //FindProductRequested?.Invoke();
+                    QuantityFocusRequested?.Invoke();
                     return;
                 }
                     
@@ -579,10 +606,10 @@ namespace InventoryManagmentMobile.ViewModels
                         }
                     }
                 }
-
                 
-
-                bool executeFindProductRequested = Type == "P" && IsBonus && OrderItem.Qty == TotalQty && Items.Any(x => x.ProductId == ProductId && !x.Bono);
+                var normalItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: false);
+                //bool executeFindProductRequested = Type == "P" && IsBonus && OrderItem.Qty == TotalQty && Items.Any(x => x.ProductId == ProductId && !x.Bono);
+                bool executeFindProductRequested = Type == "P" && IsBonus && OrderItem.Qty == TotalQty && normalItem != null && normalItem.QtyRecibida == 0;
 
                 if (!executeFindProductRequested)
                     ProductNo = "";
@@ -597,9 +624,13 @@ namespace InventoryManagmentMobile.ViewModels
                 OrderItem = new OrderItem();
                 NotEdition = true;
                 InEdition = false;
+                IsBonus = false;
 
-                if(executeFindProductRequested)
+                ProductFocusRequested?.Invoke();
+
+                if (executeFindProductRequested)
                     FindProductRequested?.Invoke();
+                
                 
             }
             catch (Exception ex)
@@ -611,6 +642,8 @@ namespace InventoryManagmentMobile.ViewModels
         public async Task ProductByNo(bool showBonusAlert = true)
         {
             bool pExist = false;
+            SwitchBonusEnabled = false;
+
             try
             {
                 if (string.IsNullOrEmpty(ProductNo)) 
@@ -634,7 +667,7 @@ namespace InventoryManagmentMobile.ViewModels
                 ProductId = Product.Product.Id;
 
                 if (!Items.Any(xc => xc.ProductId == Product.Product.Id))
-                    throw new Exception($"Producto no esta orden de transportacion");
+                    throw new Exception($"Producto no se encuentra en la orden");
                 
                 var productIds = Product.Product.MeasurementUnits.ToList();
 
@@ -656,7 +689,14 @@ namespace InventoryManagmentMobile.ViewModels
                 //Tratamientos de bonos
                 string bonusMessage = "";
                 var bonusItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: true);
-                
+                var normalItem = _context.GetLine(Type, OrderNo, ProductId, IsBonus: false);
+
+                if (IsBonus && bonusItem == null)
+                {
+                    IsBonus = false;
+                    throw new Exception($"Este producto no contiene bonos.");
+                }
+
                 if (bonusItem != null && showBonusAlert) // Si tiene bonos
                 {
                     if (bonusItem.Quantity != bonusItem.QtyRecibida)
@@ -664,13 +704,14 @@ namespace InventoryManagmentMobile.ViewModels
                         bonusMessage = "Este producto contiene bonos. Favor recibir la cantidad total de bonos primero y luego la cantidad normal.";
                         IsBonus = true;
                     }
-                    else
+                    else if (normalItem == null || (normalItem != null && normalItem.QtyRecibida == 0))
                     {
                         bonusMessage = " Habiendo registado la cantidad total de bonos, ahora favor registrar la cantidad normal.";
                         IsBonus = false;
                     }
 
-                    await Application.Current.MainPage.DisplayAlert("Aviso Bono", bonusMessage, "Aceptar");
+                    if (!String.IsNullOrEmpty(bonusMessage))
+                        await Application.Current.MainPage.DisplayAlert("Aviso Bono", bonusMessage, "Aceptar");
                 }
 
                 var tLine = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
@@ -725,6 +766,10 @@ namespace InventoryManagmentMobile.ViewModels
                 NotEdition = true;
                 InEdition = false;
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+            }
+            finally
+            {
+                SwitchBonusEnabled = true;
             }
         }
 
@@ -783,7 +828,9 @@ namespace InventoryManagmentMobile.ViewModels
                 }
                 else if (Order.Data.Items.Any(xc => xc.StoreId != StoreNo))    
                     throw new Exception($"Esta orden no esta configurada para ser procesada en la tienda {StoreName}");
-                
+
+                OrderNo = Order.Data.OrderNo; //Aveces el numero de documento viende con ceros a la izquierda y no coincide con el numero de orden originalmente usado para la consulta.
+
                 var plist = Order.Data.Items
                                   .Where(x => x.Bono == false)
                                   .GroupBy(x => new { x.ProductId })
@@ -842,7 +889,6 @@ namespace InventoryManagmentMobile.ViewModels
             if (ReceptionItems.Count() > 0)
             {
                 CanSave = true;
-                CanSave2 = true;
             }
             ItemTitle = "Finalizar";
         }
@@ -853,7 +899,6 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("D");
             CanSave = false;
-            CanSave2 = false;
             ItemTitle = string.Empty;
         }
 
@@ -863,7 +908,6 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("P");
             CanSave = false;
-            CanSave2 = false;
             ItemTitle = string.Empty;
         }
 
@@ -871,7 +915,6 @@ namespace InventoryManagmentMobile.ViewModels
         {
             ShowPanel("G");
             CanSave = false;
-            CanSave2 = false;
             ItemTitle = string.Empty;
         }
         private void ShowPanel(string opcion)

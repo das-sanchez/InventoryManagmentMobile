@@ -13,7 +13,8 @@ namespace InventoryManagmentMobile.Models
         public string OrderNo { get; set; }
 
         [JsonPropertyName("companyId")]
-        public long CompanyId { get; set; }
+        public string CompanyId { get; set; }
+
         [JsonPropertyName("orderType")]
         public string OrderType { get; set; }
 
@@ -33,8 +34,7 @@ namespace InventoryManagmentMobile.Models
         public string PaymentTermId { get; set; }
 
         [JsonPropertyName("purchaseOrderOrg")]
-
-        public long PurchaseOrderOrg { get; set; }
+        public string PurchaseOrderOrg { get; set; }
 
         [JsonPropertyName("purchaseOrderGroup")]
         public string PurchaseOrderGroup { get; set; }

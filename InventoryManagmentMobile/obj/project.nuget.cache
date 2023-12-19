@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Ktda7ISyDQi9rd7rJ4CFo16JELuf4Y612GR/QxpdDK3lOgln0CoV1yVJU1sdPS5wdK3O6fp+lZtjLX2xYsUwqg==",
+  "dgSpecHash": "0ja4jD7AZUBl1Mza8M25/hfkk1Syn/gYy94wQwIGJgaMTVzPWdze9xDWzJPbHLneiUdpVUoszzl3KfcIe/UeYg==",
   "success": true,
   "projectFilePath": "C:\\Users\\Ericson\\source\\repos\\HiperOle\\InventoryManagmentMobileNew\\InventoryManagmentMobile\\InventoryManagmentMobile.csproj",
   "expectedPackageFiles": [
@@ -145,8 +145,8 @@
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.maui.core.ref.ios\\6.0.553\\microsoft.maui.core.ref.ios.6.0.553.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.ios.ref\\16.4.60\\microsoft.ios.ref.16.4.60.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.maui.controls.ref.ios\\6.0.553\\microsoft.maui.controls.ref.ios.6.0.553.nupkg.sha512",
+    "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.ios.runtime.ios-arm64\\16.4.60\\microsoft.ios.runtime.ios-arm64.16.4.60.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.maui.essentials.runtime.ios\\6.0.553\\microsoft.maui.essentials.runtime.ios.6.0.553.nupkg.sha512",
-    "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.ios.runtime.iossimulator-x64\\16.4.60\\microsoft.ios.runtime.iossimulator-x64.16.4.60.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.maui.core.runtime.ios\\6.0.553\\microsoft.maui.core.runtime.ios.6.0.553.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.maui.essentials.ref.android\\6.0.553\\microsoft.maui.essentials.ref.android.6.0.553.nupkg.sha512",
     "C:\\Users\\Ericson\\.nuget\\packages\\microsoft.android.runtime.31.android-x86\\32.0.509\\microsoft.android.runtime.31.android-x86.32.0.509.nupkg.sha512",

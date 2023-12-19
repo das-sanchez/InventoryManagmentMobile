@@ -40,9 +40,11 @@ namespace InventoryManagmentMobile.Models
         public string UmName { get; set; }
 
         [JsonPropertyName("productGroup")]
-        public int ProductGroup { get; set; }
+        public string ProductGroup { get; set; }
+
         [JsonProperty("isLotNoRequired")]
         public bool IsLotNoRequired { get; set; }
+
         [JsonProperty("isBonus")]
         public bool Bono { get; set; } = false;
     }

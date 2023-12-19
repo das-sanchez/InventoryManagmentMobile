@@ -16,15 +16,44 @@ public partial class ReceptionPage : ContentPage
         if (BindingContext is ReceptionViewModel viewModel1)
         {
             viewModel1.FindProductRequested += OnFindProductRequested;
+            viewModel1.FactorFocusRequested += OnFactorFocusRequested;
+            viewModel1.QuantityFocusRequested += OnQuantityFocusRequested;
+            viewModel1.ProductFocusRequested += OnProductFocusRequested;
         }
 
     }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (BindingContext is ReceptionViewModel viewModel1)
+        {
+            viewModel1.FindProductRequested -= OnFindProductRequested;
+            viewModel1.FactorFocusRequested -= OnFactorFocusRequested;
+            viewModel1.QuantityFocusRequested -= OnQuantityFocusRequested;
+            viewModel1.ProductFocusRequested -= OnProductFocusRequested;
+        }
+    }
+
     private void OnFindProductRequested()
     {
         if (!String.IsNullOrEmpty(this.productNo.Text))
             productNo_Completed(productNo, EventArgs.Empty);
     }
 
+    public void OnFactorFocusRequested()
+    {
+        qtyUnit.Focus();
+    }
+    public void OnQuantityFocusRequested()
+    {
+        qty.Focus();
+    }
+    public void OnProductFocusRequested()
+    {
+        productNo.Focus();
+    }
+    
     private void NoOrder_Completed(object sender, EventArgs e)
     {
         this.NoOrder.Unfocus();
@@ -42,16 +71,18 @@ public partial class ReceptionPage : ContentPage
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
+        _vm.SeachProductEnabled = false;
         await _vm.ProductByNo();
 
         if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
         {
             _vm.NotEdition = true;
             _vm.InEdition = false;
-            this.productNo.Focus();
+            //this.productNo.Focus();
             return;
         }
 
+        _vm.SeachProductEnabled = true;
         qty.Focus();
     }
 
@@ -136,7 +167,7 @@ public partial class ReceptionPage : ContentPage
 
     private void btnAdd_Clicked(object sender, EventArgs e)
     {
-        this.productNo.Focus();
+        //this.productNo.Focus();
 
         //if (!String.IsNullOrEmpty(this.productNo.Text)) 
         //    productNo_Completed(productNo, EventArgs.Empty);
@@ -149,6 +180,10 @@ public partial class ReceptionPage : ContentPage
 
     private async void OnSwitchToggled(object sender, ToggledEventArgs e)
     {
-        await _vm.ProductByNo(showBonusAlert: false);
+        if (_vm.SwitchBonusEnabled)
+            await _vm.ProductByNo(showBonusAlert: false);
     }
+
+    // Asegúrate de des-suscribirte del evento cuando la vista se destruye
+    
 }

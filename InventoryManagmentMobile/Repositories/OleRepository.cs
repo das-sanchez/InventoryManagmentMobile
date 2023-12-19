@@ -54,9 +54,7 @@ namespace InventoryManagmentMobile.Repositories
 
         public async Task<ProductResult> ProductByBarCode(string BarCode)
         {
-            var product = new ProductResult();
-            product = await apiProduct.GetData(Constants.UrlBase, $"product/barcode/{BarCode}");
-            return product;
+            return await apiProduct.GetData(Constants.UrlBase, $"product/barcode/{BarCode}");
         }
 
         public async Task<ProductResult> ProductById(string ProductNo)
