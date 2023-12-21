@@ -244,12 +244,22 @@ map_modules:
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
 
-	.byte	0xbe, 0x7e, 0x28, 0xb5, 0x7b, 0x9d, 0x1b, 0x45, 0xb6, 0xbe, 0xb1, 0x6b, 0xd5, 0x0, 0xc0, 0x89	# module_uuid: b5287ebe-9d7b-451b-b6be-b16bd500c089
-	.long	0x1	# entry_count
+	.byte	0xae, 0xaa, 0x68, 0xd4, 0x15, 0x88, 0xd4, 0x46, 0xbd, 0x29, 0xfc, 0x8f, 0xe, 0x79, 0xcf, 0x64	# module_uuid: d468aaae-8815-46d4-bd29-fc8f0e79cf64
+	.long	0x2	# entry_count
 	.long	0x0	# duplicate_count
 	.long	.L.module20_managed_to_java	# map
 	.long	0	# duplicate_map
-	.long	map_aname.20	# assembly_name: Xamarin.AndroidX.CardView
+	.long	map_aname.20	# assembly_name: InventoryManagmentMobile
+	.long	0x0	# image
+	.long	0x0	# java_name_width
+	.long	0x0	# java_map
+
+	.byte	0xbe, 0x7e, 0x28, 0xb5, 0x7b, 0x9d, 0x1b, 0x45, 0xb6, 0xbe, 0xb1, 0x6b, 0xd5, 0x0, 0xc0, 0x89	# module_uuid: b5287ebe-9d7b-451b-b6be-b16bd500c089
+	.long	0x1	# entry_count
+	.long	0x0	# duplicate_count
+	.long	.L.module21_managed_to_java	# map
+	.long	0	# duplicate_map
+	.long	map_aname.21	# assembly_name: Xamarin.AndroidX.CardView
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -257,9 +267,9 @@ map_modules:
 	.byte	0xc4, 0xba, 0x38, 0xae, 0x87, 0x2b, 0x23, 0x4a, 0x9c, 0xcc, 0xd9, 0x62, 0x43, 0x6e, 0x96, 0x34	# module_uuid: ae38bac4-2b87-4a23-9ccc-d962436e9634
 	.long	0xa	# entry_count
 	.long	0x6	# duplicate_count
-	.long	.L.module21_managed_to_java	# map
-	.long	.L.module21_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.21	# assembly_name: Xamarin.AndroidX.Activity
+	.long	.L.module22_managed_to_java	# map
+	.long	.L.module22_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.22	# assembly_name: Xamarin.AndroidX.Activity
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -267,9 +277,9 @@ map_modules:
 	.byte	0xc7, 0xc8, 0x2, 0xf9, 0x8a, 0xad, 0xb, 0x42, 0x8e, 0x1c, 0xfb, 0x8f, 0x4d, 0x62, 0x3f, 0xad	# module_uuid: f902c8c7-ad8a-420b-8e1c-fb8f4d623fad
 	.long	0x6	# entry_count
 	.long	0x1	# duplicate_count
-	.long	.L.module22_managed_to_java	# map
-	.long	.L.module22_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.22	# assembly_name: Xamarin.AndroidX.Navigation.Runtime
+	.long	.L.module23_managed_to_java	# map
+	.long	.L.module23_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.23	# assembly_name: Xamarin.AndroidX.Navigation.Runtime
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -277,9 +287,9 @@ map_modules:
 	.byte	0xd2, 0x28, 0x43, 0xb9, 0x2f, 0x16, 0xfa, 0x4f, 0xa8, 0x23, 0x9e, 0x10, 0xd9, 0xdc, 0x24, 0xf7	# module_uuid: b94328d2-162f-4ffa-a823-9e10d9dc24f7
 	.long	0x1	# entry_count
 	.long	0x0	# duplicate_count
-	.long	.L.module23_managed_to_java	# map
+	.long	.L.module24_managed_to_java	# map
 	.long	0	# duplicate_map
-	.long	map_aname.23	# assembly_name: Microsoft.Maui.Graphics
+	.long	map_aname.24	# assembly_name: Microsoft.Maui.Graphics
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -287,9 +297,9 @@ map_modules:
 	.byte	0xd2, 0x56, 0xf1, 0x24, 0xc5, 0x32, 0x9a, 0x4a, 0x9a, 0xce, 0x9e, 0x91, 0xe7, 0x6a, 0xa2, 0x79	# module_uuid: 24f156d2-32c5-4a9a-9ace-9e91e76aa279
 	.long	0x7	# entry_count
 	.long	0x4	# duplicate_count
-	.long	.L.module24_managed_to_java	# map
-	.long	.L.module24_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.24	# assembly_name: Xamarin.AndroidX.ViewPager
+	.long	.L.module25_managed_to_java	# map
+	.long	.L.module25_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.25	# assembly_name: Xamarin.AndroidX.ViewPager
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -297,9 +307,9 @@ map_modules:
 	.byte	0xd3, 0xff, 0xde, 0x54, 0x8c, 0x81, 0x19, 0x41, 0xb7, 0x86, 0xac, 0xb3, 0x2e, 0x67, 0x30, 0x1c	# module_uuid: 54deffd3-818c-4119-b786-acb32e67301c
 	.long	0x1	# entry_count
 	.long	0x1	# duplicate_count
-	.long	.L.module25_managed_to_java	# map
-	.long	.L.module25_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.25	# assembly_name: Xamarin.AndroidX.CustomView
+	.long	.L.module26_managed_to_java	# map
+	.long	.L.module26_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.26	# assembly_name: Xamarin.AndroidX.CustomView
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -307,9 +317,9 @@ map_modules:
 	.byte	0xd6, 0x12, 0x95, 0x71, 0x11, 0x77, 0xb4, 0x4d, 0xae, 0xe5, 0x9b, 0x86, 0xc1, 0xe9, 0x8e, 0x86	# module_uuid: 719512d6-7711-4db4-aee5-9b86c1e98e86
 	.long	0x29	# entry_count
 	.long	0x15	# duplicate_count
-	.long	.L.module26_managed_to_java	# map
-	.long	.L.module26_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.26	# assembly_name: Xamarin.AndroidX.RecyclerView
+	.long	.L.module27_managed_to_java	# map
+	.long	.L.module27_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.27	# assembly_name: Xamarin.AndroidX.RecyclerView
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -317,9 +327,9 @@ map_modules:
 	.byte	0xd6, 0x94, 0x99, 0x6c, 0x1f, 0x2, 0xd6, 0x41, 0xb6, 0xb7, 0xbd, 0x1c, 0x3d, 0x25, 0x34, 0x30	# module_uuid: 6c9994d6-021f-41d6-b6b7-bd1c3d253430
 	.long	0x2	# entry_count
 	.long	0x1	# duplicate_count
-	.long	.L.module27_managed_to_java	# map
-	.long	.L.module27_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.27	# assembly_name: Xamarin.AndroidX.SavedState
+	.long	.L.module28_managed_to_java	# map
+	.long	.L.module28_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.28	# assembly_name: Xamarin.AndroidX.SavedState
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -327,9 +337,9 @@ map_modules:
 	.byte	0xd7, 0xc3, 0xae, 0x45, 0xbc, 0x94, 0x28, 0x4f, 0xa9, 0xb6, 0x30, 0x8a, 0xd1, 0xd6, 0x91, 0xf0	# module_uuid: 45aec3d7-94bc-4f28-a9b6-308ad1d691f0
 	.long	0x1	# entry_count
 	.long	0x0	# duplicate_count
-	.long	.L.module28_managed_to_java	# map
+	.long	.L.module29_managed_to_java	# map
 	.long	0	# duplicate_map
-	.long	map_aname.28	# assembly_name: Xamarin.AndroidX.Lifecycle.ViewModelSavedState
+	.long	map_aname.29	# assembly_name: Xamarin.AndroidX.Lifecycle.ViewModelSavedState
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -337,9 +347,9 @@ map_modules:
 	.byte	0xe1, 0xcd, 0xbc, 0x3, 0xe7, 0x71, 0x29, 0x4b, 0x98, 0x81, 0xcd, 0xf0, 0xce, 0xcf, 0x50, 0x4a	# module_uuid: 03bccde1-71e7-4b29-9881-cdf0cecf504a
 	.long	0x4	# entry_count
 	.long	0x1	# duplicate_count
-	.long	.L.module29_managed_to_java	# map
-	.long	.L.module29_managed_to_java_duplicates	# duplicate_map
-	.long	map_aname.29	# assembly_name: Xamarin.AndroidX.Navigation.UI
+	.long	.L.module30_managed_to_java	# map
+	.long	.L.module30_managed_to_java_duplicates	# duplicate_map
+	.long	map_aname.30	# assembly_name: Xamarin.AndroidX.Navigation.UI
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -347,19 +357,9 @@ map_modules:
 	.byte	0xe4, 0x71, 0x5d, 0x3f, 0xfd, 0xf9, 0x4d, 0x4e, 0x89, 0xaa, 0x11, 0x90, 0x44, 0x8, 0xaa, 0x19	# module_uuid: 3f5d71e4-f9fd-4e4d-89aa-11904408aa19
 	.long	0x3	# entry_count
 	.long	0x0	# duplicate_count
-	.long	.L.module30_managed_to_java	# map
-	.long	0	# duplicate_map
-	.long	map_aname.30	# assembly_name: Xamarin.AndroidX.Navigation.Fragment
-	.long	0x0	# image
-	.long	0x0	# java_name_width
-	.long	0x0	# java_map
-
-	.byte	0xf0, 0xc6, 0xd3, 0x90, 0xaf, 0x3d, 0x5, 0x4e, 0x86, 0x74, 0xb0, 0x3d, 0xdb, 0x7, 0xa5, 0x18	# module_uuid: 90d3c6f0-3daf-4e05-8674-b03ddb07a518
-	.long	0x2	# entry_count
-	.long	0x0	# duplicate_count
 	.long	.L.module31_managed_to_java	# map
 	.long	0	# duplicate_map
-	.long	map_aname.31	# assembly_name: InventoryManagmentMobile
+	.long	map_aname.31	# assembly_name: Xamarin.AndroidX.Navigation.Fragment
 	.long	0x0	# image
 	.long	0x0	# java_name_width
 	.long	0x0	# java_map
@@ -2281,55 +2281,55 @@ map_java:
 	.zero	78	# byteCount == 25; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x200000a	# type_token_id
 	.ascii	"androidx/activity/ComponentActivity"	# java_name
 	.zero	68	# byteCount == 35; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x200000d	# type_token_id
 	.ascii	"androidx/activity/OnBackPressedCallback"	# java_name
 	.zero	64	# byteCount == 39; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x200000f	# type_token_id
 	.ascii	"androidx/activity/OnBackPressedDispatcher"	# java_name
 	.zero	62	# byteCount == 41; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/activity/contextaware/OnContextAvailableListener"	# java_name
 	.zero	46	# byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/activity/result/ActivityResultCallback"	# java_name
 	.zero	56	# byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x2000014	# type_token_id
 	.ascii	"androidx/activity/result/ActivityResultLauncher"	# java_name
 	.zero	56	# byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x2000016	# type_token_id
 	.ascii	"androidx/activity/result/ActivityResultRegistry"	# java_name
 	.zero	56	# byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x200001b	# type_token_id
 	.ascii	"androidx/activity/result/contract/ActivityResultContract"	# java_name
 	.zero	47	# byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x200001c	# type_token_id
 	.ascii	"androidx/activity/result/contract/ActivityResultContract$SynchronousResult"	# java_name
 	.zero	29	# byteCount == 74; fixedWidth == 103; returned size == 103
@@ -2647,7 +2647,7 @@ map_java:
 	.zero	37	# byteCount == 66; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x14	# module_index
+	.long	0x15	# module_index
 	.long	0x200000b	# type_token_id
 	.ascii	"androidx/cardview/widget/CardView"	# java_name
 	.zero	70	# byteCount == 33; fixedWidth == 103; returned size == 103
@@ -3025,7 +3025,7 @@ map_java:
 	.zero	60	# byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x19	# module_index
+	.long	0x1a	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/customview/widget/Openable"	# java_name
 	.zero	68	# byteCount == 35; fixedWidth == 103; returned size == 103
@@ -3199,7 +3199,7 @@ map_java:
 	.zero	76	# byteCount == 27; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1c	# module_index
+	.long	0x1d	# module_index
 	.long	0x2000002	# type_token_id
 	.ascii	"androidx/lifecycle/SavedStateHandle"	# java_name
 	.zero	68	# byteCount == 35; fixedWidth == 103; returned size == 103
@@ -3277,13 +3277,13 @@ map_java:
 	.zero	66	# byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x2000011	# type_token_id
 	.ascii	"androidx/navigation/NavController"	# java_name
 	.zero	70	# byteCount == 33; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/navigation/NavController$OnDestinationChangedListener"	# java_name
 	.zero	41	# byteCount == 62; fixedWidth == 103; returned size == 103
@@ -3295,7 +3295,7 @@ map_java:
 	.zero	72	# byteCount == 31; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x2000018	# type_token_id
 	.ascii	"androidx/navigation/NavDeepLinkBuilder"	# java_name
 	.zero	65	# byteCount == 38; fixedWidth == 103; returned size == 103
@@ -3337,13 +3337,13 @@ map_java:
 	.zero	66	# byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x2000019	# type_token_id
 	.ascii	"androidx/navigation/NavHostController"	# java_name
 	.zero	66	# byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x200001a	# type_token_id
 	.ascii	"androidx/navigation/NavInflater"	# java_name
 	.zero	72	# byteCount == 31; fixedWidth == 103; returned size == 103
@@ -3391,283 +3391,283 @@ map_java:
 	.zero	69	# byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1e	# module_index
+	.long	0x1f	# module_index
 	.long	0x2000006	# type_token_id
 	.ascii	"androidx/navigation/fragment/FragmentNavigator"	# java_name
 	.zero	57	# byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1e	# module_index
+	.long	0x1f	# module_index
 	.long	0x2000007	# type_token_id
 	.ascii	"androidx/navigation/fragment/FragmentNavigator$Destination"	# java_name
 	.zero	45	# byteCount == 58; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1e	# module_index
+	.long	0x1f	# module_index
 	.long	0x2000008	# type_token_id
 	.ascii	"androidx/navigation/fragment/NavHostFragment"	# java_name
 	.zero	59	# byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1d	# module_index
+	.long	0x1e	# module_index
 	.long	0x2000003	# type_token_id
 	.ascii	"androidx/navigation/ui/AppBarConfiguration"	# java_name
 	.zero	61	# byteCount == 42; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1d	# module_index
+	.long	0x1e	# module_index
 	.long	0x2000004	# type_token_id
 	.ascii	"androidx/navigation/ui/AppBarConfiguration$Builder"	# java_name
 	.zero	53	# byteCount == 50; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1d	# module_index
+	.long	0x1e	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/navigation/ui/AppBarConfiguration$OnNavigateUpListener"	# java_name
 	.zero	40	# byteCount == 63; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1d	# module_index
+	.long	0x1e	# module_index
 	.long	0x2000007	# type_token_id
 	.ascii	"androidx/navigation/ui/NavigationUI"	# java_name
 	.zero	68	# byteCount == 35; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200004c	# type_token_id
 	.ascii	"androidx/recyclerview/widget/GridLayoutManager"	# java_name
 	.zero	57	# byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200004d	# type_token_id
 	.ascii	"androidx/recyclerview/widget/GridLayoutManager$SpanSizeLookup"	# java_name
 	.zero	42	# byteCount == 61; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000051	# type_token_id
 	.ascii	"androidx/recyclerview/widget/ItemTouchHelper"	# java_name
 	.zero	59	# byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000052	# type_token_id
 	.ascii	"androidx/recyclerview/widget/ItemTouchHelper$Callback"	# java_name
 	.zero	50	# byteCount == 53; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/ItemTouchUIUtil"	# java_name
 	.zero	59	# byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000054	# type_token_id
 	.ascii	"androidx/recyclerview/widget/LinearLayoutManager"	# java_name
 	.zero	55	# byteCount == 48; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000055	# type_token_id
 	.ascii	"androidx/recyclerview/widget/LinearSmoothScroller"	# java_name
 	.zero	54	# byteCount == 49; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000056	# type_token_id
 	.ascii	"androidx/recyclerview/widget/LinearSnapHelper"	# java_name
 	.zero	58	# byteCount == 45; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000057	# type_token_id
 	.ascii	"androidx/recyclerview/widget/OrientationHelper"	# java_name
 	.zero	57	# byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000059	# type_token_id
 	.ascii	"androidx/recyclerview/widget/PagerSnapHelper"	# java_name
 	.zero	59	# byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200005a	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView"	# java_name
 	.zero	62	# byteCount == 41; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200005b	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$Adapter"	# java_name
 	.zero	54	# byteCount == 49; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200005c	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$Adapter$StateRestorationPolicy"	# java_name
 	.zero	31	# byteCount == 72; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200005e	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$AdapterDataObserver"	# java_name
 	.zero	42	# byteCount == 61; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ChildDrawingOrderCallback"	# java_name
 	.zero	36	# byteCount == 67; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000062	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$EdgeEffectFactory"	# java_name
 	.zero	44	# byteCount == 59; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000063	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ItemAnimator"	# java_name
 	.zero	49	# byteCount == 54; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ItemAnimator$ItemAnimatorFinishedListener"	# java_name
 	.zero	20	# byteCount == 83; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000066	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ItemAnimator$ItemHolderInfo"	# java_name
 	.zero	34	# byteCount == 69; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000068	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ItemDecoration"	# java_name
 	.zero	47	# byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200006a	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$LayoutManager"	# java_name
 	.zero	48	# byteCount == 55; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$LayoutManager$LayoutPrefetchRegistry"	# java_name
 	.zero	25	# byteCount == 78; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200006d	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$LayoutManager$Properties"	# java_name
 	.zero	37	# byteCount == 66; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200006f	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$LayoutParams"	# java_name
 	.zero	49	# byteCount == 54; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$OnChildAttachStateChangeListener"	# java_name
 	.zero	29	# byteCount == 74; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000075	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$OnFlingListener"	# java_name
 	.zero	46	# byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$OnItemTouchListener"	# java_name
 	.zero	42	# byteCount == 61; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200007d	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$OnScrollListener"	# java_name
 	.zero	45	# byteCount == 58; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200007f	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$RecycledViewPool"	# java_name
 	.zero	45	# byteCount == 58; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000080	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$Recycler"	# java_name
 	.zero	53	# byteCount == 50; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$RecyclerListener"	# java_name
 	.zero	45	# byteCount == 58; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000085	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$SmoothScroller"	# java_name
 	.zero	47	# byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000086	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$SmoothScroller$Action"	# java_name
 	.zero	40	# byteCount == 63; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000088	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$State"	# java_name
 	.zero	56	# byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000089	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ViewCacheExtension"	# java_name
 	.zero	43	# byteCount == 60; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200008b	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerView$ViewHolder"	# java_name
 	.zero	51	# byteCount == 52; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000099	# type_token_id
 	.ascii	"androidx/recyclerview/widget/RecyclerViewAccessibilityDelegate"	# java_name
 	.zero	41	# byteCount == 62; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200009a	# type_token_id
 	.ascii	"androidx/recyclerview/widget/SnapHelper"	# java_name
 	.zero	64	# byteCount == 39; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1b	# module_index
+	.long	0x1c	# module_index
 	.long	0x2000003	# type_token_id
 	.ascii	"androidx/savedstate/SavedStateRegistry"	# java_name
 	.zero	65	# byteCount == 38; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1b	# module_index
+	.long	0x1c	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/savedstate/SavedStateRegistry$SavedStateProvider"	# java_name
 	.zero	46	# byteCount == 57; fixedWidth == 103; returned size == 103
@@ -3691,31 +3691,31 @@ map_java:
 	.zero	32	# byteCount == 71; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x200001c	# type_token_id
 	.ascii	"androidx/viewpager/widget/PagerAdapter"	# java_name
 	.zero	65	# byteCount == 38; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x200001e	# type_token_id
 	.ascii	"androidx/viewpager/widget/ViewPager"	# java_name
 	.zero	68	# byteCount == 35; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/viewpager/widget/ViewPager$OnAdapterChangeListener"	# java_name
 	.zero	44	# byteCount == 59; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/viewpager/widget/ViewPager$OnPageChangeListener"	# java_name
 	.zero	47	# byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x0	# type_token_id
 	.ascii	"androidx/viewpager/widget/ViewPager$PageTransformer"	# java_name
 	.zero	52	# byteCount == 51; fixedWidth == 103; returned size == 103
@@ -4393,7 +4393,7 @@ map_java:
 	.zero	38	# byteCount == 65; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	# module_index
+	.long	0x18	# module_index
 	.long	0x2000082	# type_token_id
 	.ascii	"crc643f2b18b2570eaa5a/PlatformGraphicsView"	# java_name
 	.zero	61	# byteCount == 42; fixedWidth == 103; returned size == 103
@@ -4945,13 +4945,13 @@ map_java:
 	.zero	49	# byteCount == 54; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1f	# module_index
+	.long	0x14	# module_index
 	.long	0x2000012	# type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainActivity"	# java_name
 	.zero	69	# byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1f	# module_index
+	.long	0x14	# module_index
 	.long	0x2000013	# type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainApplication"	# java_name
 	.zero	66	# byteCount == 37; fixedWidth == 103; returned size == 103
@@ -5941,7 +5941,7 @@ map_java:
 	.zero	41	# byteCount == 62; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	# module_index
+	.long	0x16	# module_index
 	.long	0x2000013	# type_token_id
 	.ascii	"mono/androidx/activity/contextaware/OnContextAvailableListenerImplementor"	# java_name
 	.zero	30	# byteCount == 73; fixedWidth == 103; returned size == 103
@@ -6019,25 +6019,25 @@ map_java:
 	.zero	41	# byteCount == 62; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	# module_index
+	.long	0x17	# module_index
 	.long	0x2000015	# type_token_id
 	.ascii	"mono/androidx/navigation/NavController_OnDestinationChangedListenerImplementor"	# java_name
 	.zero	25	# byteCount == 78; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000074	# type_token_id
 	.ascii	"mono/androidx/recyclerview/widget/RecyclerView_OnChildAttachStateChangeListenerImplementor"	# java_name
 	.zero	13	# byteCount == 90; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x200007c	# type_token_id
 	.ascii	"mono/androidx/recyclerview/widget/RecyclerView_OnItemTouchListenerImplementor"	# java_name
 	.zero	26	# byteCount == 77; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x1a	# module_index
+	.long	0x1b	# module_index
 	.long	0x2000084	# type_token_id
 	.ascii	"mono/androidx/recyclerview/widget/RecyclerView_RecyclerListenerImplementor"	# java_name
 	.zero	29	# byteCount == 74; fixedWidth == 103; returned size == 103
@@ -6049,13 +6049,13 @@ map_java:
 	.zero	16	# byteCount == 87; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x2000022	# type_token_id
 	.ascii	"mono/androidx/viewpager/widget/ViewPager_OnAdapterChangeListenerImplementor"	# java_name
 	.zero	28	# byteCount == 75; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x18	# module_index
+	.long	0x19	# module_index
 	.long	0x2000028	# type_token_id
 	.ascii	"mono/androidx/viewpager/widget/ViewPager_OnPageChangeListenerImplementor"	# java_name
 	.zero	31	# byteCount == 72; fixedWidth == 103; returned size == 103

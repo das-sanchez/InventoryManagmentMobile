@@ -216,13 +216,10 @@ C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryMana
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libicuuc.a
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-debugger-static.a
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-debugger-stub-static.a
-C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-debugger.dylib
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-diagnostics_tracing-static.a
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-diagnostics_tracing-stub-static.a
-C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-diagnostics_tracing.dylib
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-hot_reload-static.a
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-hot_reload-stub-static.a
-C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmono-component-hot_reload.dylib
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmonosgen-2.0.a
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\libmonosgen-2.0.dylib
 C:\Users\Ericson\source\repos\HiperOle\InventoryManagmentMobileNew\InventoryManagmentMobile\bin\Release\net6.0-ios\iossimulator-x64\Microsoft.iOS.registrar.a

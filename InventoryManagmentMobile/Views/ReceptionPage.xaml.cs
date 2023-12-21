@@ -71,7 +71,6 @@ public partial class ReceptionPage : ContentPage
 
     private async void productNo_Completed(object sender, EventArgs e)
     {
-        _vm.SeachProductEnabled = false;
         await _vm.ProductByNo();
 
         if (_vm.Product == null || (_vm.Product != null && _vm.Product.Product == null))
@@ -82,8 +81,7 @@ public partial class ReceptionPage : ContentPage
             return;
         }
 
-        _vm.SeachProductEnabled = true;
-        qty.Focus();
+        //qty.Focus();
     }
 
     private void qty_Completed(object sender, EventArgs e)

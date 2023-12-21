@@ -263,19 +263,16 @@
                     </StackLayout>
                 </StackLayout>
                 <StackLayout Padding="20,-25,20,20" x:DataType="viewmodel:BaseViewModel" IsVisible="{Binding Detalle.PanelVisible}" Background="White">
-                    <StackLayout  Orientation="Horizontal" Padding="225" Margin="5,0,5,20" x:DataType="viewmodel:ReturnViewModel" >
-
+                    
+                    <!--<StackLayout  Orientation="Horizontal" Padding="225" Margin="5,0,5,20" x:DataType="viewmodel:ReturnViewModel" >
                         <Frame   BackgroundColor="#FCFCFA" HeightRequest="50" HasShadow="True" CornerRadius="10" HorizontalOptions="StartAndExpand" Padding="10,0,10,0">
-
-
                             <Grid ColumnDefinitions="9.2*,0.8*" >
                                 <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
                                 <Entry Grid.Column="0" Text="{Binding LookupBarCode}"  Placeholder="Buscar producto" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  PlaceholderColor="#484848" Completed="LookBarCode_Completed"  x:Name="LookBarCode" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
                             </Grid>
-
                         </Frame>
-
-                    </StackLayout>
+                    </StackLayout>-->
+                    
                     <StackLayout Padding="10" HorizontalOptions="FillAndExpand" BackgroundColor="Transparent" x:DataType="viewmodel:ReturnViewModel">
 
 

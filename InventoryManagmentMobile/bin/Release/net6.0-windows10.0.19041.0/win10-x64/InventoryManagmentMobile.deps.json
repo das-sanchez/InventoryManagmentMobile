@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v6.0": {},
     ".NETCoreApp,Version=v6.0/win10-x64": {
-      "InventoryManagmentMobile/1.0": {
+      "InventoryManagmentMobile/1.1": {
         "dependencies": {
           "CommunityToolkit.Maui.Core": "2.0.0",
           "Microsoft.EntityFrameworkCore": "6.0.16",
@@ -1332,7 +1332,7 @@
     }
   },
   "libraries": {
-    "InventoryManagmentMobile/1.0": {
+    "InventoryManagmentMobile/1.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -484,6 +484,8 @@ namespace InventoryManagmentMobile.ViewModels
             try
             {
                 //ProductFocusRequested?.Invoke();
+                if (!Product.IsSuccess)
+                    throw new Exception(Product.Message);
 
                 if (!Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
                     throw new Exception($"Este Producto no {(IsBonus ? " Existe  en la Orden con Bono" : "Existe en la Orden")} ");
@@ -643,6 +645,7 @@ namespace InventoryManagmentMobile.ViewModels
         {
             bool pExist = false;
             SwitchBonusEnabled = false;
+            SeachProductEnabled = false;
 
             try
             {
@@ -760,16 +763,21 @@ namespace InventoryManagmentMobile.ViewModels
                 NotEdition = false;
                 InEdition = true;
                 pExist = false;
+                QuantityFocusRequested?.Invoke();
             }
             catch (Exception ex)
             {
                 NotEdition = true;
                 InEdition = false;
+                SwitchBonusEnabled = true;
+                SeachProductEnabled = true;
+                ProductFocusRequested?.Invoke();
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
             finally
             {
                 SwitchBonusEnabled = true;
+                SeachProductEnabled = true;
             }
         }
 

@@ -91,10 +91,10 @@ public partial class ReturnsPage : ContentPage
 
 
 
-    private void LookBarCode_Completed(object sender, EventArgs e)
-    {
-        _vm.FindByProduct(this.LookBarCode.Text.Trim());
-    }
+    //private void LookBarCode_Completed(object sender, EventArgs e)
+    //{
+    //    _vm.FindByProduct(this.LookBarCode.Text.Trim());
+    //}
 
     private void productNo_Focused(object sender, FocusEventArgs e)
     {

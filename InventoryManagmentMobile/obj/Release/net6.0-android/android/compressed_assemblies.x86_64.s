@@ -13,7 +13,7 @@
 	.zero	3
 	.quad	.L.compressed_assembly_data.0	# data
 
-	.long	0xe2400	# uncompressed_file_size
+	.long	0xe5e00	# uncompressed_file_size
 	.byte	0x0	# loaded
 	.zero	3
 	.quad	.L.compressed_assembly_data.1	# data

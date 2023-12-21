@@ -102,63 +102,63 @@ map_aname.19:
 
 	.type	map_aname.20, %object
 map_aname.20:
-	.asciz	"Xamarin.AndroidX.CardView"
-	.size	map_aname.20, 26
+	.asciz	"InventoryManagmentMobile"
+	.size	map_aname.20, 25
 
 	.type	map_aname.21, %object
 map_aname.21:
-	.asciz	"Xamarin.AndroidX.Activity"
+	.asciz	"Xamarin.AndroidX.CardView"
 	.size	map_aname.21, 26
 
 	.type	map_aname.22, %object
 map_aname.22:
-	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
-	.size	map_aname.22, 36
+	.asciz	"Xamarin.AndroidX.Activity"
+	.size	map_aname.22, 26
 
 	.type	map_aname.23, %object
 map_aname.23:
-	.asciz	"Microsoft.Maui.Graphics"
-	.size	map_aname.23, 24
+	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
+	.size	map_aname.23, 36
 
 	.type	map_aname.24, %object
 map_aname.24:
-	.asciz	"Xamarin.AndroidX.ViewPager"
-	.size	map_aname.24, 27
+	.asciz	"Microsoft.Maui.Graphics"
+	.size	map_aname.24, 24
 
 	.type	map_aname.25, %object
 map_aname.25:
-	.asciz	"Xamarin.AndroidX.CustomView"
-	.size	map_aname.25, 28
+	.asciz	"Xamarin.AndroidX.ViewPager"
+	.size	map_aname.25, 27
 
 	.type	map_aname.26, %object
 map_aname.26:
-	.asciz	"Xamarin.AndroidX.RecyclerView"
-	.size	map_aname.26, 30
+	.asciz	"Xamarin.AndroidX.CustomView"
+	.size	map_aname.26, 28
 
 	.type	map_aname.27, %object
 map_aname.27:
-	.asciz	"Xamarin.AndroidX.SavedState"
-	.size	map_aname.27, 28
+	.asciz	"Xamarin.AndroidX.RecyclerView"
+	.size	map_aname.27, 30
 
 	.type	map_aname.28, %object
 map_aname.28:
-	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModelSavedState"
-	.size	map_aname.28, 47
+	.asciz	"Xamarin.AndroidX.SavedState"
+	.size	map_aname.28, 28
 
 	.type	map_aname.29, %object
 map_aname.29:
-	.asciz	"Xamarin.AndroidX.Navigation.UI"
-	.size	map_aname.29, 31
+	.asciz	"Xamarin.AndroidX.Lifecycle.ViewModelSavedState"
+	.size	map_aname.29, 47
 
 	.type	map_aname.30, %object
 map_aname.30:
-	.asciz	"Xamarin.AndroidX.Navigation.Fragment"
-	.size	map_aname.30, 37
+	.asciz	"Xamarin.AndroidX.Navigation.UI"
+	.size	map_aname.30, 31
 
 	.type	map_aname.31, %object
 map_aname.31:
-	.asciz	"InventoryManagmentMobile"
-	.size	map_aname.31, 25
+	.asciz	"Xamarin.AndroidX.Navigation.Fragment"
+	.size	map_aname.31, 37
 
 	.type	map_aname.32, %object
 map_aname.32:

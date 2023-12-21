@@ -274,7 +274,7 @@
                                 FontAttributes="Bold" BackgroundColor="#469835"  TextColor="White" Grid.Column="2" x:Name="btnAdd" Clicked="btnAdd_Clicked"
                                 VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" IsEnabled= "{Binding SwitchBonusEnabled}" >
                                 <Button.Triggers>
-                                    <DataTrigger TargetType="Button" Binding="{Binding SwitchBonusEnabled}" Value="False">
+                                    <DataTrigger TargetType="Button" Binding="{Binding SwitchBonusEnabled}" Value="False" >
                                         <Setter Property="BackgroundColor" Value="Gray" />
                                     </DataTrigger>
                                 </Button.Triggers>
