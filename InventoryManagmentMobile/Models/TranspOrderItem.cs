@@ -11,6 +11,10 @@ namespace InventoryManagmentMobile.Models
     {
         [JsonProperty("storeId")]
         public string StoreId { get; set; }
+
+        [JsonProperty("storageId")]
+        public string StorageId { get; set; }
+
         [JsonProperty("productId")]
         public string ProductId { get; set; }
 

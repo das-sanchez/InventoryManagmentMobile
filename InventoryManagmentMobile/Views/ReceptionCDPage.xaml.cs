@@ -14,8 +14,44 @@ public partial class ReceptionCDPage : ContentPage
         _vm = viewModel;
         this.BindingContext = viewModel;
 
+        if (BindingContext is ReceptionCDViewModel viewModel1)
+        {
+            viewModel1.FindProductRequested += OnFindProductRequested;
+            viewModel1.FactorFocusRequested += OnFactorFocusRequested;
+            viewModel1.QuantityFocusRequested += OnQuantityFocusRequested;
+            viewModel1.ProductFocusRequested += OnProductFocusRequested;
+        }
 
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
 
+        if (BindingContext is ReceptionViewModel viewModel1)
+        {
+            viewModel1.FindProductRequested -= OnFindProductRequested;
+            viewModel1.FactorFocusRequested -= OnFactorFocusRequested;
+            viewModel1.QuantityFocusRequested -= OnQuantityFocusRequested;
+            viewModel1.ProductFocusRequested -= OnProductFocusRequested;
+        }
+    }
+    private void OnFindProductRequested()
+    {
+        if (!String.IsNullOrEmpty(this.productNo.Text))
+            productNo_Completed(productNo, EventArgs.Empty);
+    }
+
+    public void OnFactorFocusRequested()
+    {
+        qtyUnit.Focus();
+    }
+    public void OnQuantityFocusRequested()
+    {
+        qty.Focus();
+    }
+    public void OnProductFocusRequested()
+    {
+        productNo.Focus();
     }
     private void NoOrder_Completed(object sender, EventArgs e)
     {
@@ -68,7 +104,7 @@ public partial class ReceptionCDPage : ContentPage
 
         if (!_vm.Product.Product.IsWeighed)
         {
-            if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
+            if ((decimal)_vm.Factor != Convert.ToDecimal(qtyUnit.Text))
             {
 
                 await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
@@ -127,7 +163,7 @@ public partial class ReceptionCDPage : ContentPage
     private void btnAdd_Clicked(object sender, EventArgs e)
     {
 
-        this.productNo.Focus();
+        //this.productNo.Focus();
     }
 
     private void LookBarCode_Completed(object sender, EventArgs e)

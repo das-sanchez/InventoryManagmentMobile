@@ -394,7 +394,7 @@ namespace InventoryManagmentMobile.ViewModels
                     throw new Exception("La cantidad de líneas en la orden es diferente a las recibidas");
 
                 if (!Details.Any(x => x.QtyRecibida > 0))
-                    throw new Exception($"El documento no puede ser registrado ya no se ha especificado la cantidad {(Type == "D" ? "despachada" : "recibida.")}");
+                    throw new Exception($"El documento no puede ser registrado ya que no se ha especificado la cantidad {(Type == "D" ? "despachada" : "recibida.")}");
 
                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", $"¿Esta seguro que desea guardar la recepción de {TypeDescription}?", "Si", "No");
                
@@ -505,7 +505,7 @@ namespace InventoryManagmentMobile.ViewModels
                         throw new Exception("El factor es requerido");
                     }
                         
-                    if (Factor != Convert.ToInt32(QtyUnit))
+                    if ((decimal)Factor != Convert.ToDecimal(QtyUnit))
                     {
                         QtyUnit = "0";
                         FactorFocusRequested?.Invoke();
@@ -598,7 +598,7 @@ namespace InventoryManagmentMobile.ViewModels
                             }
                             else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && OrderItem.Bono == IsBonus))
                             {
-                                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya Existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sumar o Sustituir", "Sustituir", "Sumar");
+                                bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sumar o Sustituir", "Sustituir", "Sumar");
 
                                 if (answer)
                                     _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
@@ -717,11 +717,6 @@ namespace InventoryManagmentMobile.ViewModels
                         await Application.Current.MainPage.DisplayAlert("Aviso Bono", bonusMessage, "Aceptar");
                 }
 
-                var tLine = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
-
-                if (!tLine.BarCodeScanned)
-                    _context.ExecuteSql($"UPDATE TransactionLine SET BarCodeScanned = 1, ProductBarCode = '{ProductNo}'  Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' ");
-    
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
 
                 if (OrderItem == null)
@@ -756,7 +751,13 @@ namespace InventoryManagmentMobile.ViewModels
 
                 if (un == null && !Product.Product.IsWeighed)
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
-                
+
+                var tLine = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
+
+                if (!tLine.BarCodeScanned)
+                    _context.ExecuteSql($"UPDATE TransactionLine SET BarCodeScanned = 1, ProductBarCode = '{ProductNo}'  Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' ");
+
+
                 Factor = (Product.Product.IsWeighed ? 1 : un.Factor);
                 Unidad = $"Cantidad ({OrderItem.UmName})";
                 IsLotRequired = OrderItem.IsLotNoRequired;

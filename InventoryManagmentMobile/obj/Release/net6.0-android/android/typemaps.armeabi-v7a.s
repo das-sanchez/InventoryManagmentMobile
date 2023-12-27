@@ -265,22 +265,12 @@ map_modules:
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
 
-	.byte	0xae, 0xaa, 0x68, 0xd4, 0x15, 0x88, 0xd4, 0x46, 0xbd, 0x29, 0xfc, 0x8f, 0xe, 0x79, 0xcf, 0x64	@ module_uuid: d468aaae-8815-46d4-bd29-fc8f0e79cf64
-	.long	0x2	@ entry_count
-	.long	0x0	@ duplicate_count
-	.long	.L.module20_managed_to_java	@ map
-	.long	0	@ duplicate_map
-	.long	map_aname.20	@ assembly_name: InventoryManagmentMobile
-	.long	0x0	@ image
-	.long	0x0	@ java_name_width
-	.long	0x0	@ java_map
-
 	.byte	0xbe, 0x7e, 0x28, 0xb5, 0x7b, 0x9d, 0x1b, 0x45, 0xb6, 0xbe, 0xb1, 0x6b, 0xd5, 0x0, 0xc0, 0x89	@ module_uuid: b5287ebe-9d7b-451b-b6be-b16bd500c089
 	.long	0x1	@ entry_count
 	.long	0x0	@ duplicate_count
-	.long	.L.module21_managed_to_java	@ map
+	.long	.L.module20_managed_to_java	@ map
 	.long	0	@ duplicate_map
-	.long	map_aname.21	@ assembly_name: Xamarin.AndroidX.CardView
+	.long	map_aname.20	@ assembly_name: Xamarin.AndroidX.CardView
 	.long	0x0	@ image
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
@@ -288,9 +278,9 @@ map_modules:
 	.byte	0xc4, 0xba, 0x38, 0xae, 0x87, 0x2b, 0x23, 0x4a, 0x9c, 0xcc, 0xd9, 0x62, 0x43, 0x6e, 0x96, 0x34	@ module_uuid: ae38bac4-2b87-4a23-9ccc-d962436e9634
 	.long	0xa	@ entry_count
 	.long	0x6	@ duplicate_count
-	.long	.L.module22_managed_to_java	@ map
-	.long	.L.module22_managed_to_java_duplicates	@ duplicate_map
-	.long	map_aname.22	@ assembly_name: Xamarin.AndroidX.Activity
+	.long	.L.module21_managed_to_java	@ map
+	.long	.L.module21_managed_to_java_duplicates	@ duplicate_map
+	.long	map_aname.21	@ assembly_name: Xamarin.AndroidX.Activity
 	.long	0x0	@ image
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
@@ -298,9 +288,19 @@ map_modules:
 	.byte	0xc7, 0xc8, 0x2, 0xf9, 0x8a, 0xad, 0xb, 0x42, 0x8e, 0x1c, 0xfb, 0x8f, 0x4d, 0x62, 0x3f, 0xad	@ module_uuid: f902c8c7-ad8a-420b-8e1c-fb8f4d623fad
 	.long	0x6	@ entry_count
 	.long	0x1	@ duplicate_count
+	.long	.L.module22_managed_to_java	@ map
+	.long	.L.module22_managed_to_java_duplicates	@ duplicate_map
+	.long	map_aname.22	@ assembly_name: Xamarin.AndroidX.Navigation.Runtime
+	.long	0x0	@ image
+	.long	0x0	@ java_name_width
+	.long	0x0	@ java_map
+
+	.byte	0xcf, 0xfc, 0x3a, 0xa6, 0xf5, 0xfb, 0xe5, 0x41, 0x8c, 0xb0, 0x2a, 0xd6, 0x36, 0x84, 0x5f, 0x3e	@ module_uuid: a63afccf-fbf5-41e5-8cb0-2ad636845f3e
+	.long	0x2	@ entry_count
+	.long	0x0	@ duplicate_count
 	.long	.L.module23_managed_to_java	@ map
-	.long	.L.module23_managed_to_java_duplicates	@ duplicate_map
-	.long	map_aname.23	@ assembly_name: Xamarin.AndroidX.Navigation.Runtime
+	.long	0	@ duplicate_map
+	.long	map_aname.23	@ assembly_name: InventoryManagmentMobile
 	.long	0x0	@ image
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
@@ -2302,55 +2302,55 @@ map_java:
 	.zero	78	@ byteCount == 25; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x200000a	@ type_token_id
 	.ascii	"androidx/activity/ComponentActivity"	@ java_name
 	.zero	68	@ byteCount == 35; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x200000d	@ type_token_id
 	.ascii	"androidx/activity/OnBackPressedCallback"	@ java_name
 	.zero	64	@ byteCount == 39; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x200000f	@ type_token_id
 	.ascii	"androidx/activity/OnBackPressedDispatcher"	@ java_name
 	.zero	62	@ byteCount == 41; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/activity/contextaware/OnContextAvailableListener"	@ java_name
 	.zero	46	@ byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/activity/result/ActivityResultCallback"	@ java_name
 	.zero	56	@ byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x2000014	@ type_token_id
 	.ascii	"androidx/activity/result/ActivityResultLauncher"	@ java_name
 	.zero	56	@ byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x2000016	@ type_token_id
 	.ascii	"androidx/activity/result/ActivityResultRegistry"	@ java_name
 	.zero	56	@ byteCount == 47; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x200001b	@ type_token_id
 	.ascii	"androidx/activity/result/contract/ActivityResultContract"	@ java_name
 	.zero	47	@ byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x200001c	@ type_token_id
 	.ascii	"androidx/activity/result/contract/ActivityResultContract$SynchronousResult"	@ java_name
 	.zero	29	@ byteCount == 74; fixedWidth == 103; returned size == 103
@@ -2668,7 +2668,7 @@ map_java:
 	.zero	37	@ byteCount == 66; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x15	@ module_index
+	.long	0x14	@ module_index
 	.long	0x200000b	@ type_token_id
 	.ascii	"androidx/cardview/widget/CardView"	@ java_name
 	.zero	70	@ byteCount == 33; fixedWidth == 103; returned size == 103
@@ -3298,13 +3298,13 @@ map_java:
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x2000011	@ type_token_id
 	.ascii	"androidx/navigation/NavController"	@ java_name
 	.zero	70	@ byteCount == 33; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/navigation/NavController$OnDestinationChangedListener"	@ java_name
 	.zero	41	@ byteCount == 62; fixedWidth == 103; returned size == 103
@@ -3316,7 +3316,7 @@ map_java:
 	.zero	72	@ byteCount == 31; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x2000018	@ type_token_id
 	.ascii	"androidx/navigation/NavDeepLinkBuilder"	@ java_name
 	.zero	65	@ byteCount == 38; fixedWidth == 103; returned size == 103
@@ -3358,13 +3358,13 @@ map_java:
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x2000019	@ type_token_id
 	.ascii	"androidx/navigation/NavHostController"	@ java_name
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x200001a	@ type_token_id
 	.ascii	"androidx/navigation/NavInflater"	@ java_name
 	.zero	72	@ byteCount == 31; fixedWidth == 103; returned size == 103
@@ -4966,13 +4966,13 @@ map_java:
 	.zero	49	@ byteCount == 54; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x14	@ module_index
+	.long	0x17	@ module_index
 	.long	0x2000012	@ type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainActivity"	@ java_name
 	.zero	69	@ byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x14	@ module_index
+	.long	0x17	@ module_index
 	.long	0x2000013	@ type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainApplication"	@ java_name
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
@@ -5962,7 +5962,7 @@ map_java:
 	.zero	41	@ byteCount == 62; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x16	@ module_index
+	.long	0x15	@ module_index
 	.long	0x2000013	@ type_token_id
 	.ascii	"mono/androidx/activity/contextaware/OnContextAvailableListenerImplementor"	@ java_name
 	.zero	30	@ byteCount == 73; fixedWidth == 103; returned size == 103
@@ -6040,7 +6040,7 @@ map_java:
 	.zero	41	@ byteCount == 62; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x17	@ module_index
+	.long	0x16	@ module_index
 	.long	0x2000015	@ type_token_id
 	.ascii	"mono/androidx/navigation/NavController_OnDestinationChangedListenerImplementor"	@ java_name
 	.zero	25	@ byteCount == 78; fixedWidth == 103; returned size == 103

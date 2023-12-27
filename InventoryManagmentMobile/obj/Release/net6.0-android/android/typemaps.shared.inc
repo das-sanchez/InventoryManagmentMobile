@@ -102,23 +102,23 @@ map_aname.19:
 
 	.type	map_aname.20, @object
 map_aname.20:
-	.asciz	"InventoryManagmentMobile"
-	.size	map_aname.20, 25
+	.asciz	"Xamarin.AndroidX.CardView"
+	.size	map_aname.20, 26
 
 	.type	map_aname.21, @object
 map_aname.21:
-	.asciz	"Xamarin.AndroidX.CardView"
+	.asciz	"Xamarin.AndroidX.Activity"
 	.size	map_aname.21, 26
 
 	.type	map_aname.22, @object
 map_aname.22:
-	.asciz	"Xamarin.AndroidX.Activity"
-	.size	map_aname.22, 26
+	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
+	.size	map_aname.22, 36
 
 	.type	map_aname.23, @object
 map_aname.23:
-	.asciz	"Xamarin.AndroidX.Navigation.Runtime"
-	.size	map_aname.23, 36
+	.asciz	"InventoryManagmentMobile"
+	.size	map_aname.23, 25
 
 	.type	map_aname.24, @object
 map_aname.24:

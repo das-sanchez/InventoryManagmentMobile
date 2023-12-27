@@ -5069,7 +5069,7 @@ application_config:
 
 	.type	.L.autostr.4, @object
 .L.autostr.4:
-	.asciz	"6cdf8df5-c24a-40bd-833f-6e5fb202a78b"
+	.asciz	"29d1d644-76cc-480d-8f6c-6e49b6fed9dc"
 	.size	.L.autostr.4, 37
 
 	.type	.L.autostr.5, @object

@@ -8,7 +8,7 @@
              Title="Centro Distribucion">
     <ContentPage.ToolbarItems >
 
-        <ToolbarItem Text="Finalizar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=SaveReceptionCommand }" IsEnabled="{Binding CanSave, Mode=TwoWay}"  />
+        <ToolbarItem Text="{Binding ItemTitle}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=SaveReceptionToolbarCommand }" IsEnabled="{Binding CanSave, Mode=TwoWay}"  />
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
@@ -194,7 +194,7 @@
 
                             <Grid ColumnDefinitions="9.2*,0.8*" >
                                 <Image Grid.Column="1" Source="buscar.svg" HeightRequest="15" WidthRequest="15" VerticalOptions="Center" HorizontalOptions="Start"></Image >
-                                <Entry Grid.Column="0"  x:Name="productNo"  Completed="productNo_Completed" Text="{Binding ProductNo}" ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=ProductByNoCommand }" Placeholder="Producto" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
+                                <Entry Grid.Column="0"  x:Name="productNo"  Completed="productNo_Completed" Text="{Binding ProductNo}"  Placeholder="Producto" VerticalOptions="Center" HorizontalOptions="FillAndExpand"  Keyboard="Numeric" PlaceholderColor="#484848" TextColor="Black"  ClearButtonVisibility="WhileEditing"></Entry >
                             </Grid>
 
                         </Frame>
@@ -384,7 +384,7 @@
 
                                         <Label Text="Cantidad" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
 
-                                        <Label Text="Recivida" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
+                                        <Label Text="Recibida" Grid.Column="2" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
 
                                         <Label Text="Pend." Grid.Column="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="Red" FontSize="10" FontAttributes="Bold"></Label>
                                     </Grid>
@@ -397,7 +397,7 @@
                                     <SwipeView>
                                         <SwipeView.LeftItems>
                                             <SwipeItems>
-                                                <SwipeItem   Text="Borrar"
+                                                <SwipeItem   Text="Limpiar"
                                                            IconImageSource="ic_cf_bisync.png"
                                                            BackgroundColor="Red"
                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=RemoveDetailItemCommand}"

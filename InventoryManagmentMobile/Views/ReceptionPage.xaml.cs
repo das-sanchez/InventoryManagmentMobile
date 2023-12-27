@@ -106,8 +106,8 @@ public partial class ReceptionPage : ContentPage
     }
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
-    {
-        if (string.IsNullOrEmpty(qtyUnit.Text))
+    { 
+       if (string.IsNullOrEmpty(qtyUnit.Text))
         {
             qtyUnit.Text = "0";
             return;
@@ -116,7 +116,7 @@ public partial class ReceptionPage : ContentPage
 
         if (!_vm.Product.Product.IsWeighed)
         {
-            if (_vm.Factor != Convert.ToInt32(qtyUnit.Text))
+            if ((decimal)_vm.Factor != Convert.ToDecimal(qtyUnit.Text))
             {
                 await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
                 _vm.QtyUnit = string.Empty;
