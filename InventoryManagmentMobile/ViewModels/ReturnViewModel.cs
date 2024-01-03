@@ -303,11 +303,20 @@ namespace InventoryManagmentMobile.ViewModels
                     throw new Exception("El producto no puede estar en blanco");
                     
                 if (Product.Product.Id != ProductId)
-                    throw new Exception("El Producto digitado es diferente al que fue consultado, eso significa que los cambiaste y no lo buscate");
+                    throw new Exception("El Producto digitado es diferente al que fue consultado, eso significa que los cambiaste y no lo buscaste");
                     //await Application.Current.MainPage.DisplayAlert("Agregar Line", "El Producto digitado es diferente al que fue consultado, eso significa que los cambiaste y no lo buscate bestia", "Aceptar");
                     
                 if (Quantity == 0)
                     throw new Exception("Debe digitar la cantidad de devolver");
+
+                if (!Product.Product.IsWeighed)
+                {
+                    if (Quantity % 1 != 0)
+                    {
+                       // QuantityFocusRequested?.Invoke();
+                        throw new Exception("Se permite cantidad fraccionada solo si trata de un producto pesado. Por favor, digite un número entero.");
+                    }
+                }
                     
                 int line = (ReturnDetails.Count == 0 ? 1 : ReturnDetails.Max(xc => xc.LineNo) + 1);
 

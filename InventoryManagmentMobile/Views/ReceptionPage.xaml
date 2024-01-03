@@ -8,7 +8,7 @@
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"  x:DataType="viewmodel:ReceptionViewModel"
              Title="{ Binding Title }">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding ItemTitle}" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionToolbarCommand }" IsEnabled="{Binding CanSave}" />
+        <ToolbarItem Text="Finalizar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionToolbarCommand }" IsEnabled="{Binding CanSave}" />
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"
@@ -22,6 +22,8 @@
             <convert:BoolToColorConverter x:Key="BoolToColorConverter1"
                                           TrueColor="LightGray"
                                           FalseColor="White" />
+            
+            <convert:InverseBooleanConverter x:Key="InverseBooleanConverter" />
 
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -447,8 +449,14 @@
                         <StackLayout Padding="10">
 
                             <Button  Text="Finalizar"  CornerRadius="20"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand}"
-                                    BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=SaveReceptionCommand}" 
+                                    IsVisible="{Binding MustToPrintDiff, Converter={StaticResource InverseBooleanConverter}}"
+                                     BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
+                            
+                            <Button  Text="Imprimir Diferencia"  CornerRadius="20"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionViewModel}}, Path=PrintDiffCommand}" 
+                                    IsVisible="{Binding MustToPrintDiff}"
+                                     BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
 
 
 

@@ -85,6 +85,21 @@ namespace InventoryManagmentMobile.Repositories
 
             return result;
         }
+        public async Task<TransResult> PrintDiff(string OrderNo, ReceptionHead order)
+        {
+            var result = new TransResult();
+
+            if (order.OrderType != "T")
+            {
+                result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Dispatch/PrintDiff", order);
+            }
+            else
+            {
+                result = await apiPost.PostData(Constants.UrlBase, $"inboundDelivery/PrintDiff", order);
+            }
+
+            return result;
+        }
 
         public async Task<TransResult> SaveReturn(ReturnHead order)
         {

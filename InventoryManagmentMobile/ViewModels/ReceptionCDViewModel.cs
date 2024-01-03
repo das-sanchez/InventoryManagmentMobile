@@ -396,6 +396,12 @@ namespace InventoryManagmentMobile.ViewModels
                     
                 if (!Product.Product.IsWeighed)
                 {
+                    if (TotalQty % 1 != 0)
+                    {
+                        QuantityFocusRequested?.Invoke();
+                        throw new Exception("Se permite cantidad fraccionada solo si trata de un producto pesado. Por favor, digite un número entero.");
+                    }
+
                     if ((string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0") || Factor == 0)
                     {
                         FactorFocusRequested?.Invoke();

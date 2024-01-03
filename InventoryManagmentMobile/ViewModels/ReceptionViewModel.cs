@@ -5,6 +5,7 @@ using InventoryManagmentMobile.Repositories;
 using InventoryManagmentMobile.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using static SQLite.SQLite3;
 
 namespace InventoryManagmentMobile.ViewModels
 {
@@ -67,9 +68,11 @@ namespace InventoryManagmentMobile.ViewModels
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
+        public Command PrintDiffCommand { get; }
         public Command SaveReceptionToolbarCommand { get; }
+        public Command PrintDiffToolbarCommand { get; }
 
-        
+
 
         ObservableCollection<DetailDto> _details;
         public ObservableCollection<DetailDto> Details { get { return _details; } set { SetProperty(ref _details, value); } }
@@ -79,8 +82,8 @@ namespace InventoryManagmentMobile.ViewModels
         private readonly OleRepository repo;
 
 
-        string _itemTitle = string.Empty;
-        public string ItemTitle { get { return _itemTitle; } set { SetProperty(ref _itemTitle, value); } }
+        //string _itemTitle = string.Empty;
+        //public string ItemTitle { get { return _itemTitle; } set { SetProperty(ref _itemTitle, value); } }
 
         string _productNo = string.Empty;
         public string ProductNo { get { return _productNo; } set { SetProperty(ref _productNo, value); } }
@@ -207,6 +210,17 @@ namespace InventoryManagmentMobile.ViewModels
             set { SetProperty(ref _canSave, value); } 
         }
 
+        private bool _mustToPrintDiff;
+        public bool MustToPrintDiff
+        {
+            get => _mustToPrintDiff;
+            set
+            {
+                _mustToPrintDiff = value;
+                OnPropertyChanged(nameof(MustToPrintDiff));
+            }
+        }
+
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
         public ReceptionViewModel(OleRepository _repo, OleDataContext context)
@@ -236,6 +250,7 @@ namespace InventoryManagmentMobile.ViewModels
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(() => SaveReception());
+            PrintDiffCommand = new Command(() => PrintDiff());
             SaveReceptionToolbarCommand = new Command(() => SaveReceptionFromToolbar());
             OkCommand = new Command(() =>  OkReceptionAsync());
             OrderItem = new OrderItem();
@@ -252,7 +267,7 @@ namespace InventoryManagmentMobile.ViewModels
             ShowContent = true;
             BackCommand = new Command(() => BackSync());
             CanSave = false;
-            ItemTitle = string.Empty;
+           // ItemTitle = string.Empty;
         }
 
         private async void BackSync()
@@ -332,6 +347,9 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
                     LoadItemsAsync();
+
+                    if (Type != "P")
+                        MustToPrintDiff = true;
                 }
             }
             catch (Exception ex)
@@ -379,6 +397,49 @@ namespace InventoryManagmentMobile.ViewModels
         {
             if (CanSave)
                 SaveReception();
+        }
+
+        private async void PrintDiff()
+        {
+            try
+            {
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", $"¿Esta seguro que desea imprimir el reporte de diferencia de {TypeDescription}?", "Si", "No");
+
+                if (answer)
+                {
+                    Reception.Items = ReceptionItems.ToArray();
+                    Reception.BillNo = InvoiceNumber;
+                    Reception.OrderType = Type;
+                    Reception.OrderNo = OrderNo;
+                    IsBusy = true;
+                    ShowContent = false;
+
+                    var Result = new TransResult();
+
+                    Result = await repo.PrintDiff(OrderNo, Reception);
+
+                    IsBusy = false;
+                    ShowContent = true;
+
+                    if(Result == null)
+                        throw new Exception("Se ha producido un error desconocido al tratar de imprimir el reporte de diferencias.");
+
+                    if (Result.IsSuccess)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Impresión", Result.Message, "Aceptar");
+                        MustToPrintDiff = false;
+                    }
+                    else
+                    {
+                        throw new Exception(Result.Message);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error Impresión", ex.Message, "Aceptar");
+            }
+                
         }
         private async void SaveReception()
         {
@@ -498,7 +559,13 @@ namespace InventoryManagmentMobile.ViewModels
                     throw new Exception($"Este Producto: {Product.Product.Name} no contiene un factor para la unidad de medida: {OrderItem.UmName}");
 
                 if (!Product.Product.IsWeighed)
-                {
+                {  
+                    if (TotalQty % 1 != 0)
+                    {
+                        QuantityFocusRequested?.Invoke();
+                        throw new Exception("Se permite cantidad fraccionada solo si trata de un producto pesado. Por favor, digite un número entero.");
+                    }
+                        
                     if ((string.IsNullOrWhiteSpace(QtyUnit) || QtyUnit == "0") || Factor == 0)
                     {
                         FactorFocusRequested?.Invoke();
@@ -895,11 +962,25 @@ namespace InventoryManagmentMobile.ViewModels
 
             ShowPanel("R");
             LoadItemsAsync();
+
             if (ReceptionItems.Count() > 0)
             {
                 CanSave = true;
+
+                var diff = (from a in Order.Data.Items
+                           join b in ReceptionItems
+                           on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
+                           into groupjoin
+                           from c in groupjoin.DefaultIfEmpty()
+                           where a.Qty - (c.Qty != null ? c.Qty : 0) != 0
+                           select c).ToList();
+                
+                if (diff.Count() > 0 && Type != "P")
+                    MustToPrintDiff = true;
+                
             }
-            ItemTitle = "Finalizar";
+
+            //ItemTitle = "Finalizar";
         }
 
         private void DetalleOpcion()
@@ -908,7 +989,8 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("D");
             CanSave = false;
-            ItemTitle = string.Empty;
+            MustToPrintDiff = false;
+           // ItemTitle = string.Empty;
         }
 
         private void ProductosOpcion()
@@ -917,14 +999,16 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("P");
             CanSave = false;
-            ItemTitle = string.Empty;
+            MustToPrintDiff = false;
+            //ItemTitle = string.Empty;
         }
 
         private void GeneralOpcion()
         {
             ShowPanel("G");
             CanSave = false;
-            ItemTitle = string.Empty;
+            MustToPrintDiff = false;
+            //ItemTitle = string.Empty;
         }
         private void ShowPanel(string opcion)
         {
