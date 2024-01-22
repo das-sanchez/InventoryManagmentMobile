@@ -89,14 +89,27 @@ namespace InventoryManagmentMobile.Repositories
         {
             var result = new TransResult();
 
-            if (order.OrderType != "T")
+            switch(order.OrderType)
             {
-                result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Dispatch/PrintDiff", order);
+                case "D":
+                    result = await apiPost.PostData(Constants.UrlBase, $"order/{OrderNo}/Dispatch/PrintDiff", order);
+                    break;
+
+                case "T":
+                    //result = await apiPost.PostData(Constants.UrlBase, $"InboundDelivery/{OrderNo}/PrintDiff", order);
+                    result = await apiPost.PostData(Constants.UrlBase, $"InboundDelivery/PrintDiff", order);
+                    break;
+                default:
+                    throw new Exception("Tipo de documento no esta configurado para imprimir diferencias.");                    
             }
-            else
-            {
-                result = await apiPost.PostData(Constants.UrlBase, $"inboundDelivery/PrintDiff", order);
-            }
+
+            return result;
+        }
+
+        public async Task<TransResult> PrintCDDiff(TransportationOrder order)
+        {
+            var result = new TransResult();        
+            result = await apiPost.PostData(Constants.UrlBase, $"TransportationOrder/PrintDiff", order);
 
             return result;
         }

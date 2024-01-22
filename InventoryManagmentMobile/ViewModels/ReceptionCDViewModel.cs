@@ -24,6 +24,7 @@ namespace InventoryManagmentMobile.ViewModels
         public Command AddResumenCommand { get; }
         public Command RemoveResumenCommand { get; }
         public Command SaveReceptionCommand { get; }
+        public Command PrintDiffCommand { get; }
         public Command SaveReceptionToolbarCommand { get; }
         
 
@@ -121,9 +122,9 @@ namespace InventoryManagmentMobile.ViewModels
         public Command OkCommand { get; }
         public Command OrderByIdCommand { get; }
         public Command ProductByNoCommand { get; }
+
         private bool _hasOrder = false;
         public bool HasOrder { get { return _hasOrder; } set { SetProperty(ref _hasOrder, value); } }
-
 
         public Command BackCommand { get; }
 
@@ -143,11 +144,23 @@ namespace InventoryManagmentMobile.ViewModels
         private bool _canSave = false;
         public bool CanSave { get { return _canSave; } set { SetProperty(ref _canSave, value); } }
 
+        private bool _mustToPrintDiff;
+        public bool MustToPrintDiff
+        {
+            get => _mustToPrintDiff;
+            set
+            {
+                _mustToPrintDiff = value;
+                OnPropertyChanged(nameof(MustToPrintDiff));
+            }
+        }
+
         string _lookupBarCode = "*";
         public string LookupBarCode { get { return _lookupBarCode; } set { SetProperty(ref _lookupBarCode, value); } }
 
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
+
         public ReceptionCDViewModel(OleRepository _repo, OleDataContext context)
         {
 
@@ -175,6 +188,7 @@ namespace InventoryManagmentMobile.ViewModels
             AddResumenCommand = new Command(() => AddItemSummary());
             RemoveResumenCommand = new Command(() => RemoveItemSummary());
             SaveReceptionCommand = new Command(async() => await SaveReception());
+            PrintDiffCommand = new Command(() => PrintDiff());
             SaveReceptionToolbarCommand = new Command(async () => await SaveReceptionFromToolbar());
             OkCommand = new Command(async () => await  OkReceptionAsync());
             OrderItem = new TranspOrderItem();
@@ -213,6 +227,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
 
         }
+
         private async void BackSync()
         {
             bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", "¿Esta seguro de salir?", "Si", "No");
@@ -221,6 +236,7 @@ namespace InventoryManagmentMobile.ViewModels
                 await Shell.Current.Navigation.PopAsync();
             
         }
+
         public async void FindByProduct(string barCode)
         {
             try
@@ -244,6 +260,7 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
+
         public void LoadItemsAsync()
         {
             var items = new List<TransactionLine>();
@@ -292,6 +309,46 @@ namespace InventoryManagmentMobile.ViewModels
                 await SaveReception();
         }
 
+        private async void PrintDiff()
+        {
+            try
+            {
+                bool answer = await Application.Current.MainPage.DisplayAlert("Recepción", $"¿Esta seguro que desea imprimir el reporte de diferencia?", "Si", "No");
+
+                if (answer)
+                {
+                    Reception.Items = ReceptionItems.ToArray();
+                    Reception.OrderNo = OrderNo;
+                    IsBusy = true;
+                    ShowContent = false;
+
+                    var Result = new TransResult();
+
+                    Result = await repo.PrintCDDiff(Reception);
+
+                    IsBusy = false;
+                    ShowContent = true;
+
+                    if(Result == null)
+                        throw new Exception("Se ha producido un error desconocido al tratar de imprimir el reporte de diferencias.");
+
+                    if (Result.IsSuccess)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Impresión", Result.Message, "Aceptar");
+                        MustToPrintDiff = false;
+                    }
+                    else
+                    {
+                        throw new Exception(Result.Message);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error Impresión", ex.Message, "Aceptar");
+            }
+                
+        }
         private async Task SaveReception()
         {
             try
@@ -345,6 +402,7 @@ namespace InventoryManagmentMobile.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Guardar Recepción", ex.Message, "Aceptar");
             }
         }
+
         private void ShowError(string message)
         {
             ShowContent = false;
@@ -371,8 +429,6 @@ namespace InventoryManagmentMobile.ViewModels
             throw new NotImplementedException();
         }
 
-
-        
         private async Task AddItem()
         {
             try
@@ -641,7 +697,6 @@ namespace InventoryManagmentMobile.ViewModels
             }
         }
 
-
         private void ResumenOpcion()
         {
             if (!HasOrder)
@@ -652,7 +707,18 @@ namespace InventoryManagmentMobile.ViewModels
             if (ReceptionItems.Count() > 0)
             {
                 CanSave = true;
-                ItemTitle = "Finalizar";
+
+                var diff = (from a in Order.Data.Items
+                            join b in ReceptionItems
+                            on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
+                            into groupjoin
+                            from c in groupjoin.DefaultIfEmpty()
+                            where a.Qty - (c.Qty != null ? c.Qty : 0) != 0
+                            select c).ToList();
+
+                if (diff.Count() > 0 )
+                    MustToPrintDiff = true;
+
             }
         }
 
@@ -669,6 +735,7 @@ namespace InventoryManagmentMobile.ViewModels
                 return;
             ShowPanel("P");
             CanSave = false;
+            MustToPrintDiff = false;
             ItemTitle = "";
         }
 
@@ -676,8 +743,10 @@ namespace InventoryManagmentMobile.ViewModels
         {
             ShowPanel("G");
             CanSave = false;
+            MustToPrintDiff = false;
             ItemTitle = "";
         }
+
         private void ShowPanel(string opcion)
         {
             switch (opcion)

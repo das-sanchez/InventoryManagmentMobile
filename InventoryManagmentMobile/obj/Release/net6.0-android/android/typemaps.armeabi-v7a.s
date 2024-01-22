@@ -105,12 +105,22 @@ map_modules:
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
 
+	.byte	0x1e, 0x2, 0x4e, 0xc1, 0xf, 0x5a, 0xcd, 0x4c, 0xa6, 0xfe, 0xa6, 0x63, 0xe9, 0x42, 0xe8, 0xe2	@ module_uuid: c14e021e-5a0f-4ccd-a6fe-a663e942e8e2
+	.long	0x2	@ entry_count
+	.long	0x0	@ duplicate_count
+	.long	.L.module4_managed_to_java	@ map
+	.long	0	@ duplicate_map
+	.long	map_aname.4	@ assembly_name: InventoryManagmentMobile
+	.long	0x0	@ image
+	.long	0x0	@ java_name_width
+	.long	0x0	@ java_map
+
 	.byte	0x21, 0xe6, 0xff, 0xcd, 0xc6, 0xa0, 0xa3, 0x42, 0x94, 0xd6, 0xb9, 0x15, 0xae, 0xb2, 0x4c, 0xca	@ module_uuid: cdffe621-a0c6-42a3-94d6-b915aeb24cca
 	.long	0x5	@ entry_count
 	.long	0x3	@ duplicate_count
-	.long	.L.module4_managed_to_java	@ map
-	.long	.L.module4_managed_to_java_duplicates	@ duplicate_map
-	.long	map_aname.4	@ assembly_name: Xamarin.AndroidX.ViewPager2
+	.long	.L.module5_managed_to_java	@ map
+	.long	.L.module5_managed_to_java_duplicates	@ duplicate_map
+	.long	map_aname.5	@ assembly_name: Xamarin.AndroidX.ViewPager2
 	.long	0x0	@ image
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
@@ -118,19 +128,9 @@ map_modules:
 	.byte	0x31, 0x84, 0x33, 0xe6, 0x15, 0x2, 0xe5, 0x45, 0xa4, 0xa6, 0x88, 0xfc, 0xfa, 0x30, 0xc9, 0x6f	@ module_uuid: e6338431-0215-45e5-a4a6-88fcfa30c96f
 	.long	0x37	@ entry_count
 	.long	0x13	@ duplicate_count
-	.long	.L.module5_managed_to_java	@ map
-	.long	.L.module5_managed_to_java_duplicates	@ duplicate_map
-	.long	map_aname.5	@ assembly_name: Xamarin.AndroidX.AppCompat
-	.long	0x0	@ image
-	.long	0x0	@ java_name_width
-	.long	0x0	@ java_map
-
-	.byte	0x42, 0xe2, 0x47, 0x5b, 0xe7, 0x44, 0x71, 0x45, 0x98, 0xba, 0x5, 0x6e, 0x19, 0x32, 0xf1, 0x3b	@ module_uuid: 5b47e242-44e7-4571-98ba-056e1932f13b
-	.long	0x2	@ entry_count
-	.long	0x0	@ duplicate_count
 	.long	.L.module6_managed_to_java	@ map
-	.long	0	@ duplicate_map
-	.long	map_aname.6	@ assembly_name: InventoryManagmentMobile
+	.long	.L.module6_managed_to_java_duplicates	@ duplicate_map
+	.long	map_aname.6	@ assembly_name: Xamarin.AndroidX.AppCompat
 	.long	0x0	@ image
 	.long	0x0	@ java_name_width
 	.long	0x0	@ java_map
@@ -2356,103 +2356,103 @@ map_java:
 	.zero	29	@ byteCount == 74; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200003d	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar"	@ java_name
 	.zero	71	@ byteCount == 32; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200003e	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar$LayoutParams"	@ java_name
 	.zero	58	@ byteCount == 45; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar$OnMenuVisibilityListener"	@ java_name
 	.zero	46	@ byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar$OnNavigationListener"	@ java_name
 	.zero	50	@ byteCount == 53; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000045	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar$Tab"	@ java_name
 	.zero	67	@ byteCount == 36; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBar$TabListener"	@ java_name
 	.zero	59	@ byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200004c	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBarDrawerToggle"	@ java_name
 	.zero	59	@ byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/app/ActionBarDrawerToggle$Delegate"	@ java_name
 	.zero	50	@ byteCount == 53; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000038	@ type_token_id
 	.ascii	"androidx/appcompat/app/AlertDialog"	@ java_name
 	.zero	69	@ byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000039	@ type_token_id
 	.ascii	"androidx/appcompat/app/AlertDialog$Builder"	@ java_name
 	.zero	61	@ byteCount == 42; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200003b	@ type_token_id
 	.ascii	"androidx/appcompat/app/AlertDialog_IDialogInterfaceOnCancelListenerImplementor"	@ java_name
 	.zero	25	@ byteCount == 78; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200003a	@ type_token_id
 	.ascii	"androidx/appcompat/app/AlertDialog_IDialogInterfaceOnClickListenerImplementor"	@ java_name
 	.zero	26	@ byteCount == 77; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200003c	@ type_token_id
 	.ascii	"androidx/appcompat/app/AlertDialog_IDialogInterfaceOnMultiChoiceClickListenerImplementor"	@ java_name
 	.zero	15	@ byteCount == 88; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200004f	@ type_token_id
 	.ascii	"androidx/appcompat/app/AppCompatActivity"	@ java_name
 	.zero	63	@ byteCount == 40; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/app/AppCompatCallback"	@ java_name
 	.zero	63	@ byteCount == 40; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000050	@ type_token_id
 	.ascii	"androidx/appcompat/app/AppCompatDelegate"	@ java_name
 	.zero	63	@ byteCount == 40; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000052	@ type_token_id
 	.ascii	"androidx/appcompat/app/AppCompatDialog"	@ java_name
 	.zero	65	@ byteCount == 38; fixedWidth == 103; returned size == 103
@@ -2470,199 +2470,199 @@ map_java:
 	.zero	51	@ byteCount == 52; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000037	@ type_token_id
 	.ascii	"androidx/appcompat/graphics/drawable/DrawerArrowDrawable"	@ java_name
 	.zero	47	@ byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000087	@ type_token_id
 	.ascii	"androidx/appcompat/view/ActionMode"	@ java_name
 	.zero	69	@ byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/view/ActionMode$Callback"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200008b	@ type_token_id
 	.ascii	"androidx/appcompat/view/ContextThemeWrapper"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200008c	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuBuilder"	@ java_name
 	.zero	63	@ byteCount == 40; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuBuilder$Callback"	@ java_name
 	.zero	54	@ byteCount == 49; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000095	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuItemImpl"	@ java_name
 	.zero	62	@ byteCount == 41; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuPresenter"	@ java_name
 	.zero	61	@ byteCount == 42; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuPresenter$Callback"	@ java_name
 	.zero	52	@ byteCount == 51; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/MenuView"	@ java_name
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000096	@ type_token_id
 	.ascii	"androidx/appcompat/view/menu/SubMenuBuilder"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200005f	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatAutoCompleteTextView"	@ java_name
 	.zero	48	@ byteCount == 55; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000060	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatButton"	@ java_name
 	.zero	62	@ byteCount == 41; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000061	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatCheckBox"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000062	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatEditText"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000063	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatImageButton"	@ java_name
 	.zero	57	@ byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000064	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatImageView"	@ java_name
 	.zero	59	@ byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000065	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatRadioButton"	@ java_name
 	.zero	57	@ byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000066	@ type_token_id
 	.ascii	"androidx/appcompat/widget/AppCompatTextView"	@ java_name
 	.zero	60	@ byteCount == 43; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/widget/DecorToolbar"	@ java_name
 	.zero	65	@ byteCount == 38; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000069	@ type_token_id
 	.ascii	"androidx/appcompat/widget/LinearLayoutCompat"	@ java_name
 	.zero	59	@ byteCount == 44; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200006a	@ type_token_id
 	.ascii	"androidx/appcompat/widget/LinearLayoutCompat$LayoutParams"	@ java_name
 	.zero	46	@ byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200006b	@ type_token_id
 	.ascii	"androidx/appcompat/widget/ScrollingTabContainerView"	@ java_name
 	.zero	52	@ byteCount == 51; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200006c	@ type_token_id
 	.ascii	"androidx/appcompat/widget/ScrollingTabContainerView$VisibilityAnimListener"	@ java_name
 	.zero	29	@ byteCount == 74; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200006d	@ type_token_id
 	.ascii	"androidx/appcompat/widget/SearchView"	@ java_name
 	.zero	67	@ byteCount == 36; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/widget/SearchView$OnCloseListener"	@ java_name
 	.zero	51	@ byteCount == 52; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/widget/SearchView$OnQueryTextListener"	@ java_name
 	.zero	47	@ byteCount == 56; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/widget/SearchView$OnSuggestionListener"	@ java_name
 	.zero	46	@ byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000086	@ type_token_id
 	.ascii	"androidx/appcompat/widget/SwitchCompat"	@ java_name
 	.zero	65	@ byteCount == 38; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000055	@ type_token_id
 	.ascii	"androidx/appcompat/widget/Toolbar"	@ java_name
 	.zero	70	@ byteCount == 33; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000058	@ type_token_id
 	.ascii	"androidx/appcompat/widget/Toolbar$LayoutParams"	@ java_name
 	.zero	57	@ byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/appcompat/widget/Toolbar$OnMenuItemClickListener"	@ java_name
 	.zero	46	@ byteCount == 57; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000056	@ type_token_id
 	.ascii	"androidx/appcompat/widget/Toolbar_NavigationOnClickEventDispatcher"	@ java_name
 	.zero	37	@ byteCount == 66; fixedWidth == 103; returned size == 103
@@ -3742,31 +3742,31 @@ map_java:
 	.zero	52	@ byteCount == 51; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x4	@ module_index
+	.long	0x5	@ module_index
 	.long	0x200000d	@ type_token_id
 	.ascii	"androidx/viewpager2/adapter/FragmentStateAdapter"	@ java_name
 	.zero	55	@ byteCount == 48; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x4	@ module_index
+	.long	0x5	@ module_index
 	.long	0x200000f	@ type_token_id
 	.ascii	"androidx/viewpager2/adapter/FragmentViewHolder"	@ java_name
 	.zero	57	@ byteCount == 46; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x4	@ module_index
+	.long	0x5	@ module_index
 	.long	0x2000008	@ type_token_id
 	.ascii	"androidx/viewpager2/widget/ViewPager2"	@ java_name
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x4	@ module_index
+	.long	0x5	@ module_index
 	.long	0x2000009	@ type_token_id
 	.ascii	"androidx/viewpager2/widget/ViewPager2$OnPageChangeCallback"	@ java_name
 	.zero	45	@ byteCount == 58; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x4	@ module_index
+	.long	0x5	@ module_index
 	.long	0x0	@ type_token_id
 	.ascii	"androidx/viewpager2/widget/ViewPager2$PageTransformer"	@ java_name
 	.zero	50	@ byteCount == 53; fixedWidth == 103; returned size == 103
@@ -4966,13 +4966,13 @@ map_java:
 	.zero	49	@ byteCount == 54; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x6	@ module_index
+	.long	0x4	@ module_index
 	.long	0x2000016	@ type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainActivity"	@ java_name
 	.zero	69	@ byteCount == 34; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x6	@ module_index
+	.long	0x4	@ module_index
 	.long	0x2000017	@ type_token_id
 	.ascii	"crc64bd39c740be8ce503/MainApplication"	@ java_name
 	.zero	66	@ byteCount == 37; fixedWidth == 103; returned size == 103
@@ -5968,31 +5968,31 @@ map_java:
 	.zero	30	@ byteCount == 73; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000042	@ type_token_id
 	.ascii	"mono/androidx/appcompat/app/ActionBar_OnMenuVisibilityListenerImplementor"	@ java_name
 	.zero	30	@ byteCount == 73; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000071	@ type_token_id
 	.ascii	"mono/androidx/appcompat/widget/SearchView_OnCloseListenerImplementor"	@ java_name
 	.zero	35	@ byteCount == 68; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x2000076	@ type_token_id
 	.ascii	"mono/androidx/appcompat/widget/SearchView_OnQueryTextListenerImplementor"	@ java_name
 	.zero	31	@ byteCount == 72; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200007b	@ type_token_id
 	.ascii	"mono/androidx/appcompat/widget/SearchView_OnSuggestionListenerImplementor"	@ java_name
 	.zero	30	@ byteCount == 73; fixedWidth == 103; returned size == 103
 	.zero	1
 
-	.long	0x5	@ module_index
+	.long	0x6	@ module_index
 	.long	0x200005c	@ type_token_id
 	.ascii	"mono/androidx/appcompat/widget/Toolbar_OnMenuItemClickListenerImplementor"	@ java_name
 	.zero	30	@ byteCount == 73; fixedWidth == 103; returned size == 103

@@ -12,6 +12,9 @@ namespace InventoryManagmentMobile.Models
         [JsonProperty("vendorId")]
         public string VendorId { get; set; }
 
+        [JsonProperty("orderNo")]
+        public string OrderNo { get; set; }
+
         [JsonProperty("items")]
         public TransportationOrderItem[] Items { get; set; }
     }

@@ -22,18 +22,18 @@ map_aname.3:
 
 	.type	map_aname.4, %object
 map_aname.4:
-	.asciz	"Xamarin.AndroidX.ViewPager2"
-	.size	map_aname.4, 28
+	.asciz	"InventoryManagmentMobile"
+	.size	map_aname.4, 25
 
 	.type	map_aname.5, %object
 map_aname.5:
-	.asciz	"Xamarin.AndroidX.AppCompat"
-	.size	map_aname.5, 27
+	.asciz	"Xamarin.AndroidX.ViewPager2"
+	.size	map_aname.5, 28
 
 	.type	map_aname.6, %object
 map_aname.6:
-	.asciz	"InventoryManagmentMobile"
-	.size	map_aname.6, 25
+	.asciz	"Xamarin.AndroidX.AppCompat"
+	.size	map_aname.6, 27
 
 	.type	map_aname.7, %object
 map_aname.7:

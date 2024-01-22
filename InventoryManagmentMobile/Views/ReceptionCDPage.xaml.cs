@@ -1,5 +1,6 @@
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
+using System.ComponentModel;
 using System.Reflection.Metadata;
 
 namespace InventoryManagmentMobile.Views;
@@ -13,6 +14,9 @@ public partial class ReceptionCDPage : ContentPage
         InitializeComponent();
         _vm = viewModel;
         this.BindingContext = viewModel;
+        _vm.PropertyChanged += ViewModel_PropertyChanged;
+        _vm.CanSave = false;
+        _vm.MustToPrintDiff = false;
 
         if (BindingContext is ReceptionCDViewModel viewModel1)
         {
@@ -23,6 +27,60 @@ public partial class ReceptionCDPage : ContentPage
         }
 
     }
+
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ReceptionCDViewModel.MustToPrintDiff))
+        {
+            ManageToolbarItemVisibility();
+        }
+    }
+
+    private void ManageToolbarItemVisibility()
+    {
+        var viewModel = (ReceptionCDViewModel)BindingContext;
+
+        if (!_vm.CanSave)
+        {
+            var itemToRemove = ToolbarItems.FirstOrDefault(item => item.Text == "Finalizar");
+            if (itemToRemove != null)
+                ToolbarItems.Remove(itemToRemove);
+        }
+
+        if (viewModel.MustToPrintDiff)
+        {
+            if (!ToolbarItems.Any(item => item.Text == "Imprimir Dif"))
+            {
+                var toolbarItem = new ToolbarItem
+                {
+                    Text = "Imprimir Dif",
+                    Command = viewModel.PrintDiffCommand,
+                    IsEnabled = viewModel.CanSave
+                };
+
+                ToolbarItems.Add(toolbarItem);
+            }
+        }
+        else
+        {
+            var itemToRemove = ToolbarItems.FirstOrDefault(item => item.Text == "Imprimir Dif");
+            if (itemToRemove != null)
+                ToolbarItems.Remove(itemToRemove);
+
+            if (_vm.CanSave && !ToolbarItems.Any(item => item.Text == "Finalizar"))
+            {
+                var toolbarItem = new ToolbarItem
+                {
+                    Text = "Finalizar",
+                    Command = viewModel.SaveReceptionToolbarCommand,
+                    IsEnabled = viewModel.CanSave
+                };
+
+                ToolbarItems.Add(toolbarItem);
+            }
+        }
+    }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
