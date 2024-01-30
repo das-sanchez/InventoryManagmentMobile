@@ -471,11 +471,11 @@ namespace InventoryManagmentMobile.ViewModels
                         throw new Exception("El Factor digitado es diferente al de la unidad ordenada.");
                     }
                 }
-                else
+                /*else
                 {
                     Factor = 1;
                     QtyUnit = "1";
-                }
+                }*/
 
                 if (TotalQty == 0)
                 {
