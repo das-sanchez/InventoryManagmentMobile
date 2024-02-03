@@ -16,6 +16,7 @@ namespace InventoryManagmentMobile.ViewModels
         public event Action FactorFocusRequested;
         public event Action QuantityFocusRequested;
         public event Action ProductFocusRequested;
+        public event Action ManageToolbarItemVisibilityRequested;
 
         string _type = string.Empty;
         public string Type
@@ -279,7 +280,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
         }
 
-        public async void LoadItemsAsync()
+        public void LoadItemsAsync()
         {
             try
             {
@@ -287,7 +288,7 @@ namespace InventoryManagmentMobile.ViewModels
                 
                 Details.Clear();
                 ReceptionItems.Clear();
-                items = _context.GetTransactionLinesByOrderNo(Type, OrderNo);
+                items = _context.GetTransactionLinesByOrderNo(Type, OrderNo).OrderBy(x => x.LineNo).ToList();
 
                 if (items is not null && items.Any())
                 {
@@ -300,7 +301,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
+                Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
 
 
@@ -332,10 +333,11 @@ namespace InventoryManagmentMobile.ViewModels
         {
             try
             {
+                var normalItem = _context.GetLine(Type, OrderNo, dto.ProductId, IsBonus: false);
+
                 if (dto.Bono)
                 {
                     var bonusItem = _context.GetLine(Type, OrderNo, dto.ProductId, IsBonus: true);
-                    var normalItem = _context.GetLine(Type, OrderNo, dto.ProductId, IsBonus: false);
 
                     if (bonusItem.QtyRecibida > 0 && normalItem != null && normalItem.QtyRecibida > 0)
                         throw new Exception("Para para reestablecer la cantidad de bono a cero primero debe hacerlo para la línea de la cantidad normal.");
@@ -345,11 +347,27 @@ namespace InventoryManagmentMobile.ViewModels
 
                 if (answer)
                 {
-                    _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
-                    LoadItemsAsync();
+                    if (normalItem.ProductInErpOrder)
+                    {
+                        //No se incluye el filtro Bono para que se se coloque en cero tanto el producto principal como el bono.
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' ");
+                        LoadItemsAsync();
 
-                    if (Type != "P")
-                        MustToPrintDiff = true;
+                        if (Type != "P")
+                            MustToPrintDiff = true;
+                    }
+                    else
+                    {
+                        _context.ExecuteSql($"delete from TransactionLine Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
+                        var itemRemoved = Items.FirstOrDefault(x => x.ProductId == normalItem.ProductId && x.Um == normalItem.Um);
+                        Items.Remove(itemRemoved);
+                        LoadItemsAsync();
+
+                        if (Type != "P")
+                            MustToPrintDiff = IsThereDifferences();
+
+                        ManageToolbarItemVisibilityRequested?.Invoke();
+                    }     
                 }
             }
             catch (Exception ex)
@@ -451,8 +469,8 @@ namespace InventoryManagmentMobile.ViewModels
                 if (ReceptionItems == null || (ReceptionItems != null && ReceptionItems.Count == 0))
                     throw new Exception("No has agregado detalle");
                     
-                if (Order != null && Order.Data.Items.Length != ReceptionItems.Count())    
-                    throw new Exception("La cantidad de líneas en la orden es diferente a las recibidas");
+                //if (Order != null && Order.Data.Items.Length != ReceptionItems.Count())    
+                //    throw new Exception("La cantidad de líneas en la orden es diferente a las recibidas");
 
                 if (!Details.Any(x => x.QtyRecibida > 0))
                     throw new Exception($"El documento no puede ser registrado ya que no se ha especificado la cantidad {(Type == "D" ? "despachada" : "recibida.")}");
@@ -548,8 +566,46 @@ namespace InventoryManagmentMobile.ViewModels
                 if (!Product.IsSuccess)
                     throw new Exception(Product.Message);
 
-                if (!Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
+                if (Type != "T" && !Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
                     throw new Exception($"Este Producto no {(IsBonus ? " Existe  en la Orden con Bono" : "Existe en la Orden")} ");
+
+                if (Type == "T" && !IsBonus && !Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
+                {
+                    var unidadMedida = MeasurementUnits.FirstOrDefault(xc => xc.Factor == Convert.ToDecimal(QtyUnit));
+                    
+                    if (unidadMedida == null)
+                        throw new Exception($"Este Producto no contiene una unidad de medida para el factor digitado.");
+
+                    int nextLine = (Items.Count == 0 ? 1 : Items.Max(xc => xc.LineNo) + 1);
+                    var transactionLine = _context.GetTransactionLinesByOrderNo(Type, OrderNo).FirstOrDefault();
+                    string storageId = transactionLine.StorageId;
+                    string storeId = transactionLine.StoreId;
+
+                    if (!_context.ValidExist(Type, OrderNo, ProductId, IsBonus))
+                    {
+                        Items.Add(new OrderItem
+                        {
+                            LineNo = nextLine,
+                            StoreId = storeId,
+                            StorageId = storageId,
+                            ProductId = Product.Product.Id,
+                            ProductBarCode = ProductNo,
+                            ProductName = Product.Product.Name,
+                            Qty = 0,
+                            Um = unidadMedida.BaseUm,
+                            UmName = unidadMedida.BaseUm,
+                            Bono = false,
+                            IsLotNoRequired = false,
+                            ProductGroup = "",
+                        });
+
+                        Factor = unidadMedida.Factor;
+
+                        _context.CreateTransactionLine(new TransactionLine { StoreId = storeId, TypeTrans = Type, LineNo = nextLine, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = 0, QtyRecibida = 0, QtyPending = 0 - TotalQty, Um = unidadMedida.BaseUm, Bono = IsBonus, StorageId = storageId, BarCodeScanned = true, ProductInErpOrder = false });
+
+                        LoadItemsAsync();
+                    }
+                }
 
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
 
@@ -576,7 +632,7 @@ namespace InventoryManagmentMobile.ViewModels
                     {
                         QtyUnit = "0";
                         FactorFocusRequested?.Invoke();
-                        throw new Exception("El Factor digitado es diferente al de la unidad ordenada.");
+                        throw new Exception($"El Factor digitado es diferente al de la unidad ordenada.");
                     }
                 }
                 /*else
@@ -585,7 +641,7 @@ namespace InventoryManagmentMobile.ViewModels
                     QtyUnit = "1";
                 }*/
 
-                if ((TotalQty) > OrderItem.Qty && OrderItem.Bono == IsBonus)
+                if ((TotalQty) > OrderItem.Qty && OrderItem.Bono == IsBonus && Type != "T")
                 {
                     QuantityFocusRequested?.Invoke();
                     throw new Exception($"La cantidad recibida {(IsBonus ? "en Bono " : "")} es mayor que la ordenada");
@@ -637,13 +693,13 @@ namespace InventoryManagmentMobile.ViewModels
                     return;
                 }
                     
-
                 int line = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
-                string filter = (Type == "P" ? $" TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {(IsBonus ? 1 : 0)}" : $" OrderNo = '{OrderNo}' AND ProductId = '{ProductId}'");
 
                 if (!_context.ValidExist(Type, OrderNo, ProductId, IsBonus))
-                    _context.CreateTransactionLine(new TransactionLine { StoreId = OrderItem.StoreId, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus, StorageId = OrderItem.StorageId, BarCodeScanned = false});
-
+                {
+                    _context.CreateTransactionLine(new TransactionLine { StoreId = OrderItem.StoreId, TypeTrans = Type, LineNo = OrderItem.LineNo, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty), QtyRecibida = TotalQty, QtyPending = (OrderItem.Bono != IsBonus ? TotalQty : OrderItem.Qty) - TotalQty, Um = OrderItem.Um, Bono = IsBonus, StorageId = OrderItem.StorageId, BarCodeScanned = false, ProductInErpOrder = false });
+                    LoadItemsAsync();
+                }
                 else
                 {
                     var qline = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
@@ -656,14 +712,14 @@ namespace InventoryManagmentMobile.ViewModels
                         }
                         else
                         {
-                            if ((TotalQty + qline.QtyRecibida) > OrderItem.Qty && OrderItem.Bono == IsBonus)
+                            if (OrderItem.Qty > 0 && (TotalQty + qline.QtyRecibida) > OrderItem.Qty && OrderItem.Bono == IsBonus)
                             {
                                 bool resp = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sustituir?", "Si", "No");
 
                                 if (resp)
                                     _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = {TotalQty}, QtyPending = {(!IsBonus ? OrderItem.Qty - TotalQty : 0)} Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' AND Bono = {IsBonus}");
                             }
-                            else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && OrderItem.Bono == IsBonus))
+                            else if (((TotalQty + qline.QtyRecibida) <= OrderItem.Qty && OrderItem.Bono == IsBonus) || OrderItem.Qty == 0)
                             {
                                 bool answer = await Application.Current.MainPage.DisplayAlert("Recepcion", $"El producto ya existe {(IsBonus ? " con Bono" : "")}, ¿Deseas Sumar o Sustituir", "Sustituir", "Sumar");
 
@@ -736,9 +792,22 @@ namespace InventoryManagmentMobile.ViewModels
 
                 ProductId = Product.Product.Id;
 
-                if (!Items.Any(xc => xc.ProductId == Product.Product.Id))
+                //if (Type == "T" && !IsBonus && !Items.Any(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus))
+                //{
+                //    var unidadMedida = MeasurementUnits.FirstOrDefault(xc => xc.Factor == Convert.ToDecimal(QtyUnit));
+                //    int nextLine = (ReceptionItems.Count == 0 ? 1 : ReceptionItems.Max(xc => xc.LineNo) + 1);
+                //    string storageId = _context.GetTransactionLines().First().StorageId;
+
+                //    if (!_context.ValidExist(Type, OrderNo, ProductId, IsBonus))
+                //    {
+                //        _context.CreateTransactionLine(new TransactionLine { StoreId = OrderItem.StoreId, TypeTrans = Type, LineNo = nextLine, OrderNo = Order.Data.OrderNo, ProductId = Product.Product.Id, ProductBarCode = ProductNo, ProductName = Product.Product.Name, Quantity = 0, QtyRecibida = TotalQty, QtyPending = 0 - TotalQty, Um = unidadMedida.BaseUm, Bono = IsBonus, StorageId = storageId, BarCodeScanned = false, ProductInErpOrder = false });
+                //        LoadItemsAsync();
+                //    }
+                //}
+
+                if (!Items.Any(xc => xc.ProductId == Product.Product.Id) && Type != "T")
                     throw new Exception($"Producto no se encuentra en la orden");
-                
+
                 var productIds = Product.Product.MeasurementUnits.ToList();
 
                 if (productIds.Count() > 0)
@@ -752,7 +821,7 @@ namespace InventoryManagmentMobile.ViewModels
                         }
                     });
 
-                    if (!pExist)
+                    if (!pExist && Type != "T")
                         throw new Exception($"Este producto no tiene definida la unidad de medida con la que se encuentra en el documento.");
                 }
 
@@ -784,9 +853,11 @@ namespace InventoryManagmentMobile.ViewModels
                         await Application.Current.MainPage.DisplayAlert("Aviso Bono", bonusMessage, "Aceptar");
                 }
 
+
+
                 OrderItem = Items.FirstOrDefault(xc => xc.ProductId.Trim().Equals(ProductId.Trim()) && xc.Bono == IsBonus);
 
-                if (OrderItem == null)
+                if (OrderItem == null && Type != "T")
                 {
                     if (Type == "P")
                         TypeDescription = "la Orden de Compra";
@@ -808,26 +879,28 @@ namespace InventoryManagmentMobile.ViewModels
                     return;
                 }
 
-                if (Product.Product == null)
-                    Product = await repo.ProductByBarCode(ProductNo);
+                //if (Product.Product == null)
+                //    Product = await repo.ProductByBarCode(ProductNo);
 
                 MeasurementUnits = new ObservableCollection<MeasurementUnit>();
                 Product.Product.MeasurementUnits.ToList().ForEach((un) => { MeasurementUnits.Add(un); });
+                
+                MeasurementUnit? un = null;
 
-                var un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
+                if (OrderItem != null) 
+                    un = MeasurementUnits.FirstOrDefault(xc => xc.BaseUm == OrderItem.Um);
 
-                if (un == null && !Product.Product.IsWeighed)
+                if (un == null && !Product.Product.IsWeighed && Type != "T")
                     throw new Exception($"Este Producto: {Product.Product.Name}  no contiene un factor para la unidad de medida:  {OrderItem.Um}");
 
                 var tLine = _context.GetLine(Type, OrderNo, ProductId, IsBonus);
 
-                if (!tLine.BarCodeScanned)
+                if (tLine != null && !tLine.BarCodeScanned)
                     _context.ExecuteSql($"UPDATE TransactionLine SET BarCodeScanned = 1, ProductBarCode = '{ProductNo}'  Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{ProductId}' ");
 
-
-                Factor = (Product.Product.IsWeighed ? 1 : un.Factor);
-                Unidad = $"Cantidad ({OrderItem.UmName})";
-                IsLotRequired = OrderItem.IsLotNoRequired;
+                Factor = un != null ? un.Factor : 0;
+                Unidad = $"Cantidad ({(OrderItem != null ? OrderItem.UmName : "")})";
+                IsLotRequired = OrderItem != null ? OrderItem.IsLotNoRequired : false;
                 NotEdition = false;
                 InEdition = true;
                 pExist = false;
@@ -940,7 +1013,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order.Data.Items.ToList().ForEach((l) =>
                     {
-                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId, BarCodeScanned = false };
+                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId, BarCodeScanned = false, ProductInErpOrder = true };
                         _context.SaveTransLine(line);
                     });   
                 }
@@ -967,22 +1040,39 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 CanSave = true;
 
-                var diff = (from a in Order.Data.Items
-                           join b in ReceptionItems
-                           on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
-                           into groupjoin
-                           from c in groupjoin.DefaultIfEmpty()
-                           where a.Qty - (c.Qty != null ? c.Qty : 0) != 0
-                           select c).ToList();
-                
-                if (diff.Count() > 0 && Type != "P")
+                if (IsThereDifferences() && Type != "P")
                     MustToPrintDiff = true;
-                
+                else
+                {
+                    ManageToolbarItemVisibilityRequested?.Invoke(); //Fuerza la ejecucion de la funcion que muestra el boton guardar en el toolbar, pues
+                                                                    //en otros casos esta metodo solo se ejecuta si la propiedad MustToPrintDiff cambia,
+                                                                    //como en este caso no cambia hay que invocarlo
+                }
             }
-
-            //ItemTitle = "Finalizar";
         }
 
+        private bool IsThereDifferences()
+        {
+            var diff1 = (from a in Order.Data.Items
+                         join b in ReceptionItems
+                         on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
+                         into groupjoin
+                         from c in groupjoin.DefaultIfEmpty()
+                         where a.Qty - (c?.Qty != null ? c?.Qty : 0) != 0
+                         select a.ProductId).ToList();
+
+            var diff2 = (from a in Order.Data.Items
+                         join b in ReceptionItems
+                         on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
+                         into groupjoin
+                         from c in groupjoin.DefaultIfEmpty()
+                         where a.Qty - (c?.Qty != null ? c?.Qty : 0) != 0
+                         select a.ProductId).ToList();
+
+            var diff = diff1.Concat(diff2);
+
+            return diff.Count() > 0;
+        }
         private void DetalleOpcion()
         {
             if (!HasOrder)

@@ -28,6 +28,7 @@ namespace InventoryManagmentMobile.Models
         public string StoreId { get; set; }
         public string StorageId { get; set; }
         public bool BarCodeScanned { get; set; }
+        public bool ProductInErpOrder { get; set; }
 
         public TransactionLine() { }
     }

@@ -20,6 +20,8 @@
                                           TrueColor="LightGray"
                                           FalseColor="White" />
 
+            <convert:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
@@ -414,7 +416,6 @@
                                                 <Label Text="{Binding QtyRecibida,StringFormat='{0:N2}'}" Grid.Column="2" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
                                                 <Label Text="{Binding QtyPending,StringFormat='{0:N2}'}" Grid.Column="3" Grid.RowSpan="3" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#000" FontSize="10"></Label>
 
-
                                             </Grid>
                                         </Frame>
                                     </SwipeView>
@@ -423,13 +424,21 @@
                         </CollectionView>
 
                         <StackLayout>
-
-                            <Button  Text="Guardar"  CornerRadius="20"
+                         
+                            <!--<Button  Text="Guardar"  CornerRadius="20"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=SaveReceptionCommand}"
-                                    BackgroundColor="Red" Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>
+                                    BackgroundColor="Red" Grid.Column="0" HorizontalOptions="FillAndExpand"></Button>--> 
 
+                            <Button Text="Finalizar"  CornerRadius="20"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=SaveReceptionCommand}" 
+                                    IsVisible="{Binding MustToPrintDiff, Converter={StaticResource InverseBooleanConverter}}"
+                                    BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
 
-
+                            <Button Text="Imprimir Diferencia"  CornerRadius="20"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReceptionCDViewModel}}, Path=PrintDiffCommand}" 
+                                    IsVisible="{Binding MustToPrintDiff}"
+                                    BackgroundColor="Red"  HorizontalOptions="FillAndExpand"></Button>
+                            
                         </StackLayout>
                     </StackLayout>
                 </StackLayout>

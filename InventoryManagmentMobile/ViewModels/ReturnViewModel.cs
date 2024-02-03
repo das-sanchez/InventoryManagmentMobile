@@ -162,7 +162,7 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Errorn", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Aceptar");
             }
         }
         public async void FindByProduct(string barCode)

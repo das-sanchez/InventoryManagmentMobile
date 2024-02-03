@@ -22,10 +22,12 @@ public partial class ReceptionPage : ContentPage
             viewModel1.FactorFocusRequested += OnFactorFocusRequested;
             viewModel1.QuantityFocusRequested += OnQuantityFocusRequested;
             viewModel1.ProductFocusRequested += OnProductFocusRequested;
+            viewModel1.ManageToolbarItemVisibilityRequested += OnManageToolbarItemVisibilityRequested;
+            _isEventSubscribed = true;
         }
-
     }
 
+    private bool _isEventSubscribed = false;
     private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ReceptionViewModel.MustToPrintDiff))
@@ -45,7 +47,7 @@ public partial class ReceptionPage : ContentPage
                 ToolbarItems.Remove(itemToRemove);
         }
 
-        if (viewModel.MustToPrintDiff)
+        if (viewModel.MustToPrintDiff && _vm.Type != "P")
         {
             if (!ToolbarItems.Any(item => item.Text == "Imprimir Dif"))
             {
@@ -62,10 +64,11 @@ public partial class ReceptionPage : ContentPage
         else
         {
             var itemToRemove = ToolbarItems.FirstOrDefault(item => item.Text == "Imprimir Dif");
+
             if (itemToRemove != null)
                 ToolbarItems.Remove(itemToRemove);
-            
-            if(_vm.CanSave && !ToolbarItems.Any(item => item.Text == "Finalizar"))
+
+            if (_vm.CanSave && !ToolbarItems.Any(item => item.Text == "Finalizar") )
             {
                 var toolbarItem = new ToolbarItem
                 {
@@ -89,9 +92,30 @@ public partial class ReceptionPage : ContentPage
             viewModel1.FactorFocusRequested -= OnFactorFocusRequested;
             viewModel1.QuantityFocusRequested -= OnQuantityFocusRequested;
             viewModel1.ProductFocusRequested -= OnProductFocusRequested;
+            viewModel1.ManageToolbarItemVisibilityRequested -= OnManageToolbarItemVisibilityRequested;
+            _vm.PropertyChanged -= ViewModel_PropertyChanged;
+            _isEventSubscribed = false;
         }
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (BindingContext is ReceptionViewModel viewModel1 && !_isEventSubscribed)
+        {
+            _vm.FindProductRequested += OnFindProductRequested;
+            _vm.FactorFocusRequested += OnFactorFocusRequested;
+            _vm.QuantityFocusRequested += OnQuantityFocusRequested;
+            _vm.ProductFocusRequested += OnProductFocusRequested;
+            _vm.ManageToolbarItemVisibilityRequested += OnManageToolbarItemVisibilityRequested;
+            _vm.PropertyChanged += ViewModel_PropertyChanged;
+        }
+    }
+
+    private void OnManageToolbarItemVisibilityRequested()
+    {
+        ManageToolbarItemVisibility();
+    }
     private void OnFindProductRequested()
     {
         if (!String.IsNullOrEmpty(this.productNo.Text))
@@ -151,15 +175,17 @@ public partial class ReceptionPage : ContentPage
             return;
         }
 
-        if (!_vm.Product.Product.IsWeighed)
-        {
-            qtyUnit.Focus();
-        }
-        else
-        {
-            qtyUnit.Text = "1";
-            btnAdd.Focus();
-        }
+        qtyUnit.Focus();
+
+        //if (!_vm.Product.Product.IsWeighed)
+        //{
+        //    qtyUnit.Focus();
+        //}
+        //else
+        //{
+        //    qtyUnit.Text = "1";
+        //    btnAdd.Focus();
+        //}
     }
 
     private async void qtyUnit_Completed(object sender, EventArgs e)
@@ -171,21 +197,21 @@ public partial class ReceptionPage : ContentPage
         }
 
 
-        if (!_vm.Product.Product.IsWeighed)
-        {
-            if ((decimal)_vm.Factor != Convert.ToDecimal(qtyUnit.Text))
-            {
-                await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
-                _vm.QtyUnit = string.Empty;
+        //if (!_vm.Product.Product.IsWeighed)
+        //{
+        //    if ((decimal)_vm.Factor != Convert.ToDecimal(qtyUnit.Text))
+        //    {
+        //        await Application.Current.MainPage.DisplayAlert("Recepcion", "El Factor digitado es diferente al de la unidad ordenada.", "Aceptar");
+        //        _vm.QtyUnit = string.Empty;
 
-                qtyUnit.Focus();
-                return;
-            }
-        }
-        else
-        {
-            qtyUnit.Text = "1";
-        }
+        //        qtyUnit.Focus();
+        //        return;
+        //    }
+        //}
+        //else
+        //{
+        //    qtyUnit.Text = "1";
+        //}
 
         btnAdd.Focus();
     }
