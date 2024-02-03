@@ -349,8 +349,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     if (normalItem.ProductInErpOrder)
                     {
-                        //No se incluye el filtro Bono para que se se coloque en cero tanto el producto principal como el bono.
-                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' ");
+                        _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
                         LoadItemsAsync();
 
                         if (Type != "P")
@@ -364,9 +363,10 @@ namespace InventoryManagmentMobile.ViewModels
                         LoadItemsAsync();
 
                         if (Type != "P")
+                        {
+                            var tmp = MustToPrintDiff;
                             MustToPrintDiff = IsThereDifferences();
-
-                        ManageToolbarItemVisibilityRequested?.Invoke();
+                        }
                     }     
                 }
             }

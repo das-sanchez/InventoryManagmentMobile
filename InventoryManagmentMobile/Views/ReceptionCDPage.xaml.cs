@@ -13,20 +13,12 @@ public partial class ReceptionCDPage : ContentPage
         InitializeComponent();
         _vm = viewModel;
         this.BindingContext = _vm;
-        _vm.PropertyChanged += ViewModel_PropertyChanged;
+        
         _vm.CanSave = false;
         _vm.MustToPrintDiff = false;
 
-
-        if (BindingContext is ReceptionCDViewModel viewModel1)
-        {
-            viewModel1.FindProductRequested += OnFindProductRequested;
-            viewModel1.FactorFocusRequested += OnFactorFocusRequested;
-            viewModel1.QuantityFocusRequested += OnQuantityFocusRequested;
-            viewModel1.ProductFocusRequested += OnProductFocusRequested;
-            viewModel1.ManageToolbarItemVisibilityRequested += OnManageToolbarItemVisibilityRequested;
-            _isEventSubscribed = true;
-        }
+        SubscribeToEvents();
+        _isEventSubscribed = true;
     }
 
     private bool _isEventSubscribed = false;
@@ -43,7 +35,7 @@ public partial class ReceptionCDPage : ContentPage
     {
         var viewModel = (ReceptionCDViewModel)BindingContext;
 
-        if (!_vm.CanSave)
+        if (!_vm.CanSave || _vm.MustToPrintDiff)
         {
             var itemToRemove = ToolbarItems.FirstOrDefault(item => item.Text == "Finalizar");
             if (itemToRemove != null)
@@ -88,14 +80,9 @@ public partial class ReceptionCDPage : ContentPage
     {
         base.OnDisappearing();
 
-        if (BindingContext is ReceptionCDViewModel viewModel1)
+        if(_isEventSubscribed)
         {
-            viewModel1.FindProductRequested -= OnFindProductRequested;
-            viewModel1.FactorFocusRequested -= OnFactorFocusRequested;
-            viewModel1.QuantityFocusRequested -= OnQuantityFocusRequested;
-            viewModel1.ProductFocusRequested -= OnProductFocusRequested;
-            viewModel1.ManageToolbarItemVisibilityRequested -= OnManageToolbarItemVisibilityRequested;
-            _vm.PropertyChanged -= ViewModel_PropertyChanged;
+            UnsubscribeFromEvents();
             _isEventSubscribed = false;
         }
     }
@@ -103,6 +90,16 @@ public partial class ReceptionCDPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        if (!_isEventSubscribed)
+        {
+            SubscribeToEvents();
+            _isEventSubscribed = true;
+        }
+    }
+
+    private void SubscribeToEvents()
+    {
         if (BindingContext is ReceptionCDViewModel viewModel1 && !_isEventSubscribed)
         {
             _vm.FindProductRequested += OnFindProductRequested;
@@ -111,6 +108,19 @@ public partial class ReceptionCDPage : ContentPage
             _vm.ProductFocusRequested += OnProductFocusRequested;
             _vm.ManageToolbarItemVisibilityRequested += OnManageToolbarItemVisibilityRequested;
             _vm.PropertyChanged += ViewModel_PropertyChanged;
+        }
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        if (BindingContext is ReceptionCDViewModel viewModel1)
+        {
+            viewModel1.FindProductRequested -= OnFindProductRequested;
+            viewModel1.FactorFocusRequested -= OnFactorFocusRequested;
+            viewModel1.QuantityFocusRequested -= OnQuantityFocusRequested;
+            viewModel1.ProductFocusRequested -= OnProductFocusRequested;
+            viewModel1.ManageToolbarItemVisibilityRequested -= OnManageToolbarItemVisibilityRequested;
+            _vm.PropertyChanged -= ViewModel_PropertyChanged;
         }
     }
     private void OnFindProductRequested()

@@ -240,7 +240,7 @@ namespace InventoryManagmentMobile.ViewModels
                         LoadItemsAsync();
 
                         MustToPrintDiff = IsThereDifferences();
-                        ManageToolbarItemVisibilityRequested?.Invoke();
+                        //ManageToolbarItemVisibilityRequested?.Invoke();
                     } 
                 }
             }
@@ -392,14 +392,15 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Reception.Items = ReceptionItems.ToArray();
                     Reception.VendorId = Order.Data.VendorId;
+                    Reception.OrderNo = OrderNo;
+                    
+                    IsBusy = true;
+                    ShowContent = false;
 
                     var Result = await repo.SaveTransporationOrder(OrderNo, Reception);
 
                     if (Result.IsSuccess)
                     {
-                        IsBusy = true;
-                        ShowContent = false;
-
                         _context.DeleteTransationLineByOrderNo(TypeTrans, OrderNo);
 
                         IsBusy = false;
@@ -416,6 +417,9 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                     else
                     {
+                        IsBusy = false;
+                        ShowContent = true;
+
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Recepcion Mercancia", Label = "Volver al Inicio" };
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
                     }
@@ -423,6 +427,8 @@ namespace InventoryManagmentMobile.ViewModels
             }
             catch (Exception ex)
             {
+                IsBusy = false;
+                ShowContent = true;
                 await Application.Current.MainPage.DisplayAlert("Guardar Recepción", ex.Message, "Aceptar");
             }
         }
@@ -769,15 +775,7 @@ namespace InventoryManagmentMobile.ViewModels
             if (ReceptionItems.Count() > 0)
             {
                 CanSave = true;
-
-                if (IsThereDifferences())
-                    MustToPrintDiff = true;
-                else
-                {
-                    ManageToolbarItemVisibilityRequested?.Invoke(); //Fuerza la ejecucion de la funcion que muestra el boton guardar en el toolbar, pues
-                                                                    //en otros casos esta metodo solo se ejecuta si la propiedad MustToPrintDiff cambia,
-                                                                    //como en este caso no cambia hay que invocarlo
-                }
+                MustToPrintDiff = IsThereDifferences();
             }
         }
 
