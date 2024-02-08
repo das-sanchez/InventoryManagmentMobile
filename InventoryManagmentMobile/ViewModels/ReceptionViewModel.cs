@@ -224,6 +224,8 @@ namespace InventoryManagmentMobile.ViewModels
 
         string _productId = string.Empty;
         public string ProductId { get { return _productId; } set { SetProperty(ref _productId, value); } }
+
+        public const string VEGETABLE_STORE = "5101";
         public ReceptionViewModel(OleRepository _repo, OleDataContext context)
         {
             repo = _repo;
@@ -352,7 +354,7 @@ namespace InventoryManagmentMobile.ViewModels
                         _context.ExecuteSql($"UPDATE TransactionLine SET QtyRecibida = 0, QtyPending = Quantity Where TypeTrans='{Type}' AND OrderNo = '{OrderNo}' AND ProductId = '{dto.ProductId}' and  Bono = {dto.Bono}");
                         LoadItemsAsync();
 
-                        if (Type != "P")
+                        if (Type != "P" && StoreNo != VEGETABLE_STORE)
                             MustToPrintDiff = true;
                     }
                     else
@@ -362,11 +364,9 @@ namespace InventoryManagmentMobile.ViewModels
                         Items.Remove(itemRemoved);
                         LoadItemsAsync();
 
-                        if (Type != "P")
-                        {
-                            var tmp = MustToPrintDiff;
+                        if (Type != "P" && StoreNo != VEGETABLE_STORE)
                             MustToPrintDiff = IsThereDifferences();
-                        }
+                        
                     }     
                 }
             }
@@ -1013,7 +1013,7 @@ namespace InventoryManagmentMobile.ViewModels
                 {
                     Order.Data.Items.ToList().ForEach((l) =>
                     {
-                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = 0, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId, BarCodeScanned = false, ProductInErpOrder = true };
+                        var line = new TransactionLine { StoreId = l.StoreId, TypeTrans = Type, LineNo = l.LineNo, OrderNo = Order.Data.OrderNo, ProductId = l.ProductId, ProductBarCode = l.ProductBarCode, ProductName = l.ProductName, Quantity = l.Qty, QtyRecibida = 0, QtyPending = l.Qty, Um = l.Um, Bono = l.Bono, StorageId = l.StorageId, BarCodeScanned = false, ProductInErpOrder = true };
                         _context.SaveTransLine(line);
                     });   
                 }
@@ -1040,7 +1040,7 @@ namespace InventoryManagmentMobile.ViewModels
             {
                 CanSave = true;
 
-                if (IsThereDifferences() && Type != "P")
+                if (IsThereDifferences() && Type != "P" && StoreNo != VEGETABLE_STORE)
                     MustToPrintDiff = true;
                 else
                 {
@@ -1061,8 +1061,8 @@ namespace InventoryManagmentMobile.ViewModels
                          where a.Qty - (c?.Qty != null ? c?.Qty : 0) != 0
                          select a.ProductId).ToList();
 
-            var diff2 = (from a in Order.Data.Items
-                         join b in ReceptionItems
+            var diff2 = (from a in ReceptionItems
+                         join b in Order.Data.Items
                          on new { a.ProductId, a.Um } equals new { b.ProductId, b.Um }
                          into groupjoin
                          from c in groupjoin.DefaultIfEmpty()

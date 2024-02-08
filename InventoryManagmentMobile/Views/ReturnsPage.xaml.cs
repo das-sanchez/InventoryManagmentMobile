@@ -1,6 +1,7 @@
 using InventoryManagmentMobile.Models;
 using InventoryManagmentMobile.ViewModels;
 using Microsoft.Maui.Controls;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace InventoryManagmentMobile.Views;
@@ -13,15 +14,50 @@ public partial class ReturnsPage : ContentPage
         InitializeComponent();
         _vm = viewModel;
         this.BindingContext = viewModel;
-        //document.Focus();
+        SubscribeToEvents();
+        _isEventSubscribed = true;
     }
 
 
+    private bool _isEventSubscribed = false;
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (_isEventSubscribed)
+        {
+            UnsubscribeFromEvents();
+            _isEventSubscribed = false;
+        }
+    }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+        if (!_isEventSubscribed)
+        {
+            SubscribeToEvents();
+            _isEventSubscribed = true;
+        }
     }
+    private void SubscribeToEvents()
+    {
+        if (BindingContext is ReturnViewModel viewModel1 && !_isEventSubscribed)
+        {
+            
+            _vm.PropertyChanged += ViewModel_PropertyChanged;
+        }
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        if (BindingContext is ReturnViewModel viewModel1)
+        {
+            _vm.PropertyChanged -= ViewModel_PropertyChanged;
+        }
+    }
+
 
     private async void vendor_Completed(object sender, EventArgs e)
     {
@@ -100,5 +136,37 @@ public partial class ReturnsPage : ContentPage
     {
         this.qty.Text = string.Empty;
         _vm.InEdition = false;
+    }
+
+    private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        
+        if (e.PropertyName == nameof(ReturnViewModel.CanSave))
+        {
+            ManageToolbarItemVisibility();
+        }
+    }
+
+    private void ManageToolbarItemVisibility()
+    {
+        var viewModel = (ReturnViewModel)BindingContext;
+
+        if (!_vm.CanSave)
+        {
+            var itemToRemove = ToolbarItems.FirstOrDefault(item => item.Text == "Finalizar");
+            if (itemToRemove != null)
+                ToolbarItems.Remove(itemToRemove);
+        }
+        else if (!ToolbarItems.Any(item => item.Text == "Finalizar"))    
+        {
+            var toolbarItem = new ToolbarItem
+            {
+                Text = "Finalizar",
+                Command = viewModel.SaveReturnCommand,
+                IsEnabled = viewModel.CanSave
+            };
+
+            ToolbarItems.Add(toolbarItem);    
+        }
     }
 }

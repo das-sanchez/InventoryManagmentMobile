@@ -6,7 +6,7 @@
              xmlns:model="clr-namespace:InventoryManagmentMobile.Models"
              Title="Devolucion" x:DataType="viewmodel:ReturnViewModel">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Finalizar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReturnViewModel}}, Path=SaveReturnCommand }" IsEnabled="{Binding CanSave}"  />
+        <!--<ToolbarItem Text="Finalizar" Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ReturnViewModel}}, Path=SaveReturnCommand }" IsEnabled="{Binding CanSave}"  />-->
     </ContentPage.ToolbarItems>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior Command="{Binding BackCommand}"

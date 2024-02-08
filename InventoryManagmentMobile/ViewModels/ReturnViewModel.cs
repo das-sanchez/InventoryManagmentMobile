@@ -261,6 +261,7 @@ namespace InventoryManagmentMobile.ViewModels
 
                     if (Result.IsSuccess)
                     {
+                        CanSave = false;
                         _context.DeleteReturnLineByVendorNo(VendorNo);
 
                         var dialogParam = new Dialog() { Icon = "checked2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
@@ -274,6 +275,7 @@ namespace InventoryManagmentMobile.ViewModels
                     }
                     else
                     {
+                        CanSave = false;
                         var dialogParam = new Dialog() { Icon = "cross2x", Description = Result.Message, Title = "Devolucion Mercancia", Label = "Volver al Inicio" };
                         await Shell.Current.Navigation.PushModalAsync(new DialogAlert(new DialogAlertViewModel(dialogParam)));
                     }
@@ -446,18 +448,19 @@ namespace InventoryManagmentMobile.ViewModels
                 CanSave = true;
             }
             ShowPanel("R");
+
         }
 
         private void DetalleOpcion()
         {
             if (!HasVendor)
-            {
                 return;
-            }
+            
             ShowPanel("D");
-
             LoadItemsAsync();
-            CanSave = false;
+
+            if (ReturnDetails.Count() > 0)            
+                CanSave = true;
         }
 
         private void ProductosOpcion()
